@@ -100,9 +100,11 @@
     </section>
     <section>
       <h3>YouTube Premium</h3>
-      <p>Mở m.youtube.com để đăng nhập hoặc kiểm tra tài khoản Premium, rồi dùng nút Quay lại của APTV.</p>
-      <a id="premium-link" class="button secondary" href="https://m.youtube.com/">Mở m.youtube.com ↗</a>
-      <p class="dialog-hint">Nếu video nhúng không nhận phiên, mở video gốc bằng nút YouTube trong player.</p>
+      <p>Đăng nhập YouTube trong APTV, sau đó bấm Quay lại để xem tiếp tại BMWTube. Nếu đã đăng nhập, thử tải lại player.</p>
+      <a id="premium-link" class="button secondary" href="https://m.youtube.com/">Đăng nhập YouTube ↗</a>
+      <button id="reload-session" type="button" class="secondary">Tải lại player</button>
+      <a id="premium-check" class="button secondary" href="premium-check.html">Kiểm tra Premium trong player</a>
+      <p class="dialog-hint">Chưa xác minh Premium trong player nhúng. BMWTube không đọc được tài khoản hoặc cookie của YouTube.</p>
     </section>
     <section>
       <h3>Dữ liệu trên thiết bị</h3>
@@ -118,6 +120,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=review-fixes"></script>
+<script type="module" src="app.js?v=premium-check"></script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#101113">
+<title>Kiểm tra Premium · BMWTube</title>
+<link rel="stylesheet" href="premium-check.css?v=1">
+</head>
+<body>
+<main>
+  <section class="video" aria-label="Player YouTube chính thức"><div id="player"></div></section>
+  <aside>
+    <a id="return" href="./">← BMWTube</a>
+    <h1>Kiểm tra Premium</h1>
+    <p>Video phát ngay tại đây bằng player YouTube chính thức.</p>
+    <form id="video-form"><label for="video-url">Link video YouTube</label><input id="video-url" type="text" required placeholder="Dán link video" autocomplete="off"><button type="submit">Mở video</button></form>
+    <a id="login" class="button" href="https://m.youtube.com/">Đăng nhập YouTube ↗</a>
+    <p>Đăng nhập xong, dùng nút Quay lại của APTV. Nếu đã đăng nhập, bấm tải lại player.</p>
+    <button id="reload" type="button">Tải lại player</button>
+    <p id="status" role="status">Dán link video để bắt đầu.</p>
+    <details><summary>Cách kiểm tra</summary><p>Chạm Phát trong video. Ghi nhận yêu cầu đăng nhập, quảng cáo hoặc lỗi. Thử tải lại trang và đóng mở APTV.</p><p>Không có quảng cáo chưa đủ để xác nhận Premium. Trang này không đọc được cookie, tài khoản hoặc trạng thái Premium bên trong YouTube.</p><p>Nếu YouTube hiện yêu cầu quyền lưu trữ, bạn có thể cấp quyền ngay trong player. BMWTube không thể cấp quyền thay YouTube.</p><p id="device"></p></details>
+  </aside>
+</main>
+<script type="module" src="premium-check.js?v=1"></script>
+</body></html>
