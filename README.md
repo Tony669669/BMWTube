@@ -65,7 +65,7 @@ Thư mục `dist/` chứa toàn bộ site. Đường dẫn asset là tương đ�
 4. Mở URL Pages trong **APTV → Quick → Browser**.
 5. Thêm origin HTTPS đó vào referrer restrictions của API key, nhập key trong APTV.
 
-Chưa tạo repository hay xuất bản từ phiên làm việc này. GitHub Pages không có đăng nhập bảo vệ riêng trong mã này; không đưa dữ liệu riêng hoặc secret vào thư mục `dist`.
+Website: https://tony669669.github.io/BMWTube/ — repository: https://github.com/Tony669669/BMWTube. Mỗi lần push main sẽ tự triển khai lại. GitHub Pages không có đăng nhập bảo vệ riêng trong mã này; không đưa dữ liệu riêng hoặc secret vào thư mục `dist`.
 
 ## Kiến trúc
 
