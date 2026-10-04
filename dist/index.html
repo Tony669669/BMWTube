@@ -1,11 +1,121 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#101113"><meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm."><title>BMWTube</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=cinema-autohide"></head>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#101113">
+  <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
+  <title>BMWTube</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css?v=seat-rail-player">
+</head>
 <body>
-<header><button id="home" class="brand" aria-label="BMWTube — trang chủ"><span class="brand-icon">▶</span> BMW<span>Tube</span></button><form id="search-form" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" lang="vi" placeholder="Tìm kiếm hoặc dán link YouTube" aria-label="Tìm kiếm hoặc dán link YouTube" autocomplete="off" spellcheck="false" enterkeyhint="search"><button id="telex" type="button" aria-pressed="false" title="Bật gõ tiếng Việt Telex">Telex</button><button class="search-submit" aria-label="Tìm kiếm">→</button></form><button id="account" class="icon-button" aria-label="Cài đặt">☰</button></header>
-<main id="main">
-<section id="browse"><div class="section-heading"><div><h1 id="browse-title">Khám phá trên YouTube</h1></div><span id="viewport-label" class="muted">YouTube · Việt Nam</span></div><div id="recent-searches" class="chips" aria-label="Tìm kiếm gần đây trên thiết bị"></div><div id="results" class="grid"></div><div id="welcome" class="welcome"><div class="welcome-art" aria-hidden="true"><span>▶</span></div><h2>Video bạn thích. Không gian vừa đủ.</h2><p>Dán link YouTube vào ô trên để xem.<br>Bật tìm kiếm trong Cài đặt để khám phá thêm.</p><div class="actions"><button id="paste-focus" class="primary">Mở một video <span>↗</span></button><a href="https://www.youtube.com/" class="button secondary">Mở YouTube</a></div></div><button id="load-more" class="secondary" hidden>Xem thêm</button></section>
-<section id="watch" hidden aria-label="Xem video"><div id="stage"><div id="video-frame"><div id="player"></div></div><div id="transport"><button id="play" aria-label="Phát video" disabled>▶</button><span id="elapsed">0:00</span><input id="seek" type="range" min="0" max="1000" value="0" aria-label="Tua video" disabled><span id="duration">0:00</span><button id="cc" aria-label="Bật phụ đề" aria-pressed="false" title="Bật phụ đề" disabled>CC</button><button id="fullscreen" aria-label="Mở rộng video">⛶</button></div><div id="video-info"><div><p class="eyebrow">ĐANG XEM · YOUTUBE</p><h1 id="video-title">Video YouTube</h1></div><a id="original" class="button secondary" href="https://www.youtube.com/">YouTube ↗</a></div></div><aside><div class="aside-heading"><h2 id="queue-title">Cùng tìm kiếm</h2><button id="back" aria-label="Quay lại danh sách">←</button></div><div id="queue"></div></aside><button id="controls-wake" type="button" aria-label="Chạm để hiện thanh điều khiển" title="Chạm để hiện thanh điều khiển"></button></section>
-</main>
-<div id="notice" role="status" hidden><span id="notice-text"></span><button id="dismiss" aria-label="Đóng thông báo">×</button></div>
-<dialog id="settings"><form id="settings-form"><div class="dialog-heading"><h2>Cài đặt</h2><button id="close-settings" type="button" aria-label="Đóng">×</button></div><section><h3>Trang chủ & tìm kiếm công khai</h3><p>Không cần đăng nhập hoặc Premium. Thêm YouTube Data API key để tải video và tìm kiếm trong BMWTube. Chưa có khóa, tìm kiếm sẽ mở trang YouTube.</p><label for="api-key">YouTube API key</label><input id="api-key" type="password" autocomplete="off" placeholder="Nhập API key của bạn"><small>Giới hạn khóa theo địa chỉ web và YouTube Data API trong Google Cloud.</small></section><section><h3>YouTube Premium</h3><p>Đăng nhập trực tiếp trên YouTube bằng tài khoản của bạn. BMWTube không nhận hoặc lưu mật khẩu. Sau khi đăng nhập, dùng nút Quay lại của APTV để trở về. Premium trong player nhúng phụ thuộc việc APTV chia sẻ phiên YouTube với player.</p><a class="button secondary" href="https://www.youtube.com/">Đăng nhập trên YouTube ↗</a></section><section><h3>Dữ liệu trên thiết bị</h3><p>Lịch sử BMWTube chỉ lưu tại đây, không đồng bộ tài khoản YouTube.</p><button id="clear-history" type="button" class="secondary">Xóa lịch sử tại đây</button></section><details><summary>Thông tin màn hình</summary><p id="diagnostics"></p><p>Fullscreen gốc có thể do APTV điều khiển. Nút mở rộng của BMWTube luôn có chế độ trong trang.</p></details><footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer></form></dialog>
-<script type="module" src="app.js?v=cinema-autohide"></script></body></html>
+<div id="app-shell">
+  <main id="main">
+    <section id="browse">
+      <div class="section-heading">
+        <div><h1 id="browse-title">Khám phá trên YouTube</h1></div>
+        <span id="viewport-label" class="muted">YouTube · Việt Nam</span>
+      </div>
+      <div id="recent-searches" class="chips" aria-label="Tìm kiếm gần đây trên thiết bị"></div>
+      <div id="results" class="grid"></div>
+      <div id="welcome" class="welcome">
+        <div class="welcome-art" aria-hidden="true"><span>▶</span></div>
+        <h2>Video bạn thích. Không gian vừa đủ.</h2>
+        <p>Dán link YouTube vào ô tìm kiếm.<br>Mở menu bên cạnh để tìm kiếm hoặc cài đặt.</p>
+        <div class="actions">
+          <button id="paste-focus" class="primary" type="button">Tìm video <span>⌕</span></button>
+          <a href="https://m.youtube.com/" class="button secondary">Mở YouTube</a>
+        </div>
+      </div>
+      <button id="load-more" class="secondary" type="button" hidden>Xem thêm</button>
+    </section>
+
+    <section id="watch" hidden aria-label="Xem video">
+      <div id="stage">
+        <div id="video-frame"><div id="player"></div></div>
+        <div id="transport">
+          <button id="play" type="button" aria-label="Phát video" disabled>▶</button>
+          <span id="elapsed">0:00</span>
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Tua video" disabled>
+          <span id="duration">0:00</span>
+          <button id="cc" type="button" aria-label="Bật phụ đề" aria-pressed="false" title="Bật phụ đề" disabled>CC</button>
+          <button id="fullscreen" type="button" aria-label="Mở rộng video">⛶</button>
+        </div>
+        <div id="video-info">
+          <div><p class="eyebrow">ĐANG XEM · YOUTUBE</p><h1 id="video-title">Video YouTube</h1></div>
+          <a id="original" class="button secondary" href="https://m.youtube.com/">YouTube ↗</a>
+        </div>
+      </div>
+      <aside id="video-aside">
+        <div class="aside-heading"><h2 id="queue-title">Cùng tìm kiếm</h2><button id="back" type="button" aria-label="Quay lại danh sách">←</button></div>
+        <div id="queue"></div>
+      </aside>
+      <button id="controls-wake" type="button" aria-label="Chạm để hiện thanh điều khiển" title="Chạm để hiện thanh điều khiển"></button>
+    </section>
+  </main>
+
+  <nav id="app-rail" aria-label="Điều hướng BMWTube">
+    <div class="rail-brand" aria-label="BMWTube"><span aria-hidden="true">▶</span></div>
+    <button id="home" type="button" aria-label="Trang chủ" title="Trang chủ">⌂</button>
+    <button id="open-search" type="button" aria-label="Tìm kiếm" title="Tìm kiếm">⌕</button>
+    <button id="account" type="button" aria-label="Cài đặt" title="Cài đặt">⚙</button>
+  </nav>
+</div>
+
+<div id="notice" role="status" hidden><span id="notice-text"></span><button id="dismiss" type="button" aria-label="Đóng">×</button></div>
+
+<dialog id="search-dialog" aria-label="Tìm kiếm YouTube">
+  <form id="search-form" role="search">
+    <div class="dialog-heading"><h2>Tìm kiếm</h2><button id="close-search" type="button" aria-label="Đóng">×</button></div>
+    <div class="search-field">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input id="query" type="search" lang="vi" placeholder="Tìm kiếm hoặc dán link YouTube" aria-label="Tìm kiếm hoặc dán link YouTube" autocomplete="off" spellcheck="false" enterkeyhint="search">
+      <button id="telex" type="button" aria-pressed="false" title="Bật gõ tiếng Việt Telex">Telex</button>
+      <button class="search-submit" type="submit" aria-label="Tìm kiếm">→</button>
+    </div>
+    <p class="dialog-hint">Telex chuyển chữ ngay trong BMWTube khi bàn phím APTV gửi từng ký tự.</p>
+  </form>
+</dialog>
+
+<dialog id="settings">
+  <form id="settings-form">
+    <div class="dialog-heading"><h2>Cài đặt</h2><button id="close-settings" type="button" aria-label="Đóng">×</button></div>
+    <section>
+      <h3>Vị trí player</h3>
+      <p>Chọn bên đặt video. Danh sách và cột điều hướng sẽ đổi sang phía đối diện; nội dung video không bị lật.</p>
+      <div class="choice-row" role="radiogroup" aria-label="Vị trí player">
+        <label><input type="radio" name="player-side" value="left"><span>Ghế lái · bên trái</span></label>
+        <label><input type="radio" name="player-side" value="right"><span>Ghế phụ · bên phải</span></label>
+      </div>
+    </section>
+    <section>
+      <h3>Trang chủ & tìm kiếm công khai</h3>
+      <p>Không cần Premium. Thêm YouTube Data API key để tải video công khai và tìm kiếm trong BMWTube.</p>
+      <label for="api-key">YouTube API key</label>
+      <input id="api-key" type="password" autocomplete="off" placeholder="Nhập API key của bạn">
+      <small>Giới hạn khóa theo địa chỉ web và YouTube Data API trong Google Cloud.</small>
+    </section>
+    <section>
+      <h3>YouTube Premium</h3>
+      <p>APTV đã nhận tài khoản Premium trên m.youtube.com. Mở YouTube tại đây để đăng nhập hoặc kiểm tra, rồi dùng nút Quay lại của APTV.</p>
+      <a id="premium-link" class="button secondary" href="https://m.youtube.com/">Mở m.youtube.com ↗</a>
+      <p class="dialog-hint">Nếu video nhúng không nhận phiên, mở video gốc bằng nút YouTube trong player.</p>
+    </section>
+    <section>
+      <h3>Dữ liệu trên thiết bị</h3>
+      <p>Lịch sử BMWTube chỉ lưu tại đây, không đồng bộ tài khoản YouTube.</p>
+      <button id="clear-history" type="button" class="secondary">Xóa lịch sử tại đây</button>
+    </section>
+    <details>
+      <summary>Thông tin màn hình</summary>
+      <p id="diagnostics"></p>
+      <p>Kích thước thay đổi theo vùng hiển thị APTV. Chế độ mở rộng trong trang không phụ thuộc fullscreen gốc.</p>
+    </details>
+    <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
+  </form>
+</dialog>
+<script type="module" src="app.js?v=seat-rail-player"></script>
+</body>
+</html>
