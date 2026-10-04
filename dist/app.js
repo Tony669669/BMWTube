@@ -26,7 +26,7 @@ function renderCards(target,list){target.replaceChildren(...list.map(card));}
 function renderHistory(){const container=$('recent-searches');container.replaceChildren();if(history.length){const label=document.createElement('span');label.className='empty';label.textContent='Gần đây tại đây';container.append(label);}history.forEach(term=>{const b=document.createElement('button');b.textContent=term;b.onclick=()=>{$('query').value=term;rawInput=term;submit(term);};container.append(b);});}
 function browsing(){cinema=false;document.body.classList.remove('cinema');if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});$('watch').hidden=true;$('browse').hidden=false;if(playerReady)player.pauseVideo();resize();}
 function home(){
-  requestSerial++;browsing();query='';nextPage='';items=[];
+  requestSerial++;document.body.classList.add('home-feed');browsing();query='';nextPage='';items=[];
   $('query').value='';rawInput='';$('load-more').hidden=true;
   $('browse-title').textContent='Khám phá trên YouTube';
   renderCards($('results'),[]);renderHistory();$('welcome').hidden=true;
@@ -61,6 +61,7 @@ async function popular(append=false){
   finally{if(serial===requestSerial)$('load-more').disabled=false;}
 }
 async function search(term,append=false){
+  document.body.classList.remove('home-feed');
   const serial=++requestSerial;browsing();$('welcome').hidden=true;$('browse-title').textContent='Đang tìm…';$('load-more').disabled=true;
   if(!append){items=[];renderCards($('results'),[]);nextPage='';}
   try{const data=await api('search',{part:'snippet',type:'video',q:term,maxResults:16,videoEmbeddable:'true',videoSyndicated:'true',relevanceLanguage:'vi',pageToken:append?nextPage:''});if(serial!==requestSerial)return;const seen=new Set(items.map(v=>v.id));items=[...items,...mapped(data).filter(v=>!seen.has(v.id))];nextPage=data.nextPageToken||'';renderCards($('results'),items);$('browse-title').textContent=items.length?term:'Không tìm thấy video';$('load-more').hidden=!nextPage;history=[term,...history.filter(q=>q!==term)].slice(0,8);storage.set('searches',history);renderHistory();}
