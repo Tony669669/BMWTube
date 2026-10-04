@@ -20,7 +20,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Dán link YouTube hoặc video ID để phát bằng IFrame Player API chính thức, không cần API key.
 - Player dùng toàn bộ chiều cao viewport ngay cả trước khi bật chế độ mở rộng. Cài đặt chọn player sát trái (ghế lái) hoặc sát phải (ghế phụ); danh sách video và cột điều hướng đổi bên theo lựa chọn. Hình và chữ của video không bị lật.
 - Play/pause, thanh tua, thời gian, nút CC bật/tắt phụ đề. Không thêm volume, ±10s hay Next.
-- Cột điều hướng luôn hiện với các nút riêng Trang chủ, Tìm kiếm, Cài đặt. Tìm kiếm và Cài đặt mở popup. Nút mở rộng ẩn danh sách và cột điều hướng; video 16:9 dùng hết chiều cao viewport. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây trong chế độ mở rộng và hiện lại khi chạm màn hình.
+- Cột điều hướng luôn hiện với icon nét mảnh kiểu macOS cho Trang chủ, Tìm kiếm, Cài đặt; logo play dùng màu tối trung tính. Tìm kiếm và Cài đặt mở popup. Nút mở rộng ẩn danh sách và cột điều hướng; video 16:9 dùng hết chiều cao viewport. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây trong chế độ mở rộng và hiện lại khi chạm màn hình.
 - Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; khám phá bằng `videos.list(mostPopular)` khi chưa có lịch sử.
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
 - Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi từng ký tự; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
