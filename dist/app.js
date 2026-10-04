@@ -23,7 +23,7 @@ $('query').addEventListener('keydown',event=>{if(event.key==='Enter'&&(composing
 function decode(value){const text=document.createElement('textarea');text.innerHTML=value||'';return text.value;}
 function card(v){const button=document.createElement('button');button.className='card';const img=document.createElement('img');img.src=`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`;img.loading='lazy';img.alt='';const title=document.createElement('h3');title.textContent=v.title;const channel=document.createElement('p');channel.textContent=v.channel||'YouTube';button.append(img,title,channel);button.onclick=()=>watch(v);return button;}
 function renderCards(target,list){target.replaceChildren(...list.map(card));}
-function renderHistory(){const container=$('recent-searches');container.replaceChildren();if(history.length){const label=document.createElement('span');label.className='empty';label.textContent='Gần đây tại đây';container.append(label);}history.forEach(term=>{const b=document.createElement('button');b.textContent=term;b.onclick=()=>{$('query').value=term;rawInput=term;submit(term);};container.append(b);});}
+function renderHistory(){const container=$('recent-searches');container.replaceChildren();history.forEach(term=>{const b=document.createElement('button');b.textContent=term;b.onclick=()=>{$('query').value=term;rawInput=term;submit(term);};container.append(b);});}
 function browsing(){cinema=false;document.body.classList.remove('cinema');if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});$('watch').hidden=true;$('browse').hidden=false;if(playerReady)player.pauseVideo();resize();}
 function home(){
   requestSerial++;document.body.classList.add('home-feed');browsing();query='';nextPage='';items=[];
@@ -34,7 +34,7 @@ function home(){
 }
 function renderHomeFallback(){
   const box=document.createElement('div');box.className='empty';
-  const p=document.createElement('p');p.textContent='Thêm API key để tải video công khai ngay tại đây. Không cần tài khoản hoặc Premium.';
+  const p=document.createElement('p');p.textContent='Thêm API key để hiển thị danh sách video.';
   const open=document.createElement('a');open.className='button primary';open.href='https://www.youtube.com/';open.textContent='Mở trang chủ YouTube ↗';
   const setup=document.createElement('button');setup.className='secondary';setup.textContent='Thiết lập API key';setup.onclick=openSettings;
   box.append(p,open,setup);$('results').replaceChildren(box);$('load-more').hidden=true;

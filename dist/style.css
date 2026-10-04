@@ -8,3 +8,5 @@ body.home-feed #results .card img{border-radius:8px}
 body.home-feed #results .card h3{font-size:14px;line-height:1.35;margin-top:8px}
 body.home-feed #results .card p{font-size:12px}
 @media(max-width:760px){body.home-feed #results{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:16px 12px}}
+
+body.home-feed #browse>.section-heading{display:none}
