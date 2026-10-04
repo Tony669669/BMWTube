@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=seat-rail-icons">
+  <link rel="stylesheet" href="style.css?v=review-fixes">
 </head>
 <body>
 <div id="app-shell">
@@ -75,6 +75,7 @@
       <button id="telex" type="button" aria-pressed="false" title="Bật gõ tiếng Việt Telex">Telex</button>
       <button class="search-submit" type="submit" aria-label="Tìm kiếm">→</button>
     </div>
+    <p class="dialog-status" role="status" hidden></p>
     <p class="dialog-hint">Telex chuyển chữ ngay trong BMWTube khi bàn phím APTV gửi từng ký tự.</p>
   </form>
 </dialog>
@@ -99,7 +100,7 @@
     </section>
     <section>
       <h3>YouTube Premium</h3>
-      <p>APTV đã nhận tài khoản Premium trên m.youtube.com. Mở YouTube tại đây để đăng nhập hoặc kiểm tra, rồi dùng nút Quay lại của APTV.</p>
+      <p>Mở m.youtube.com để đăng nhập hoặc kiểm tra tài khoản Premium, rồi dùng nút Quay lại của APTV.</p>
       <a id="premium-link" class="button secondary" href="https://m.youtube.com/">Mở m.youtube.com ↗</a>
       <p class="dialog-hint">Nếu video nhúng không nhận phiên, mở video gốc bằng nút YouTube trong player.</p>
     </section>
@@ -113,9 +114,10 @@
       <p id="diagnostics"></p>
       <p>Kích thước thay đổi theo vùng hiển thị APTV. Chế độ mở rộng trong trang không phụ thuộc fullscreen gốc.</p>
     </details>
+    <p class="dialog-status" role="status" hidden></p>
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=seat-rail-player"></script>
+<script type="module" src="app.js?v=review-fixes"></script>
 </body>
 </html>

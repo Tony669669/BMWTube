@@ -37,8 +37,9 @@ export function telexWord(raw){
 }
 export function telex(text){if(/https?:|youtu\.be|youtube\.com/i.test(text))return text;return text.replace(/[a-zÀ-ỹ]+/giu,telexWord);}
 export function videoId(value){
+  if(typeof value!=='string')return null;
   const s=value.trim();if(/^[\w-]{11}$/.test(s))return s;
   try{const u=new URL(/^https?:\/\//i.test(s)?s:'https://'+s);if(!['https:','http:'].includes(u.protocol))return null;const host=u.hostname.toLowerCase();let id=null;if(host==='youtu.be')id=u.pathname.split('/')[1];else if(['youtube.com','www.youtube.com','m.youtube.com','music.youtube.com','www.youtube-nocookie.com','youtube-nocookie.com'].includes(host)){id=u.pathname==='/watch'?u.searchParams.get('v'):/^\/(embed|shorts|live)\//.test(u.pathname)?u.pathname.split('/')[2]:null;}return /^[\w-]{11}$/.test(id||'')?id:null;}catch{return null;}
 }
-export function timeLabel(seconds){const s=Math.max(0,Math.floor(Number(seconds)||0));return s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s/60)%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
+export function timeLabel(seconds){const number=Number(seconds);const s=Number.isFinite(number)?Math.max(0,Math.floor(number)):0;return s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s/60)%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 export function playerSize(width,height,cinema=false){const available=Math.max(0,height-(cinema?0:132));return Math.max(0,Math.min(width,available*16/9,cinema?width:Math.max(0,width-260)));}

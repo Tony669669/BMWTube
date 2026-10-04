@@ -23,7 +23,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Cột điều hướng luôn hiện với icon nét mảnh kiểu macOS cho Trang chủ, Tìm kiếm, Cài đặt; logo play dùng màu tối trung tính. Tìm kiếm và Cài đặt mở popup. Nút mở rộng ẩn danh sách và cột điều hướng; video 16:9 dùng hết chiều cao viewport. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây trong chế độ mở rộng và hiện lại khi chạm màn hình.
 - Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; khám phá bằng `videos.list(mostPopular)` khi chưa có lịch sử.
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
-- Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi từng ký tự; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
+- Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi văn bản qua input, kể cả khi thiếu inputType/data; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
 - Lịch sử video/tìm kiếm cục bộ, xóa trong Cài đặt. Không đồng bộ tài khoản.
 - Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được; lối mở video gốc trên YouTube.
 - Trang quyền riêng tư, thao tác bàn phím, nhãn accessibility; đo viewport qua visualViewport và resize.
@@ -35,7 +35,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 3. Giới hạn API của key về YouTube Data API v3.
 4. Mở BMWTube → Cài đặt → nhập key → Lưu.
 
-Khóa cho client browser không phải bí mật backend; người dùng có thể đọc được trong trình duyệt. Không đưa OAuth client secret vào trang. Khóa được lưu localStorage tại origin đó, không tự chuyển từ Mac sang APTV. Khi chưa có khóa, tìm kiếm có nút mở truy vấn trên YouTube; phát link vẫn hoạt động. Hạn mức API do Google Cloud quyết định, tìm kiếm chỉ chạy khi submit, không gọi theo từng phím.
+Khóa cho client browser không phải bí mật backend; người dùng có thể đọc được trong trình duyệt. Không đưa OAuth client secret vào trang. Khóa được lưu localStorage tại origin đó, không tự chuyển từ Mac sang APTV. Khi chưa có khóa, tìm kiếm có nút mở truy vấn trên YouTube; phát link vẫn hoạt động. Hạn mức API do Google Cloud quyết định, tìm kiếm chỉ chạy khi submit, không gọi theo từng phím. Các lần submit cùng truy vấn khi request còn đang chạy dùng chung một request; sau khi hoàn tất, gửi lại sẽ gọi API mới.
 
 ## Đăng nhập YouTube / Premium
 
@@ -75,7 +75,7 @@ Tích hợp WebMCP tùy chọn `open_youtube_video` nếu browser hỗ trợ; kh
 
 ## Kiểm tra
 
-`npm test` kiểm tra Telex, URL/host validation, thời gian và kích thước 1280×480 / 1920×720. Các kích thước này là mô phỏng, không phải thông số thật của màn BMW.
+`npm test` kiểm tra Telex, URL/host validation, dữ liệu lưu sai kiểu, thời gian và tính kích thước, gồm mốc BMW 1422×456 CSS px từ ảnh APTV người dùng cung cấp. `npm run test:browser` chạy các kịch bản hồi quy bằng Playwright cài ngoài project (có thể đặt đường dẫn `PLAYWRIGHT_MODULE` và `CHROME_PATH`); toàn bộ YouTube/API được giả lập, không tốn quota.
 
 Kết quả kiểm tra trình duyệt và giới hạn còn lại xem [TESTING.md](TESTING.md).
 
