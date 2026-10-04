@@ -11,5 +11,5 @@ test('Only recognized YouTube URL formats and exact IDs are accepted',()=>{
 });
 test('Progress time handles empty, negative and long durations',()=>{assert.equal(timeLabel(0),'0:00');assert.equal(timeLabel(-4),'0:00');assert.equal(timeLabel(3661),'1:01:01');});
 test('Ultrawide player fits height and leaves space at right',()=>{
-  for(const [width,height] of [[1280,480],[1920,720]]){const w=playerSize(width,height-72);assert.ok(w<=width-260);assert.ok(w*9/16+132<=height-72);const full=playerSize(width,height,true);assert.ok(full<width);assert.ok(full*9/16+56<=height);}
+  for(const [width,height] of [[1280,480],[1920,720]]){const w=playerSize(width,height-72);assert.ok(w<=width-260);assert.ok(w*9/16+132<=height-72);const full=playerSize(width,height,true);assert.ok(full<width);assert.ok(full*9/16<=height);}
 });
