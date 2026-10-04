@@ -12,6 +12,7 @@
 - Tìm kiếm không có key hiển thị lối mở truy vấn YouTube đúng Unicode và nút Cài đặt.
 - Phát video mẫu chính thức của YouTube Developers `M7lc1UVf-VE`: player tải, phát nội dung thật, thời gian tiến và cập nhật tiêu đề. Kiểm tra pause và tua qua slider.
 - Mở rộng trong trang: header/sidebar ẩn, video giữ 16:9 ở x=0, phần bên phải đen, có nút thoát. Fullscreen API bị trình duyệt xem trước trả về khỏi fullscreen nên đã bỏ phụ thuộc vào API đó.
+- Khi mở rộng ở viewport 1280×480, video đo được 853.33×480 CSS px từ góc trên trái. Sau 3.4 giây, thanh tua/nút có opacity 0 và visibility hidden; một lần chạm lớp đánh thức làm thanh hiện lại.
 - 1920×720: player x=0, y=88, kích thước 888.88×499.99, không tràn ngang.
 - Dialog cài đặt mở, có key, liên kết đăng nhập YouTube, thông tin viewport, xóa lịch sử và quyền riêng tư.
 - WebMCP: đăng ký `open_youtube_video`, URL hợp lệ mở cùng player và trả video ID; URL example.com bị từ chối, không điều hướng đến domain đó.

@@ -20,7 +20,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Dán link YouTube hoặc video ID để phát bằng IFrame Player API chính thức, không cần API key.
 - Video giữ khung 16:9, sát trái. Nội dung tỷ lệ khác được YouTube letterbox, không crop.
 - Play/pause, thanh tua, thời gian, nút CC bật/tắt phụ đề. Không thêm volume, ±10s hay Next.
-- Nút mở rộng ẩn header/sidebar, giữ vùng đen bên phải. Đây là chế độ trong trang để không bị APTV chuyển sang native video fullscreen rồi căn giữa. Thanh điều khiển nằm ngoài iframe, luôn có thể chạm để thoát; không tự ẩn nhằm đảm bảo thao tác trong WebView.
+- Nút mở rộng ẩn header/sidebar, giữ vùng đen bên phải. Video 16:9 dùng hết chiều cao viewport khi tỷ lệ màn hình cho phép. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây và hiện lại khi chạm màn hình. Chế độ nằm trong trang để APTV không chuyển video sang native fullscreen rồi căn giữa.
 - Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; khám phá bằng `videos.list(mostPopular)` khi chưa có lịch sử.
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
 - Telex tùy chọn trong ô nhập: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Giữ IME nguyên vẹn trong composition. Telex đơn giản hỗ trợ quy tắc thông dụng, không phải bộ gõ có từ điển. Tắt Telex khi nhập tiếng Anh. Dán văn bản giữ nguyên; sửa giữa chuỗi giữ văn bản đang hiển thị.

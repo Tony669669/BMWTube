@@ -6,7 +6,7 @@ if(!Array.isArray(recent))recent=[];recent=recent.filter(v=>v&&videoId(v.id)&&ty
 if(!Array.isArray(history))history=[];history=history.filter(v=>typeof v==='string').slice(0,8);
 let appendAllowed=true;
 let captionsWanted=null,captionsTimer=null;
-let items=[],current=null,player=null,playerReady=false,apiPromise=null,query='',nextPage='',requestSerial=0,composing=false,rawInput='',cinema=false,seeking=false,returnFocus=null;
+let items=[],current=null,player=null,playerReady=false,apiPromise=null,query='',nextPage='',requestSerial=0,composing=false,rawInput='',cinema=false,seeking=false,returnFocus=null,controlsTimer=null;
 function notice(message){$('notice-text').textContent=message;$('notice').hidden=false;}
 $('dismiss').onclick=()=>{$('notice').hidden=true;};
 function updateTelex(){$('telex').setAttribute('aria-pressed',String(telexOn));$('telex').textContent=telexOn?'Telex ✓':'Telex';}
@@ -107,12 +107,32 @@ $('cc').onclick=()=>{
   }catch{notice('Không đổi được phụ đề trong player này. Hãy mở video trên YouTube.');}
 };
 $('play').onclick=()=>{if(!playerReady)return;player.getPlayerState()===1?player.pauseVideo():player.playVideo();};
-$('seek').addEventListener('pointerdown',()=>{seeking=true;});$('seek').addEventListener('input',()=>{seeking=true;$('elapsed').textContent=timeLabel(Number($('seek').value)/1000*(player?.getDuration?.()||0));});$('seek').addEventListener('change',()=>{if(playerReady)player.seekTo(Number($('seek').value)/1000*player.getDuration(),true);seeking=false;});$('seek').addEventListener('pointercancel',()=>{seeking=false;});
+$('seek').addEventListener('pointerdown',()=>{seeking=true;showCinemaControls();});$('seek').addEventListener('input',()=>{seeking=true;showCinemaControls();$('elapsed').textContent=timeLabel(Number($('seek').value)/1000*(player?.getDuration?.()||0));});$('seek').addEventListener('change',()=>{if(playerReady)player.seekTo(Number($('seek').value)/1000*player.getDuration(),true);seeking=false;showCinemaControls();});$('seek').addEventListener('pointercancel',()=>{seeking=false;});
 setInterval(()=>{if(!playerReady||$('watch').hidden||document.hidden)return;const duration=player.getDuration()||0;const elapsed=player.getCurrentTime()||0;$('duration').textContent=timeLabel(duration);$('seek').disabled=!duration;if(!seeking){$('elapsed').textContent=timeLabel(elapsed);$('seek').value=duration?String(elapsed/duration*1000):'0';}},500);
 function resize(){const height=window.visualViewport?.height||innerHeight;const width=document.documentElement.clientWidth;document.documentElement.style.setProperty('--vh',height+'px');const normalHeight=height-document.querySelector('header').offsetHeight;document.documentElement.style.setProperty('--player-width',playerSize(width,normalHeight)+'px');document.documentElement.style.setProperty('--cinema-width',playerSize(width,height,true)+'px');$('diagnostics').textContent=`Vùng hiển thị: ${width} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
-function setCinema(enabled){cinema=enabled;document.body.classList.toggle('cinema',cinema);$('fullscreen').setAttribute('aria-label',cinema?'Thoát mở rộng':'Mở rộng video');resize();}
+function showCinemaControls(){
+  clearTimeout(controlsTimer);
+  if(!cinema)return;
+  document.body.classList.remove('controls-hidden');
+  controlsTimer=setTimeout(()=>{
+    if(cinema&&!seeking){
+      if($('transport').contains(document.activeElement))document.activeElement.blur();
+      document.body.classList.add('controls-hidden');
+    }
+  },3000);
+}
+function setCinema(enabled){
+  cinema=enabled;document.body.classList.toggle('cinema',cinema);
+  $('fullscreen').setAttribute('aria-label',cinema?'Thoát mở rộng':'Mở rộng video');
+  if(cinema)showCinemaControls();else{clearTimeout(controlsTimer);document.body.classList.remove('controls-hidden');}
+  resize();
+}
+$('controls-wake').addEventListener('pointerdown',showCinemaControls);
+$('controls-wake').addEventListener('click',showCinemaControls);
+$('transport').addEventListener('pointerdown',showCinemaControls);
+document.addEventListener('pointermove',()=>{if(cinema&&!document.body.classList.contains('controls-hidden'))showCinemaControls();},{passive:true});
+document.addEventListener('keydown',event=>{if(cinema){showCinemaControls();if(event.key==='Escape')setCinema(false);}});
 $('fullscreen').onclick=()=>setCinema(!cinema);
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&cinema)setCinema(false);});
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
 function openSettings(){returnFocus=document.activeElement;$('api-key').value=key;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');returnFocus?.focus();}
