@@ -37,11 +37,11 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 
 Khóa cho client browser không phải bí mật backend; người dùng có thể đọc được trong trình duyệt. Không đưa OAuth client secret vào trang. Khóa được lưu localStorage tại origin đó, không tự chuyển từ Mac sang APTV. Khi chưa có khóa, tìm kiếm có nút mở truy vấn trên YouTube; phát link vẫn hoạt động. Hạn mức API do Google Cloud quyết định, tìm kiếm chỉ chạy khi submit, không gọi theo từng phím.
 
-## Đăng nhập / Premium: giới hạn thực tế
+## Đăng nhập YouTube / Premium
 
-Người dùng đã xác nhận đăng nhập YouTube được trong APTV. BMWTube có liên kết cùng tab đến YouTube để dùng tài khoản/Premium ở website gốc. Không có OAuth hoặc trạng thái “đã đăng nhập” giả trong BMWTube, không đọc cookie YouTube. OAuth Data API cũng không phải cơ chế chuyển phiên Premium sang iframe.
+Trong Cài đặt → YouTube Premium, nút **Đăng nhập trên YouTube** mở YouTube cùng tab để người dùng tự đăng nhập bằng tài khoản của họ. Dùng nút Quay lại của APTV để về BMWTube. BMWTube không nhận mật khẩu, không dùng OAuth để giả trạng thái đăng nhập và không đọc cookie YouTube. OAuth Data API không chuyển phiên Premium sang iframe.
 
-Chưa xác nhận Premium trong player nhúng APTV; phụ thuộc chính phiên YouTube và cách WebView xử lý cookie. Không cam kết không quảng cáo. Google mô tả lợi ích Premium trong [trợ giúp Premium](https://support.google.com/youtube/answer/6308116?hl=en). Việc đăng nhập trên trang gốc không được dùng làm bằng chứng cho phiên iframe.
+Premium trong player nhúng phụ thuộc APTV/WebView có chia sẻ phiên YouTube với iframe hay không; giao diện không tuyên bố đã đăng nhập và không cam kết mọi video nhúng sẽ không có quảng cáo. Nếu phiên không được chia sẻ, nút **YouTube ↗** trong màn hình phát mở video gốc. Google mô tả quyền lợi Premium trong [trợ giúp Premium](https://support.google.com/youtube/answer/6308116?hl=en).
 
 Không có home feed cá nhân hay lịch sử tìm kiếm tài khoản trong bản này. API `relatedToVideoId` đã bị bỏ, nên dùng kết quả cùng truy vấn. Không scraping, proxy video, lấy token/cookie hoặc sửa nội dung youtube.com từ origin BMWTube.
 
