@@ -1,0 +1,92 @@
+# BMWTube
+
+**Cập nhật chế độ công khai:** Đã bỏ mục đăng nhập/Premium. Khi có API key, Home luôn tải video công khai Việt Nam và hỗ trợ phân trang; không dùng lịch sử làm Home. Khi chưa có key, Home hiện nút mở YouTube và cấu hình khóa; gửi tìm kiếm sẽ mở trực tiếp YouTube Search cùng tab. Các mô tả chế độ cũ bên dưới về lịch sử Home hoặc màn xác nhận tìm kiếm được thay thế bởi cập nhật này. API key không phải tài khoản Premium.
+
+Ứng dụng web tĩnh cho trình duyệt **APTV trên iPhone → CarPlay → màn BMW G20 LCI**. Không giả định browser chạy trực tiếp trên iDrive. Không phụ thuộc framework hay backend.
+
+## Chạy trên máy
+
+Yêu cầu Node 22 trở lên. Không cần `npm install`.
+
+```sh
+cd /Applications/BMWTube
+npm start
+```
+
+Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở trong APTV cần URL HTTPS đã triển khai. Không mở `index.html` bằng `file://` vì module và YouTube origin cần HTTP(S).
+
+## Chức năng
+
+- Dán link YouTube hoặc video ID để phát bằng IFrame Player API chính thức, không cần API key.
+- Video giữ khung 16:9, sát trái. Nội dung tỷ lệ khác được YouTube letterbox, không crop.
+- Play/pause, thanh tua, thời gian, nút CC bật/tắt phụ đề. Không thêm volume, ±10s hay Next.
+- Nút mở rộng ẩn header/sidebar, giữ vùng đen bên phải. Đây là chế độ trong trang để không bị APTV chuyển sang native video fullscreen rồi căn giữa. Thanh điều khiển nằm ngoài iframe, luôn có thể chạm để thoát; không tự ẩn nhằm đảm bảo thao tác trong WebView.
+- Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; khám phá bằng `videos.list(mostPopular)` khi chưa có lịch sử.
+- Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
+- Telex tùy chọn trong ô nhập: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Giữ IME nguyên vẹn trong composition. Telex đơn giản hỗ trợ quy tắc thông dụng, không phải bộ gõ có từ điển. Tắt Telex khi nhập tiếng Anh. Dán văn bản giữ nguyên; sửa giữa chuỗi giữ văn bản đang hiển thị.
+- Lịch sử video/tìm kiếm cục bộ, xóa trong Cài đặt. Không đồng bộ tài khoản.
+- Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được; lối mở video gốc trên YouTube.
+- Trang quyền riêng tư, thao tác bàn phím, nhãn accessibility; đo viewport qua visualViewport và resize.
+
+## Tìm kiếm: cấu hình một lần trên từng trình duyệt
+
+1. Trong Google Cloud tạo/chọn project, bật **YouTube Data API v3** và tạo API key.
+2. Giới hạn key bằng **Websites / HTTP referrers** theo URL thực tế, ví dụ `https://TEN-TAI-KHOAN.github.io/*` và `http://localhost:4173/*` khi phát triển.
+3. Giới hạn API của key về YouTube Data API v3.
+4. Mở BMWTube → nút menu → nhập key → Lưu.
+
+Khóa cho client browser không phải bí mật backend; người dùng có thể đọc được trong trình duyệt. Không đưa OAuth client secret vào trang. Khóa được lưu localStorage tại origin đó, không tự chuyển từ Mac sang APTV. Khi chưa có khóa, tìm kiếm có nút mở truy vấn trên YouTube; phát link vẫn hoạt động. Hạn mức API do Google Cloud quyết định, tìm kiếm chỉ chạy khi submit, không gọi theo từng phím.
+
+## Đăng nhập / Premium: giới hạn thực tế
+
+Người dùng đã xác nhận đăng nhập YouTube được trong APTV. BMWTube có liên kết cùng tab đến YouTube để dùng tài khoản/Premium ở website gốc. Không có OAuth hoặc trạng thái “đã đăng nhập” giả trong BMWTube, không đọc cookie YouTube. OAuth Data API cũng không phải cơ chế chuyển phiên Premium sang iframe.
+
+Chưa xác nhận Premium trong player nhúng APTV; phụ thuộc chính phiên YouTube và cách WebView xử lý cookie. Không cam kết không quảng cáo. Google mô tả lợi ích Premium trong [trợ giúp Premium](https://support.google.com/youtube/answer/6308116?hl=en). Việc đăng nhập trên trang gốc không được dùng làm bằng chứng cho phiên iframe.
+
+Không có home feed cá nhân hay lịch sử tìm kiếm tài khoản trong bản này. API `relatedToVideoId` đã bị bỏ, nên dùng kết quả cùng truy vấn. Không scraping, proxy video, lấy token/cookie hoặc sửa nội dung youtube.com từ origin BMWTube.
+
+Nguồn chính thức khảo sát ngày 04/10/2026:
+
+- [YouTube Data API reference](https://developers.google.com/youtube/v3/docs)
+- [Search API](https://developers.google.com/youtube/v3/docs/search/list)
+- [Revision history — relatedToVideoId và home](https://developers.google.com/youtube/v3/revision_history)
+- [IFrame API — playback, errors, autoplay](https://developers.google.com/youtube/iframe_api_reference)
+- [Player parameters — controls, dimensions, inline playback](https://developers.google.com/youtube/player_parameters)
+- [Player policies](https://developers.google.com/youtube/terms/required-minimum-functionality)
+- [APTV thêm browser qua CarPlay](https://aptvplayer.userjot.com/updates/p/1-5-11-ban-ben-geng-xin)
+
+## GitHub Pages
+
+Thư mục `dist/` chứa toàn bộ site. Đường dẫn asset là tương đối nên chạy được dưới `/BMWTube/`.
+
+1. Đưa project vào repository GitHub và push nhánh `main`.
+2. Repository → Settings → Pages → Source: **GitHub Actions**.
+3. Workflow `.github/workflows/pages.yml` kiểm tra và triển khai `dist/`.
+4. Mở URL Pages trong **APTV → Quick → Browser**.
+5. Thêm origin HTTPS đó vào referrer restrictions của API key, nhập key trong APTV.
+
+Chưa tạo repository hay xuất bản từ phiên làm việc này. GitHub Pages không có đăng nhập bảo vệ riêng trong mã này; không đưa dữ liệu riêng hoặc secret vào thư mục `dist`.
+
+## Kiến trúc
+
+`dist/index.html` tạo các trạng thái browse/watch/settings. `app.js` quản lý UI, truy vấn API, player và localStorage. `core.js` chứa parser URL, Telex, thời gian và tính kích thước. `style.css` bố cục tối và touch targets. Player chỉ tải khi mở video. API không polling; tiến trình phát cập nhật mỗi 500 ms khi view player đang hiện. Không tải font ngoài. Metadata từ API được hiển thị qua textContent.
+
+Tích hợp WebMCP tùy chọn `open_youtube_video` nếu browser hỗ trợ; không cần cho APTV. Không hỗ trợ request đến domain khác hoặc URL video sai định dạng.
+
+## Kiểm tra
+
+`npm test` kiểm tra Telex, URL/host validation, thời gian và kích thước 1280×480 / 1920×720. Các kích thước này là mô phỏng, không phải thông số thật của màn BMW.
+
+Kết quả kiểm tra trình duyệt và giới hạn còn lại xem [TESTING.md](TESTING.md).
+
+## Cần thử trên xe
+
+- Viewport thực tế trong Cài đặt; bàn phím APTV có phát input/composition bình thường không.
+- Video có phát inline không, chạm tua được không, và mở rộng có giữ đúng vị trí trái không.
+- Cookie/Premium trên player nhúng; nếu không có thì dùng nút YouTube để mở bản gốc.
+- Video giới hạn tuổi/riêng tư/chặn embed có thể phải mở trên YouTube.
+- Không có bộ lọc Shorts hoàn hảo trong API; UI không có mục Shorts nhưng kết quả API có thể chứa video dạng ngắn.
+
+### Nút CC
+
+CC nằm cạnh nút mở rộng, có gạch đỏ khi module phụ đề đang bật. Tích hợp kiểm tra `loadModule`/`unloadModule` của player hiện tại và cập nhật theo `onApiChange`. Hai hàm này không được cam kết trong tài liệu API công khai; nếu không có, nút bị vô hiệu hóa. Trạng thái ban đầu đọc module; sau thao tác phản ánh lựa chọn bật/tắt đã gửi. Không bảo đảm video có track hiển thị. Nếu không tải được module thì thông báo để mở trên YouTube. Cần xác minh lại trong APTV.
