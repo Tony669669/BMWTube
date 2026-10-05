@@ -161,9 +161,9 @@ body.home-feed #browse>.section-heading{display:none}
 body.compact-player:not(.cinema) #watch{flex-direction:column;overflow:auto}
 body.compact-player:not(.cinema) #stage{order:0;flex:0 0 auto;height:var(--player-height);max-width:100%}
 body.compact-player:not(.cinema) #video-aside{order:1;flex:1 0 auto;min-height:180px;border:0;border-top:1px solid var(--line)}
-body:not(.cinema):not(.compact-player):not(.passenger) #video-aside{margin-left:3px}
-body:not(.cinema):not(.compact-player).passenger #video-aside{margin-right:3px}
-body.compact-player:not(.cinema) #video-aside{margin-top:3px}
+body:not(.cinema):not(.compact-player):not(.passenger) #video-aside{margin-left:0}
+body:not(.cinema):not(.compact-player).passenger #video-aside{margin-right:0}
+body.compact-player:not(.cinema) #video-aside{margin-top:0}
 #results>.empty{grid-column:1/-1}
 #results>.empty .button,#results>.empty button{margin:0 12px 12px 0}
 #app-rail button{display:grid;place-items:center}
