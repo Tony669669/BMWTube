@@ -219,8 +219,6 @@ body.cinema #app-rail{display:flex}
 @media(max-width:760px){body.icons-near-arrows #app-rail{gap:3px}}
 @media(max-height:390px){body.icons-near-arrows #app-rail{gap:1.5px}}
 
-/* Settings panel at roughly 60% of its previous footprint on the wide CarPlay viewport. */
-#settings{width:min(372px,92vw);padding:14px;max-height:54vh;max-height:54dvh}
-#settings section{padding:7px 0 12px}
-#settings footer{margin-top:12px}
-#settings details{padding-top:10px}
+/* Keep the full-size dialog frame while scaling its contents to 60%. */
+#settings{width:min(620px,94vw);padding:24px;min-height:90vh;min-height:90dvh;max-height:90vh;max-height:90dvh}
+#settings form{zoom:.6;width:166.6667%;margin-left:-33.3333%}
