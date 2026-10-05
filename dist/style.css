@@ -138,7 +138,9 @@ dialog footer a{font-size:13px;color:var(--muted)}
 body.home-feed #results,body.search-feed #results{grid-template-columns:repeat(auto-fill,var(--feed-card-width,154px));justify-content:space-between;gap:20px 16px}
 body.home-feed #results .card img,body.search-feed #results .card img{border-radius:8px}
 body.home-feed #results .card h3,body.search-feed #results .card h3{font-size:14px;line-height:1.35;margin-top:8px}
+body.home-feed #results .card h3,body.search-feed #results .card h3{-webkit-line-clamp:3}
 body.home-feed #results .card p,body.search-feed #results .card p{font-size:12px}
+body.home-feed #results .card p,body.search-feed #results .card p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
 body.home-feed #browse>.section-heading{display:none}
 @media(max-width:760px){
   :root{--rail-width:58px}
