@@ -172,9 +172,9 @@ body.compact-player:not(.cinema) #video-aside{order:1;flex:1 0 auto;min-height:1
   #query{flex:1 1 150px}
   .search-icon{display:none}
 }
-body.cinema #app-shell{display:block;min-height:var(--vh,100vh)}
+body.cinema #app-shell{min-height:var(--vh,100vh)}
 body.cinema #main{min-height:var(--vh,100vh)}
-body.cinema #app-rail,body.cinema #video-aside{display:none}
+body.cinema #video-aside{display:none}
 body.cinema #watch{height:var(--vh,100vh);width:100%;background:#000;flex-direction:row;overflow:hidden}
 body.cinema #stage{width:var(--cinema-width,100%)!important;flex:0 0 var(--cinema-width,100%);height:100%}
 body.passenger.cinema #stage{margin-left:auto}
@@ -208,6 +208,17 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 .profile-dot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
 .red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
 @media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#111316;cursor:pointer}
+.toggle-row span{font-size:14px;line-height:1.4}
+.toggle-row input{width:22px;height:22px;flex:0 0 22px;accent-color:#438aca}
+/* Reserve a browser-control lane and place BMWTube's rail beneath the host menu. */
+body.icons-near-arrows:not(.aptv-yellow) #app-shell{margin-right:var(--rail-width)}
+body.icons-near-arrows #app-rail{padding-top:clamp(52px,20vh,96px);transform:translateX(15%);transition:transform .18s ease}
+body.passenger.icons-near-arrows #app-rail{transform:none}
+body.cinema #app-rail{display:flex}
 
-/* Compact settings panel: 60% of the previous 620px desktop width. */
-#settings{width:min(372px,92vw);padding:18px;max-height:90vh;max-height:90dvh}
+/* Settings panel at roughly 60% of its previous footprint on the wide CarPlay viewport. */
+#settings{width:min(372px,92vw);padding:14px;max-height:54vh;max-height:54dvh}
+#settings section{padding:7px 0 12px}
+#settings footer{margin-top:12px}
+#settings details{padding-top:10px}
