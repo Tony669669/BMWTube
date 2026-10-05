@@ -161,9 +161,9 @@ body.home-feed #browse>.section-heading{display:none}
 body.compact-player:not(.cinema) #watch{flex-direction:column;overflow:auto}
 body.compact-player:not(.cinema) #stage{order:0;flex:0 0 auto;height:var(--player-height);max-width:100%}
 body.compact-player:not(.cinema) #video-aside{order:1;flex:1 0 auto;min-height:180px;border:0;border-top:1px solid var(--line)}
-body:not(.cinema):not(.compact-player):not(.passenger) #video-aside{margin-left:8px}
-body:not(.cinema):not(.compact-player).passenger #video-aside{margin-right:8px}
-body.compact-player:not(.cinema) #video-aside{margin-top:8px}
+body:not(.cinema):not(.compact-player):not(.passenger) #video-aside{margin-left:3px}
+body:not(.cinema):not(.compact-player).passenger #video-aside{margin-right:3px}
+body.compact-player:not(.cinema) #video-aside{margin-top:3px}
 #results>.empty{grid-column:1/-1}
 #results>.empty .button,#results>.empty button{margin:0 12px 12px 0}
 #app-rail button{display:grid;place-items:center}
@@ -226,9 +226,6 @@ body.aptv-yellow:not(.passenger) #browse{padding-right:8px}
 body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
 body:not(.cinema) #video-aside{padding-left:0;padding-right:0}
 body.passenger:not(.cinema) #video-aside{padding-left:0;padding-right:0}
-body:not(.cinema):not(.compact-player):not(.passenger) #video-aside{padding-left:5px}
-body:not(.cinema):not(.compact-player).passenger #video-aside{padding-right:5px}
-body.compact-player:not(.cinema) #video-aside{padding-left:5px}
 @media(max-width:760px){body.aptv-yellow #app-rail{gap:.9px}}
 @media(max-height:390px){body.aptv-yellow #app-rail{gap:.45px}}
 
