@@ -217,6 +217,7 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 /* Reserve a browser-control lane and place BMWTube's rail beneath the host menu. */
 body.icons-near-arrows:not(.aptv-yellow) #app-shell{margin-right:var(--rail-width)}
 body.icons-near-arrows #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:translateX(65%);transition:transform .18s ease}
+body.icons-near-arrows:not(.passenger) #app-rail{padding-top:calc(clamp(52px,20vh,96px) + 20px)}
 body.icons-near-arrows #app-rail button{height:40px;min-height:40px}
 body.passenger.icons-near-arrows #app-rail{transform:none}
 body.cinema #app-rail{display:flex}
