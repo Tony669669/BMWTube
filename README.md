@@ -25,7 +25,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
 - Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi văn bản qua input, kể cả khi thiếu inputType/data; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
 - Thư viện cục bộ có Tiếp tục xem (lưu vị trí và nút bỏ), Xem sau (đồng hồ để thêm/bỏ), Video yêu thích (sao để thêm/bỏ), và Kênh yêu thích (dấu trang để thêm/bỏ). Kênh hiện logo và tên theo hàng ngang; chọn tên để xem video của kênh. Đã xem gần đây và tìm kiếm gần đây vẫn riêng. Dữ liệu chỉ lưu trên thiết bị, không đồng bộ tài khoản.
-- Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được; lối mở video gốc trên YouTube.
+- Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được. Player chính không có nút mở YouTube; đăng nhập YouTube vẫn nằm trong Cài đặt.
 - Trang quyền riêng tư, thao tác bàn phím, nhãn accessibility; đo viewport qua visualViewport và resize.
 
 ## Tìm kiếm: cấu hình một lần trên từng trình duyệt
@@ -41,7 +41,7 @@ Khóa cho client browser không phải bí mật backend; người dùng có th�
 
 Trong Cài đặt → YouTube Premium, nút **Mở m.youtube.com** mở YouTube trong APTV. Chủ ứng dụng đã xác nhận trang mobile nhận đúng tài khoản Premium và phát video được; quay lại BMWTube bằng nút Back của APTV. BMWTube không nhận mật khẩu, không dùng OAuth đăng nhập và không đọc cookie YouTube.
 
-Chưa xác nhận player nhúng BMWTube có nhận cùng phiên Premium hay không. So sánh bằng cùng tài khoản và cùng video; nút **YouTube ↗** mở video gốc tại m.youtube.com nếu cần. Google mô tả quyền lợi Premium trong [trợ giúp Premium](https://support.google.com/youtube/answer/6308116?hl=en).
+Chưa xác nhận player nhúng BMWTube có nhận cùng phiên Premium hay không. Đăng nhập YouTube vẫn có thể mở từ Cài đặt; player chính không hiển thị nút mở video gốc. Google mô tả quyền lợi Premium trong [trợ giúp Premium](https://support.google.com/youtube/answer/6308116?hl=en).
 
 Không có home feed cá nhân hay lịch sử tìm kiếm tài khoản trong bản này. API `relatedToVideoId` đã bị bỏ, nên dùng kết quả cùng truy vấn. Không scraping, proxy video, lấy token/cookie hoặc sửa nội dung youtube.com từ origin BMWTube.
 
