@@ -212,7 +212,7 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 .red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
 @media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
 /* Yellow APTV reserves space for its browser controls and defaults the app rail below ⋯. */
-body.aptv-yellow #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:translateX(65%);transition:transform .18s ease}
+body.aptv-yellow #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:translateX(100%);transition:transform .18s ease}
 body.aptv-yellow:not(.passenger) #app-rail{padding-top:calc(clamp(52px,20vh,96px) + 15px)}
 body.aptv-yellow #app-rail button{height:40px;min-height:40px}
 body.passenger.aptv-yellow #app-rail{transform:none}
