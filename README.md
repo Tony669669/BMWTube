@@ -21,10 +21,10 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Player dùng toàn bộ chiều cao viewport ngay cả trước khi bật chế độ mở rộng. Cài đặt chọn player sát trái (ghế lái) hoặc sát phải (ghế phụ); danh sách video và cột điều hướng đổi bên theo lựa chọn. Hình và chữ của video không bị lật.
 - Play/pause, thanh tua, thời gian, nút CC bật/tắt phụ đề. Không thêm volume, ±10s hay Next.
 - Cột điều hướng luôn hiện với icon nét mảnh kiểu macOS cho Trang chủ, Tìm kiếm, Cài đặt; logo play dùng màu tối trung tính. Tìm kiếm và Cài đặt mở popup. Nút mở rộng ẩn danh sách và cột điều hướng; video 16:9 dùng hết chiều cao viewport. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây trong chế độ mở rộng và hiện lại khi chạm màn hình.
-- Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; khám phá bằng `videos.list(mostPopular)` khi chưa có lịch sử.
+- Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; kết quả hiển thị cả kênh và video. Mỗi lần gửi tìm kiếm hỏi riêng loại kênh và video để giữ bộ lọc video có thể nhúng; không gọi theo từng phím. Khám phá dùng `videos.list(mostPopular)`.
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
 - Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi văn bản qua input, kể cả khi thiếu inputType/data; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
-- Lịch sử video/tìm kiếm cục bộ, xóa trong Cài đặt. Không đồng bộ tài khoản.
+- Thư viện cục bộ có Tiếp tục xem (lưu vị trí và nút bỏ), Xem sau (đồng hồ để thêm/bỏ), Video yêu thích (sao để thêm/bỏ), và Kênh yêu thích (dấu trang để thêm/bỏ). Kênh hiện logo và tên theo hàng ngang; chọn tên để xem video của kênh. Đã xem gần đây và tìm kiếm gần đây vẫn riêng. Dữ liệu chỉ lưu trên thiết bị, không đồng bộ tài khoản.
 - Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được; lối mở video gốc trên YouTube.
 - Trang quyền riêng tư, thao tác bàn phím, nhãn accessibility; đo viewport qua visualViewport và resize.
 
