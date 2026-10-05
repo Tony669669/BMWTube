@@ -135,7 +135,7 @@ dialog footer a{font-size:13px;color:var(--muted)}
 .search-submit{font-size:24px;color:var(--accent)}
 .dialog-hint{margin:10px 2px 0;font-size:12px}
 
-body.home-feed #results,body.search-feed #results{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:20px 16px}
+body.home-feed #results,body.search-feed #results{grid-template-columns:repeat(auto-fill,var(--feed-card-width,154px));justify-content:space-between;gap:20px 16px}
 body.home-feed #results .card img,body.search-feed #results .card img{border-radius:8px}
 body.home-feed #results .card h3,body.search-feed #results .card h3{font-size:14px;line-height:1.35;margin-top:8px}
 body.home-feed #results .card p,body.search-feed #results .card p{font-size:12px}
@@ -148,7 +148,7 @@ body.home-feed #browse>.section-heading{display:none}
   #browse{padding:20px}
   .muted{display:none}
   .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 12px}
-  body.home-feed #results,body.search-feed #results{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:15px 10px}
+  body.home-feed #results,body.search-feed #results{grid-template-columns:repeat(auto-fill,var(--feed-card-width,123.2px));justify-content:space-between;gap:15px 10px}
   .welcome{padding-top:0}
   .welcome-art{display:none}
   .welcome h2{margin-top:25px}
@@ -204,7 +204,7 @@ body.controls-hidden #original{pointer-events:none}
 @media(max-height:390px){#app-rail{gap:3px;padding-top:5px;padding-bottom:5px}#app-rail #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
 /* APTV yellow reserves one full navigation rail at the browser's right edge. */
 body.aptv-yellow #app-shell{margin-right:var(--rail-width)}
-body.aptv-yellow.home-feed #results,body.aptv-yellow.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,70px));gap:16px 8px}
+body.aptv-yellow.home-feed #results,body.aptv-yellow.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,77px));justify-content:space-between;gap:16px 8px}
 body.aptv-yellow #results .card h3{font-size:12px}
 body.aptv-yellow #results .card p{font-size:11px}
 body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr);column-gap:8px}
