@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=home-search-playlist-20261005">
+  <link rel="stylesheet" href="style.css?v=library-inline-playlist-20261005b">
 </head>
 <body>
 <div id="app-shell">
@@ -18,7 +18,6 @@
         <div id="browse-heading-main" class="heading-main"><h1 id="browse-title">Trang chủ</h1><div id="home-modes" class="home-modes" role="group" aria-label="Nguồn trang chủ"><button type="button" data-home-mode="explore" aria-pressed="true">Khám phá</button><button type="button" data-home-mode="favorites" aria-pressed="false">Kênh yêu thích</button></div></div>
         <span id="viewport-label" class="muted">YouTube · Việt Nam</span>
       </div>
-      <div id="recent-search-slot"></div>
       <div id="recent-searches" class="chips" aria-label="Từ khóa đã tìm gần đây" hidden></div>
       <div id="channel-results-section" class="channel-results-section" hidden>
         <h2>Kênh</h2>
@@ -27,12 +26,12 @@
       <nav id="library-tabs" class="library-tabs" aria-label="Các mục trong thư viện" hidden>
         <button type="button" data-library="continue"><span aria-hidden="true">▶</span>Tiếp tục xem</button>
         <button type="button" data-library="watch-later"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Xem sau</button>
-          <button type="button" data-library="favorite-videos"><span aria-hidden="true">☆</span>Video yêu thích</button>
-          <button type="button" data-library="favorite-channels"><span aria-hidden="true">🔖</span>Kênh yêu thích</button>
+          <button type="button" data-library="favorite-channels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg>Kênh yêu thích</button>
           <button type="button" data-library="playlists"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="14" height="16" rx="2"/><path d="M8 21h11a2 2 0 0 0 2-2V7"/><path d="m9 8 5 3-5 3zM8 16h6"/></svg>Playlist</button>
-          <button id="library-settings" type="button" aria-label="Cài đặt" aria-expanded="false" title="Cài đặt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 13.2 5a7.4 7.4 0 0 1 1.8.7l2.1-.6 1.7 3-1.4 1.7a7.6 7.6 0 0 1 0 2l1.4 1.7-1.7 3-2.1-.6a7.4 7.4 0 0 1-1.8.7L12 18.4l-1.2-1.8a7.4 7.4 0 0 1-1.8-.7l-2.1.6-1.7-3 1.4-1.7a7.6 7.6 0 0 1 0-2L5.2 8.1l1.7-3 2.1.6a7.4 7.4 0 0 1 1.8-.7z"/><circle cx="12" cy="11.2" r="2.5"/></svg>Cài đặt</button>
+          <button id="library-settings" data-library="settings" type="button" aria-label="Cài đặt" title="Cài đặt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 13.2 5a7.4 7.4 0 0 1 1.8.7l2.1-.6 1.7 3-1.4 1.7a7.6 7.6 0 0 1 0 2l1.4 1.7-1.7 3-2.1-.6a7.4 7.4 0 0 1-1.8.7L12 18.4l-1.2-1.8a7.4 7.4 0 0 1-1.8-.7l-2.1.6-1.7-3 1.4-1.7a7.6 7.6 0 0 1 0-2L5.2 8.1l1.7-3 2.1.6a7.4 7.4 0 0 1 1.8-.7z"/><circle cx="12" cy="11.2" r="2.5"/></svg>Cài đặt</button>
         </nav>
-      <section id="playlist-library" hidden aria-label="Playlist của tôi"><div class="playlist-heading"><h2>Playlist của tôi</h2><button id="create-playlist" type="button" class="secondary">＋ Tạo playlist</button></div><div id="playlist-list" class="playlist-list"></div><section id="playlist-detail" hidden><div class="playlist-heading"><button id="playlist-back" type="button" class="secondary">← Playlist</button><h2 id="playlist-detail-title"></h2><button id="add-current-to-playlist" type="button" class="secondary">＋ Thêm video đang xem</button></div><div id="playlist-videos" class="playlist-videos"></div></section></section>
+      <section id="inline-settings" class="settings-inline" hidden aria-label="Cài đặt"></section>
+      <section id="playlist-library" hidden aria-label="Playlist của tôi"><div class="playlist-heading"><h2>Playlist của tôi</h2><button id="create-playlist" type="button" class="secondary">＋ Tạo playlist</button></div><div id="playlist-list" class="playlist-list"></div><section id="playlist-detail" hidden><div class="playlist-heading"><button id="playlist-back" type="button" class="secondary">← Playlist</button><h2 id="playlist-detail-title"></h2><button id="play-playlist" type="button" class="primary">▶ Phát tất cả</button><button id="add-current-to-playlist" type="button" class="secondary">＋ Thêm video đang xem</button></div><div id="playlist-videos" class="playlist-videos"></div></section></section>
       <h2 id="video-results-heading" hidden>Video</h2>
       <div id="results" class="grid"></div>
       <div id="welcome" class="welcome">
@@ -90,7 +89,7 @@
 
 <dialog id="search-dialog" aria-label="Tìm kiếm YouTube">
   <form id="search-form" role="search">
-    <div class="dialog-heading"><h2>Tìm kiếm</h2><button id="close-search" type="button" aria-label="Đóng">×</button></div>
+    <div class="dialog-heading search-dialog-heading"><h2>Tìm kiếm</h2><div id="search-history-chips"></div><button id="clear-searches" type="button" class="text-button" hidden>⌫</button><button id="close-search" type="button" aria-label="Đóng">×</button></div>
     <div class="search-field">
       <span class="search-icon" aria-hidden="true">⌕</span>
       <input id="query" type="search" lang="vi" placeholder="Tìm kiếm hoặc dán link YouTube" aria-label="Tìm kiếm hoặc dán link YouTube" autocomplete="off" spellcheck="false" enterkeyhint="search">
@@ -99,11 +98,11 @@
     </div>
     <p class="dialog-status" role="status" hidden></p>
     <p class="dialog-hint">Telex chuyển chữ ngay trong BMWTube khi bàn phím APTV gửi từng ký tự.</p>
-    <section id="search-history-panel" aria-label="Tìm kiếm gần đây"><div class="search-history-heading"><h3>Tìm kiếm gần đây</h3><button id="clear-searches" type="button" class="text-button">Xóa</button></div><div id="search-history-chips"></div><p id="empty-search-history" class="muted" hidden>Chưa có từ khóa nào.</p></section>
+    <p id="empty-search-history" class="muted" hidden>Chưa có từ khóa tìm kiếm gần đây.</p>
   </form>
 </dialog>
 
-<dialog id="playlist-dialog" aria-label="Thêm video vào playlist"><form id="playlist-form"><div class="dialog-heading"><h2>Thêm vào playlist</h2><button id="close-playlist" type="button" aria-label="Đóng">×</button></div><label class="playlist-create-label" for="playlist-name">Tạo playlist mới</label><div class="playlist-create-row"><input id="playlist-name" maxlength="60" required placeholder="Tên playlist"><button type="submit" class="primary">Tạo</button></div><h3>Playlist của tôi</h3><div id="playlist-picker"></div><p id="playlist-empty" class="muted" hidden>Chưa có playlist. Tạo playlist mới ở trên.</p><p class="dialog-status" role="status" hidden></p></form></dialog>
+<dialog id="playlist-dialog" aria-label="Thêm video vào playlist"><form id="playlist-form"><div class="dialog-heading"><h2>Thêm vào playlist</h2><button id="close-playlist" type="button" aria-label="Đóng">×</button></div><label class="playlist-create-label" for="playlist-name">Tạo playlist mới</label><div class="playlist-create-row"><input id="playlist-name" maxlength="60" required placeholder="Tên playlist"><button id="playlist-telex" type="button" aria-pressed="false" title="Bật gõ tiếng Việt Telex">Telex</button><button type="submit" class="primary">Tạo</button></div><h3>Playlist của tôi</h3><div id="playlist-picker"></div><p id="playlist-empty" class="muted" hidden>Chưa có playlist. Tạo playlist mới ở trên.</p><p class="dialog-status" role="status" hidden></p></form></dialog>
 
 <dialog id="settings">
   <form id="settings-form">
@@ -151,6 +150,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=home-search-playlist-card-actions-20261005"></script>
+<script type="module" src="app.js?v=library-inline-playlist-20261005b"></script>
 </body>
 </html>
