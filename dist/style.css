@@ -204,6 +204,7 @@ body.controls-hidden #original{pointer-events:none}
 @media(max-height:390px){#app-rail{gap:3px;padding-top:5px;padding-bottom:5px}#app-rail #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
 /* APTV yellow reserves one full navigation rail at the browser's right edge. */
 body.aptv-yellow #app-shell{margin-right:var(--rail-width);border-right:1px solid var(--line)}
+body.aptv-yellow:not(.passenger) #app-shell{grid-template-columns:minmax(0,1fr) 0px}
 body.aptv-yellow.home-feed #results,body.aptv-yellow.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,77px));justify-content:space-between;gap:16px 8px}
 body.aptv-yellow #results .card h3{font-size:12px}
 body.aptv-yellow #results .card p{font-size:11px}
@@ -212,7 +213,8 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 .red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
 @media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
 /* Yellow APTV reserves space for its browser controls and defaults the app rail below ⋯. */
-body.aptv-yellow #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:translateX(100%);transition:transform .18s ease}
+body.aptv-yellow #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:none}
+body.aptv-yellow:not(.passenger) #app-rail{position:fixed;right:0;width:var(--rail-width)}
 body.aptv-yellow:not(.passenger) #app-rail{padding-top:calc(clamp(52px,20vh,96px) + 15px)}
 body.aptv-yellow #app-rail button{height:40px;min-height:40px}
 body.passenger.aptv-yellow #app-rail{transform:none}
