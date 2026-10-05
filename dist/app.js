@@ -13,6 +13,8 @@ let favoriteChannels=storage.get('favoriteChannels',[]);
 if(!Array.isArray(favoriteChannels))favoriteChannels=[];
 favoriteChannels=favoriteChannels.filter(c=>c&&typeof c.id==='string'&&/^UC[\w-]{22}$/.test(c.id)&&typeof c.title==='string').slice(0,100);
 const uploadsCache=new Map();
+let appProfile=storage.get('appProfile','red')==='yellow'?'yellow':'red';
+document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
 let appendAllowed=true,lastInput='',skipTelex=false;
 const pendingAPI=new Map();
 let captionsWanted=null,captionsTimer=null;
@@ -144,7 +146,7 @@ $('play').onclick=()=>{if(!playerReady)return;player.getPlayerState()===1?player
 $('seek').addEventListener('pointerdown',()=>{seeking=true;showPlayerControls();});$('seek').addEventListener('input',()=>{seeking=true;showPlayerControls();$('elapsed').textContent=timeLabel(Number($('seek').value)/1000*(player?.getDuration?.()||0));});$('seek').addEventListener('change',()=>{if(playerReady)player.seekTo(Number($('seek').value)/1000*player.getDuration(),true);seeking=false;showPlayerControls();});$('seek').addEventListener('pointercancel',()=>{seeking=false;showPlayerControls();});
 window.addEventListener('pointerup',()=>{if(seeking){seeking=false;showPlayerControls();}});
 setInterval(()=>{if(!playerReady||$('watch').hidden||document.hidden)return;const duration=player.getDuration()||0;const elapsed=player.getCurrentTime()||0;$('duration').textContent=timeLabel(duration);$('seek').disabled=!duration;if(!seeking){$('elapsed').textContent=timeLabel(elapsed);$('seek').value=duration?String(elapsed/duration*1000):'0';}},500);
-function resize(){const height=window.visualViewport?.height||innerHeight;const width=window.visualViewport?.width||document.documentElement.clientWidth;const railWidth=cinema?0:$('app-rail').getBoundingClientRect().width;const appWidth=Math.max(0,width-railWidth);document.body.classList.toggle('compact-player',appWidth<height*16/9+240);document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',playerSize(appWidth,height,true)+'px');document.documentElement.style.setProperty('--cinema-width',playerSize(width,height,true)+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
+function resize(){const height=window.visualViewport?.height||innerHeight;const width=window.visualViewport?.width||document.documentElement.clientWidth;const baseRail=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width'))||72;const inset=appProfile==='yellow'?baseRail:0;const railWidth=cinema?0:baseRail;const appWidth=Math.max(0,width-railWidth-inset);const small=width<=760;const redGrid=Math.max(0,width-baseRail-(small?40:56));const gap=small?10:16;const cols=Math.max(1,Math.floor((redGrid+gap)/((small?112:140)+gap)));document.documentElement.style.setProperty('--yellow-card-width',Math.max(44,(redGrid-(cols-1)*gap)/cols/2)+'px');document.body.classList.toggle('compact-player',appWidth<height*16/9+240);const redAppWidth=Math.max(0,width-baseRail);const redQueueWidth=(redAppWidth<height*16/9+240?redAppWidth:redAppWidth-playerSize(redAppWidth,height,true))-32;document.documentElement.style.setProperty('--yellow-queue-width',Math.max(76,redQueueWidth*(small?.24:.21))*.7+'px');document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',playerSize(appWidth,height,true)+'px');document.documentElement.style.setProperty('--cinema-width',playerSize(Math.max(0,width-inset),height,true)+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
 function showPlayerControls(){
   clearTimeout(controlsTimer);
   if($('watch').hidden)return;
@@ -172,8 +174,19 @@ $('fullscreen').onclick=()=>setCinema(!cinema);
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
 function openSearch(){returnFocus=document.activeElement;const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');$('query').focus();}
 function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');returnFocus?.focus();}
-function openSettings(){returnFocus=document.activeElement;$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
+function openSettings(){returnFocus=document.activeElement;$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');returnFocus?.focus();}
+function selectAppProfile(event){
+  if(!$('settings').open)return;
+  appProfile=event.target.value==='yellow'?'yellow':'red';
+  storage.set('appProfile',appProfile);
+  document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
+  resize();closeSettings();
+}
+document.querySelectorAll('input[name="app-profile"]').forEach(input=>{
+  input.addEventListener('click',selectAppProfile);
+  input.addEventListener('change',selectAppProfile);
+});
 // Choosing a seat is an immediate preference; other settings retain their Save action.
 function selectPlayerSide(event){
   if(!$('settings').open)return;

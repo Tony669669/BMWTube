@@ -198,3 +198,12 @@ body.controls-hidden #original{pointer-events:none}
 .favorite-card>button:first-child{flex:1;min-width:0;overflow-wrap:anywhere;text-align:left}
 .favorite-card>button:last-child{flex:0 0 44px;color:#ffd66b}
 @media(max-height:390px){#app-rail{gap:3px;padding-top:5px;padding-bottom:5px}#app-rail #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
+/* APTV yellow reserves one full navigation rail at the browser's right edge. */
+body.aptv-yellow #app-shell{margin-right:var(--rail-width)}
+body.aptv-yellow.home-feed #results,body.aptv-yellow.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,70px));gap:16px 8px}
+body.aptv-yellow #results .card h3{font-size:12px}
+body.aptv-yellow #results .card p{font-size:11px}
+body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr);column-gap:8px}
+.profile-dot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
+.red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
+@media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
