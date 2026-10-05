@@ -409,6 +409,10 @@ body.favorite-videos-page #viewport-label{display:none}
 .favorite-channel-row .channel-save{flex-basis:36px;width:36px;height:36px;min-width:36px;min-height:36px;padding:5px}
 @media(max-width:760px){#results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){#results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
+/* In APTV yellow, the compact home/search grid has stronger defaults. Override them on library channels. */
+body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;gap:8px}
+@media(max-width:760px){body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
 
 @media(prefers-reduced-motion:no-preference){
   .video-save-actions button,#play,#fullscreen,#repeat-video{transition:transform .12s ease,background-color .12s ease,color .12s ease}
