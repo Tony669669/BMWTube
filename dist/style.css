@@ -294,8 +294,8 @@ body.keyword-search #home-modes{display:none}
 .channel-save[aria-pressed="true"]{color:#ffd66b}
 .favorite-channel-row{grid-column:1/-1;max-width:720px;min-height:72px;margin-bottom:8px}
 .favorite-channel-open{overflow:hidden}
-.library-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:5px;border:1px solid var(--line);border-radius:12px;background:#15171a}
-.library-tabs button{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1 1 150px;min-width:130px;min-height:42px;padding:6px 12px;border-radius:9px;color:#c4c8ce;font-size:14px}
+.library-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0 0 20px;padding:5px;border:1px solid var(--line);border-radius:12px;background:#15171a}
+.library-tabs button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0;min-height:42px;padding:5px 6px;border-radius:9px;color:#c4c8ce;font-size:clamp(10px,1vw,14px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .library-tabs button span{font-size:17px;line-height:1}
 .library-tabs button svg{display:block;width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .library-tabs button.active{background:#292d32;color:var(--text);box-shadow:inset 0 0 0 1px #454a51}
@@ -363,13 +363,13 @@ body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:
 #settings footer a{font-size:8px}
 
 /* Keep the rail divider fixed while nudging right-side navigation controls inward. */
-body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-5px}
+body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-10px}
 
 #stage{left:3px}
 
 @media(max-width:720px){.channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.channel-grid{grid-template-columns:minmax(0,1fr)}}
-.library-tabs button#library-settings{flex:0 0 auto}
+.library-tabs button#library-settings{min-width:0}
 .settings-inline{margin:0 0 20px;padding:18px;border:1px solid var(--line);border-radius:12px;background:#15171a}
 .settings-inline form{max-width:760px}
 .settings-inline .dialog-heading button{display:none}
@@ -392,3 +392,5 @@ body.recent-page #viewport-label{display:none}
 #playlist-name{flex:1;min-width:0}
 #playlist-telex{flex:0 0 auto;min-width:60px;min-height:42px;padding:6px 9px;color:var(--muted);font-size:13px}
 #playlist-telex[aria-pressed=true]{color:var(--text)}
+
+body.favorite-videos-page #viewport-label{display:none}
