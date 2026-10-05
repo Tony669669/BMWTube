@@ -406,3 +406,8 @@ body.favorite-videos-page #viewport-label{display:none}
 .favorite-channel-row .channel-save{flex-basis:36px;width:36px;height:36px;min-width:36px;min-height:36px;padding:5px}
 @media(max-width:760px){#results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){#results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Shift the right rail divider left without moving its navigation icons. */
+body:not(.passenger) #app-rail{border-left:0}
+body:not(.passenger) #app-rail::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) + 5px);width:1px;background:var(--line);pointer-events:none;z-index:9}
+body.aptv-yellow:not(.passenger) #app-shell{border-right:0}
