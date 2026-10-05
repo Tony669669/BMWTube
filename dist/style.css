@@ -226,6 +226,8 @@ body.aptv-yellow:not(.passenger) #browse{padding-right:8px}
 body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
 body:not(.cinema) #video-aside{padding-left:0;padding-right:0}
 body.passenger:not(.cinema) #video-aside{padding-left:0;padding-right:0}
+body:not(.cinema) #video-aside{padding-right:5px}
+body.passenger:not(.cinema) #video-aside{padding-right:5px}
 @media(max-width:760px){body.aptv-yellow #app-rail{gap:.9px}}
 @media(max-height:390px){body.aptv-yellow #app-rail{gap:.45px}}
 
