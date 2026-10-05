@@ -374,7 +374,7 @@ body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button
 .settings-inline form{max-width:760px}
 .settings-inline .dialog-heading button{display:none}
 .settings-inline section{border-bottom:1px solid var(--line);padding:12px 0 18px}
-.settings-inline form>section:first-of-type{padding-top:6px}
+.settings-inline form>section:first-of-type{padding-top:7px}
 .settings-inline p,.settings-inline small{font-size:14px;color:var(--muted)}
 .settings-inline h3{font-size:16px;margin:8px 0}
 .settings-inline label[for="api-key"]{display:block;margin:12px 0 8px;font-size:14px}
