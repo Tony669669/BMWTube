@@ -105,9 +105,16 @@ dialog h3{font-size:16px;margin:8px 0}
 dialog label[for="api-key"]{display:block;margin:12px 0 8px;font-size:14px}
 dialog input[type="password"],#query{width:100%;min-width:0;padding:14px;border:1px solid #4b4f55;border-radius:8px;background:#101113;color:white;font-size:16px}
 dialog small{display:block;margin-top:8px}
-.choice-row{display:flex;gap:12px;flex-wrap:wrap}
-.choice-row label{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:9px;cursor:pointer}
-.choice-row input{accent-color:var(--accent);width:18px;height:18px}
+.choice-row{display:flex;gap:4px;padding:4px;border:1px solid #2b3038;border-radius:13px;background:#10161e}
+.choice-row label{position:relative;display:block;flex:1;min-width:0;margin:0;cursor:pointer}
+.choice-row input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.choice-row label>span{display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:8px;border:1px solid transparent;border-radius:9px;color:#e5eaf1;font-size:14px;font-weight:600;transition:background .15s,border-color .15s}
+.choice-row svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.choice-row i{font-style:normal;visibility:hidden}
+.choice-row input:checked+span{background:#28547e;border-color:#609bd0;color:#fff}
+.choice-row input:checked+span i{visibility:visible}
+.choice-row input:focus-visible+span{outline:2px solid #a4d2ff;outline-offset:2px}
+@media(max-width:380px){.choice-row label>span{gap:5px;font-size:12px}.choice-row svg{width:16px;flex-basis:16px}}
 dialog details{padding-top:18px}
 dialog summary{cursor:pointer;min-height:44px;padding-top:12px}
 dialog footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}

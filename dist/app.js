@@ -170,6 +170,18 @@ function openSearch(){returnFocus=document.activeElement;const dialog=$('search-
 function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');returnFocus?.focus();}
 function openSettings(){returnFocus=document.activeElement;$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');returnFocus?.focus();}
+// Choosing a seat is an immediate preference; other settings retain their Save action.
+function selectPlayerSide(event){
+  if(!$('settings').open)return;
+  playerSide=event.target.value==='right'?'right':'left';
+  storage.set('playerSide',playerSide);
+  document.body.classList.toggle('passenger',playerSide==='right');
+  resize();closeSettings();
+}
+document.querySelectorAll('input[name="player-side"]').forEach(input=>{
+  input.addEventListener('click',selectPlayerSide);
+  input.addEventListener('change',selectPlayerSide);
+});
 $('home').onclick=home;$('open-search').onclick=openSearch;$('account').onclick=openSettings;$('close-search').onclick=closeSearch;$('search-dialog').addEventListener('click',event=>{if(event.target===$('search-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeSearch();}});$('close-settings').onclick=closeSettings;$('premium-link').onclick=()=>{savePlaybackURL();try{sessionStorage.setItem('bmwtube.loginPending','1');}catch{}closeSettings();};$('settings-form').onsubmit=event=>{event.preventDefault();const nextKey=$('api-key').value.trim();const keyChanged=nextKey!==key;key=nextKey;storage.set('key',key);playerSide=$('settings-form').elements['player-side'].value==='right'?'right':'left';storage.set('playerSide',playerSide);document.body.classList.toggle('passenger',playerSide==='right');resize();closeSettings();notice('Đã lưu cài đặt trên trình duyệt này.');if(keyChanged&&$('watch').hidden)query&&key?search(query):home();};$('clear-history').onclick=()=>{recent=[];history=[];storage.set('recent',recent);storage.set('searches',history);renderHistory();if($('watch').hidden){if(libraryMode==='recent')showRecent();else if(!libraryMode)home();}notice('Đã xóa lịch sử BMWTube trên thiết bị.');};
 
 function emptyLibrary(message){const p=document.createElement('p');p.className='empty';p.textContent=message;$('results').replaceChildren(p);}
