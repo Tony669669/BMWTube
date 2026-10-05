@@ -394,3 +394,15 @@ body.recent-page #viewport-label{display:none}
 #playlist-telex[aria-pressed=true]{color:var(--text)}
 
 body.favorite-videos-page #viewport-label{display:none}
+
+/* Library content begins directly after its five section buttons. */
+.settings-inline .dialog-heading{display:none}
+#playlist-library>.playlist-heading{justify-content:flex-end;margin-top:0}
+#results.favorite-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.favorite-channel-row{grid-column:auto;max-width:none;min-height:38px;margin:0;padding:3px;gap:5px}
+.favorite-channel-row .favorite-channel-open{min-height:30px;gap:6px}
+.favorite-channel-row .channel-avatar{flex:0 0 24px;width:24px;height:24px}
+.favorite-channel-row .channel-title{font-size:12px}
+.favorite-channel-row .channel-save{flex-basis:28px;width:28px;height:28px;min-width:28px;min-height:28px;padding:4px}
+@media(max-width:760px){#results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){#results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
