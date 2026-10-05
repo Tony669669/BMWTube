@@ -421,7 +421,7 @@ async function toggleCurrentChannelFavorite(){
   }catch(error){notice(error.message);}
 }
 function updatePlayerButtons(){
-  const videoSaved=Boolean(current&&favoriteVideos.some(item=>item.id===current.id));$('favorite-video').textContent=videoSaved?'★':'☆';$('favorite-video').setAttribute('aria-pressed',String(videoSaved));$('favorite-video').title=videoSaved?'Bỏ video yêu thích':'Lưu video yêu thích';$('favorite-video').setAttribute('aria-label',$('favorite-video').title);
+  const videoSaved=Boolean(current&&favoriteVideos.some(item=>item.id===current.id));$('favorite-video').setAttribute('aria-pressed',String(videoSaved));$('favorite-video').title=videoSaved?'Bỏ video yêu thích':'Lưu video yêu thích';$('favorite-video').setAttribute('aria-label',$('favorite-video').title);
   const laterSaved=Boolean(current&&watchLater.some(item=>item.id===current.id));$('watch-later-video').setAttribute('aria-pressed',String(laterSaved));$('watch-later-video').title=laterSaved?'Bỏ khỏi Xem sau':'Thêm vào Xem sau';$('watch-later-video').setAttribute('aria-label',$('watch-later-video').title);
   const channelSaved=Boolean(current?.channelId&&favoriteChannels.some(channel=>channel.id===current.channelId));$('favorite-channel').setAttribute('aria-pressed',String(channelSaved));$('favorite-channel').title=channelSaved?'Bỏ kênh yêu thích':'Lưu kênh yêu thích';$('favorite-channel').setAttribute('aria-label',$('favorite-channel').title);
 }
