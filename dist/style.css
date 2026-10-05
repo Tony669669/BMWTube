@@ -213,9 +213,11 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 .toggle-row input{width:22px;height:22px;flex:0 0 22px;accent-color:#438aca}
 /* Reserve a browser-control lane and place BMWTube's rail beneath the host menu. */
 body.icons-near-arrows:not(.aptv-yellow) #app-shell{margin-right:var(--rail-width)}
-body.icons-near-arrows #app-rail{padding-top:clamp(52px,20vh,96px);transform:translateX(15%);transition:transform .18s ease}
+body.icons-near-arrows #app-rail{gap:5px;padding-top:clamp(52px,20vh,96px);transform:translateX(65%);transition:transform .18s ease}
 body.passenger.icons-near-arrows #app-rail{transform:none}
 body.cinema #app-rail{display:flex}
+@media(max-width:760px){body.icons-near-arrows #app-rail{gap:3px}}
+@media(max-height:390px){body.icons-near-arrows #app-rail{gap:1.5px}}
 
 /* Settings panel at roughly 60% of its previous footprint on the wide CarPlay viewport. */
 #settings{width:min(372px,92vw);padding:14px;max-height:54vh;max-height:54dvh}
