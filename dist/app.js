@@ -2,14 +2,12 @@ import {telex,videoId,timeLabel,playerSize} from './core.js?v=review-fixes';
 const $=id=>document.getElementById(id);
 const storage={get(key,fallback){try{return JSON.parse(localStorage.getItem('bmwtube.'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('bmwtube.'+key,JSON.stringify(value));}catch{notice('Trình duyệt không cho lưu dữ liệu. Cài đặt chỉ dùng trong phiên này.');}}};
 let key=storage.get('key',''),recent=storage.get('recent',[]),history=storage.get('searches',[]),telexOn=storage.get('telex',false),playerSide=storage.get('playerSide','left');
-let iconsNearArrows=storage.get('iconsNearArrows',false)===true;
 if(typeof key!=='string')key='';
 telexOn=telexOn===true;
 if(!['left','right'].includes(playerSide))playerSide='left';
 if(!Array.isArray(recent))recent=[];recent=recent.filter(v=>v&&videoId(v.id)&&typeof v.title==='string').slice(0,20);
 if(!Array.isArray(history))history=[];history=history.filter(v=>typeof v==='string').slice(0,8);
 if(playerSide==='right')document.body.classList.add('passenger');
-document.body.classList.toggle('icons-near-arrows',iconsNearArrows);
 let libraryMode='',activeChannel=null,favoriteBusy=false;
 let favoriteChannels=storage.get('favoriteChannels',[]);
 if(!Array.isArray(favoriteChannels))favoriteChannels=[];
@@ -156,7 +154,7 @@ $('play').onclick=()=>{if(!playerReady)return;player.getPlayerState()===1?player
 $('seek').addEventListener('pointerdown',()=>{seeking=true;showPlayerControls();});$('seek').addEventListener('input',()=>{seeking=true;showPlayerControls();$('elapsed').textContent=timeLabel(Number($('seek').value)/1000*(player?.getDuration?.()||0));});$('seek').addEventListener('change',()=>{if(playerReady)player.seekTo(Number($('seek').value)/1000*player.getDuration(),true);seeking=false;showPlayerControls();});$('seek').addEventListener('pointercancel',()=>{seeking=false;showPlayerControls();});
 window.addEventListener('pointerup',()=>{if(seeking){seeking=false;showPlayerControls();}});
 setInterval(()=>{if(!playerReady||$('watch').hidden||document.hidden)return;const duration=player.getDuration()||0;const elapsed=player.getCurrentTime()||0;$('duration').textContent=timeLabel(duration);$('seek').disabled=!duration;if(!seeking){$('elapsed').textContent=timeLabel(elapsed);$('seek').value=duration?String(elapsed/duration*1000):'0';}},500);
-function resize(){const height=window.visualViewport?.height||innerHeight;const width=window.visualViewport?.width||document.documentElement.clientWidth;const baseRail=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width'))||72;const inset=appProfile==='yellow'||iconsNearArrows?baseRail:0;const railWidth=baseRail;const appWidth=Math.max(0,width-railWidth-inset);const small=width<=760;const redGrid=Math.max(0,width-baseRail-inset-(small?40:56));const gap=small?10:16;const cols=Math.max(1,Math.floor((redGrid+gap)/((small?112:140)+gap)));const baseCardWidth=(redGrid-(cols-1)*gap)/cols;document.documentElement.style.setProperty('--feed-card-width',Math.min(redGrid,baseCardWidth*1.1)+'px');document.documentElement.style.setProperty('--yellow-card-width',Math.max(44,baseCardWidth*.55)+'px');const yellowLandscape=appProfile==='yellow'&&width>height&&appWidth>=480;const sideQueue=yellowLandscape?Math.min(240,Math.max(180,appWidth*.25)):0;const stageWidth=yellowLandscape&&!cinema?Math.min(height*16/9,appWidth-sideQueue):playerSize(appWidth,height,true);document.body.classList.toggle('compact-player',!yellowLandscape&&appWidth<height*16/9+240);const redAppWidth=Math.max(0,width-baseRail-inset);const redQueueWidth=(redAppWidth<height*16/9+240?redAppWidth:redAppWidth-playerSize(redAppWidth,height,true))-32;document.documentElement.style.setProperty('--yellow-queue-width',Math.max(76,redQueueWidth*(small?.24:.21))*.7+'px');document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',stageWidth+'px');document.documentElement.style.setProperty('--cinema-width',appWidth+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
+function resize(){const height=window.visualViewport?.height||innerHeight;const width=window.visualViewport?.width||document.documentElement.clientWidth;const baseRail=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width'))||72;const inset=appProfile==='yellow'?baseRail:0;const railWidth=baseRail;const appWidth=Math.max(0,width-railWidth-inset);const small=width<=760;const redGrid=Math.max(0,width-baseRail-inset-(small?40:56));const gap=small?10:16;const cols=Math.max(1,Math.floor((redGrid+gap)/((small?112:140)+gap)));const baseCardWidth=(redGrid-(cols-1)*gap)/cols;document.documentElement.style.setProperty('--feed-card-width',Math.min(redGrid,baseCardWidth*1.1)+'px');document.documentElement.style.setProperty('--yellow-card-width',Math.max(44,baseCardWidth*.55)+'px');const yellowLandscape=appProfile==='yellow'&&width>height&&appWidth>=480;const sideQueue=yellowLandscape?Math.min(240,Math.max(180,appWidth*.25)):0;const stageWidth=yellowLandscape&&!cinema?Math.min(height*16/9,appWidth-sideQueue):playerSize(appWidth,height,true);document.body.classList.toggle('compact-player',!yellowLandscape&&appWidth<height*16/9+240);const redAppWidth=Math.max(0,width-baseRail-inset);const redQueueWidth=(redAppWidth<height*16/9+240?redAppWidth:redAppWidth-playerSize(redAppWidth,height,true))-32;document.documentElement.style.setProperty('--yellow-queue-width',Math.max(76,redQueueWidth*(small?.24:.21))*.7+'px');document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',stageWidth+'px');document.documentElement.style.setProperty('--cinema-width',appWidth+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
 function showPlayerControls(){
   clearTimeout(controlsTimer);
   if($('watch').hidden)return;
@@ -184,7 +182,7 @@ $('fullscreen').onclick=()=>setCinema(!cinema);
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
 function openSearch(){returnFocus=document.activeElement;enterRailDialog('open-search');const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');$('query').focus();}
 function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
-function openSettings(){returnFocus=document.activeElement;enterRailDialog('account');$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;$('icons-near-arrows').checked=iconsNearArrows;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
+function openSettings(){returnFocus=document.activeElement;enterRailDialog('account');$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
 $('search-dialog').addEventListener('cancel',leaveRailDialog);
 $('settings').addEventListener('cancel',leaveRailDialog);
@@ -198,13 +196,6 @@ function selectAppProfile(event){
 document.querySelectorAll('input[name="app-profile"]').forEach(input=>{
   input.addEventListener('click',selectAppProfile);
   input.addEventListener('change',selectAppProfile);
-});
-// Keep the BMWTube rail clear of APTV's own menu and arrow controls.
-$('icons-near-arrows').addEventListener('change',event=>{
-  iconsNearArrows=event.target.checked;
-  storage.set('iconsNearArrows',iconsNearArrows);
-  document.body.classList.toggle('icons-near-arrows',iconsNearArrows);
-  resize();
 });
 // Choosing a seat is an immediate preference; other settings retain their Save action.
 function selectPlayerSide(event){
