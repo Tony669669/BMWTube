@@ -191,7 +191,7 @@ body.controls-hidden #controls-wake{display:block;position:absolute;inset:0;z-in
 body.controls-hidden #video-info{opacity:0;visibility:hidden;pointer-events:none}
 body.controls-hidden #original{pointer-events:none}
 /* Local library shortcuts fit the short CarPlay viewport and remain scrollable. */
-#app-rail{overflow-y:auto;overscroll-behavior:contain}
+#app-rail{overflow:hidden;overscroll-behavior:contain}
 #favorite-channel{pointer-events:auto;flex:0 0 auto;font-size:25px;min-width:44px;min-height:44px}
 #favorite-channel[aria-pressed="true"]{color:#ffd66b}
 .favorite-card{display:flex;gap:8px;min-width:0;align-items:stretch}
