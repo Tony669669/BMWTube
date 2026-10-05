@@ -363,7 +363,7 @@ body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:
 #settings footer a{font-size:8px}
 
 /* Keep the rail divider fixed while nudging right-side navigation controls inward. */
-body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-5px}
+body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-10px}
 
 #stage{left:3px}
 
