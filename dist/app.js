@@ -320,7 +320,7 @@ function showLibrary(section=librarySection,activeRail=null){
   else if(librarySection==='watch-later'){items=[...watchLater];renderCards($('results'),items,{removeFrom:'watch-later'});if(!items.length)emptyLibrary('Bấm biểu tượng đồng hồ trên video để thêm vào Xem sau.');}
   else if(librarySection==='playlists')renderPlaylists();else showFavoriteChannels();
 }
-function openLibrary(){showLibrary(librarySection,'open-library');}
+function openLibrary(){showLibrary('favorite-channels','open-library');}
 function openFavoriteVideos(){libraryView('favorite-videos','Video yêu thích','open-favorite-videos');items=[...favoriteVideos];renderCards($('results'),items,{removeFrom:'favorite'});if(!items.length)emptyLibrary('Bấm ☆ trên video để lưu video yêu thích.');}
 document.querySelectorAll('#library-tabs [data-library]').forEach(button=>button.addEventListener('click',()=>showLibrary(button.dataset.library)));
 function savePlaylists(){storage.set('playlists',playlists);}
