@@ -29,7 +29,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 #app-rail button{width:48px;height:48px;min-width:48px;min-height:48px;flex:0 0 auto;color:#bfc3c9;font-size:25px;border-radius:12px}
 #app-rail button svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #app-rail button:hover{background:#24272c;color:var(--text)}
-#app-rail #home{margin-top:10px}
+#app-rail #home{margin-top:0}
 body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr)}
 body.passenger #main{grid-column:2}
 body.passenger #app-rail{grid-column:1;grid-row:1;border-left:0;border-right:1px solid var(--line)}
