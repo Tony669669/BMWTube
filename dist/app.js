@@ -47,11 +47,18 @@ $('query').addEventListener('keydown',event=>{if(event.key==='Enter'&&(composing
 function decode(value){const text=document.createElement('textarea');text.innerHTML=value||'';return text.value;}
 function card(v){const button=document.createElement('button');button.className='card';const img=document.createElement('img');img.src=`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`;img.loading='lazy';img.alt='';const title=document.createElement('h3');title.textContent=v.title;const channel=document.createElement('p');channel.textContent=v.channel||'YouTube';button.append(img,title,channel);button.onclick=()=>watch(v);return button;}
 function renderCards(target,list){target.replaceChildren(...list.map(card));}
-function renderHistory(){const container=$('recent-searches');container.replaceChildren();history.forEach(term=>{const b=document.createElement('button');b.textContent=term;b.onclick=()=>{$('query').value=term;rawInput=lastInput=term;submit(term);};container.append(b);});}
+function updateKeywordChipsClass(){document.body.classList.toggle('keyword-has-chips',document.body.classList.contains('keyword-search')&&$('recent-searches').childElementCount>0);}
+function renderHistory(){const container=$('recent-searches');container.replaceChildren();history.forEach(term=>{const b=document.createElement('button');b.textContent=term;b.onclick=()=>{$('query').value=term;rawInput=lastInput=term;submit(term);};container.append(b);});updateKeywordChipsClass();}
+function placeRecentSearches(nextToHeading){(nextToHeading?$('browse-heading-main'):$('recent-search-slot')).append($('recent-searches'));updateKeywordChipsClass();}
+let selectedRailId=null,railModalId=null,railRestoreId=null;
+function setRailActive(id){selectedRailId=id;document.querySelectorAll('#app-rail button').forEach(button=>{if(button.id===id)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});}
+function enterRailDialog(id){railRestoreId=selectedRailId;railModalId=id;setRailActive(null);$(id).setAttribute('aria-expanded','true');}
+function leaveRailDialog(){if(railModalId)$(railModalId).setAttribute('aria-expanded','false');railModalId=null;setRailActive(railRestoreId);railRestoreId=null;}
 function browsing(){cinema=false;clearTimeout(controlsTimer);document.body.classList.remove('cinema','controls-hidden');if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});$('watch').hidden=true;$('browse').hidden=false;if(playerReady)player.pauseVideo();$('fullscreen').setAttribute('aria-label','Mở rộng video');resize();}
 function home(){
   libraryMode='';activeChannel=null;
-  requestSerial++;document.body.classList.add('home-feed');document.body.classList.remove('search-feed');browsing();query='';nextPage='';items=[];
+  setRailActive('home');
+  requestSerial++;document.body.classList.add('home-feed');document.body.classList.remove('search-feed','keyword-search');placeRecentSearches(false);browsing();query='';nextPage='';items=[];
   $('query').value='';rawInput=lastInput='';$('load-more').hidden=true;
   $('browse-title').textContent='Khám phá trên YouTube';
   renderCards($('results'),[]);renderHistory();$('welcome').hidden=true;
@@ -94,7 +101,8 @@ async function popular(append=false){
 }
 async function search(term,append=false){
   libraryMode='';activeChannel=null;
-  document.body.classList.remove('home-feed');document.body.classList.add('search-feed');
+  setRailActive('open-search');
+  document.body.classList.remove('home-feed');document.body.classList.add('search-feed','keyword-search');placeRecentSearches(true);
   const serial=++requestSerial;browsing();$('welcome').hidden=true;$('browse-title').textContent='Đang tìm…';$('load-more').disabled=true;
   if(!append){items=[];renderCards($('results'),[]);nextPage='';}
   try{const data=await api('search',{part:'snippet',type:'video',q:term,maxResults:16,videoEmbeddable:'true',videoSyndicated:'true',relevanceLanguage:'vi',pageToken:append?nextPage:''});if(serial!==requestSerial)return;const seen=new Set(items.map(v=>v.id));items=[...items,...mapped(data).filter(v=>!seen.has(v.id))];nextPage=data.nextPageToken||'';renderCards($('results'),items);$('browse-title').textContent=items.length?term:'Không tìm thấy video';$('load-more').hidden=!nextPage;history=[term,...history.filter(q=>q!==term)].slice(0,8);storage.set('searches',history);renderHistory();}
@@ -174,10 +182,10 @@ $('stage').addEventListener('pointermove',()=>{if(!document.body.classList.conta
 document.addEventListener('keydown',event=>{if(!$('watch').hidden){showPlayerControls();if(cinema&&event.key==='Escape')setCinema(false);}});
 $('fullscreen').onclick=()=>setCinema(!cinema);
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
-function openSearch(){returnFocus=document.activeElement;const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');$('query').focus();}
-function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');returnFocus?.focus();}
-function openSettings(){returnFocus=document.activeElement;$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;$('icons-near-arrows').checked=iconsNearArrows;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
-function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');returnFocus?.focus();}
+function openSearch(){returnFocus=document.activeElement;enterRailDialog('open-search');const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');$('query').focus();}
+function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
+function openSettings(){returnFocus=document.activeElement;enterRailDialog('account');$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;$('icons-near-arrows').checked=iconsNearArrows;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
+function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
 function selectAppProfile(event){
   if(!$('settings').open)return;
   appProfile=event.target.value==='yellow'?'yellow':'red';
@@ -212,8 +220,9 @@ $('home').onclick=home;$('open-search').onclick=openSearch;$('account').onclick=
 
 function emptyLibrary(message){const p=document.createElement('p');p.className='empty';p.textContent=message;$('results').replaceChildren(p);}
 function libraryView(mode,title){
+  setRailActive(mode==='recent'?'open-recent':mode==='favorites'||mode==='channel'?'open-favorites':null);
   requestSerial++;libraryMode=mode;query='';nextPage='';items=[];browsing();
-  document.body.classList.remove('home-feed');document.body.classList.add('search-feed');
+  document.body.classList.remove('home-feed','keyword-search');document.body.classList.add('search-feed');placeRecentSearches(false);
   $('browse-title').textContent=title;$('welcome').hidden=true;$('recent-searches').replaceChildren();
   $('load-more').hidden=true;$('load-more').disabled=false;$('results').replaceChildren();
 }

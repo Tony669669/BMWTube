@@ -29,7 +29,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .rail-logo{display:block;width:100%;height:100%}
 #app-rail button{width:48px;height:48px;min-width:48px;min-height:48px;flex:0 0 auto;color:#bfc3c9;font-size:25px;border-radius:12px}
 #app-rail button svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#app-rail button:hover{background:#24272c;color:var(--text)}
+#app-rail button{position:relative}
+#app-rail button:hover{background:transparent;color:var(--text)}
+#app-rail button[aria-current="page"],#app-rail button[aria-expanded="true"],#app-rail button:focus-visible{background:transparent;color:var(--text);outline:none;box-shadow:none}
+#app-rail button[aria-current="page"]::after,#app-rail button[aria-expanded="true"]::after,#app-rail button:focus-visible::after{content:"";position:absolute;left:2px;top:50%;width:2px;height:16px;border-radius:2px;background:var(--accent);transform:translateY(-50%)}
 #app-rail #home{margin-top:0}
 body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr)}
 body.passenger #main{grid-column:2}
@@ -214,11 +217,27 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 /* Reserve a browser-control lane and place BMWTube's rail beneath the host menu. */
 body.icons-near-arrows:not(.aptv-yellow) #app-shell{margin-right:var(--rail-width)}
 body.icons-near-arrows #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:translateX(65%);transition:transform .18s ease}
+body.icons-near-arrows #app-rail button{height:40px;min-height:40px}
 body.passenger.icons-near-arrows #app-rail{transform:none}
 body.cinema #app-rail{display:flex}
 body.icons-near-arrows:not(.passenger) #browse{padding-right:8px}
+body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
+body:not(.cinema):not(.passenger) #video-aside{padding-right:4px}
+body.passenger:not(.cinema) #video-aside{padding-right:16px;padding-left:4px}
 @media(max-width:760px){body.icons-near-arrows #app-rail{gap:.9px}}
 @media(max-height:390px){body.icons-near-arrows #app-rail{gap:.45px}}
+
+/* Compact recent searches; on keyword results they share the title row. */
+.chips{gap:5px}
+.chips button{min-height:24px;padding:0 9px;border-radius:6px;font-size:12px}
+body.keyword-search .section-heading{align-items:center;margin-bottom:12px}
+body.keyword-search .heading-main{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+body.keyword-search #browse-title{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.keyword-search.keyword-has-chips #browse-title{max-width:45%}
+body.keyword-search #recent-searches{display:flex;flex:1 1 auto;flex-wrap:nowrap;gap:4px;min-width:0;max-width:100%;margin:0;overflow-x:auto;scrollbar-width:none}
+body.keyword-search #recent-searches::-webkit-scrollbar{display:none}
+body.keyword-search #recent-searches button{flex:0 0 auto;white-space:nowrap}
+body.keyword-search #viewport-label{display:none}
 
 /* Full-size settings frame with compact controls and text inside. */
 #settings{width:min(620px,94vw);padding:24px;min-height:90vh;min-height:90dvh;max-height:90vh;max-height:90dvh}
