@@ -25,7 +25,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 - Sidebar là các kết quả cùng truy vấn hoặc danh sách đang duyệt, **không giả danh thuật toán Related của YouTube**.
 - Telex tùy chọn trong popup tìm kiếm: `tieengs Vieejt` → `tiếng Việt`, `phowr` → `phở`, `truowngf` → `trường`. Xử lý trong BMWTube khi APTV gửi văn bản qua input, kể cả khi thiếu inputType/data; trạng thái bật chỉ làm chữ sáng hơn. Dán văn bản giữ nguyên.
 - Thư viện cục bộ có Tiếp tục xem (lưu vị trí và nút bỏ), Xem sau (đồng hồ để thêm/bỏ), Video yêu thích (sao để thêm/bỏ), và Kênh yêu thích (dấu trang để thêm/bỏ). Kênh hiện logo và tên theo hàng ngang; chọn tên để xem video của kênh. Đã xem gần đây và tìm kiếm gần đây vẫn riêng. Dữ liệu chỉ lưu trên thiết bị, không đồng bộ tài khoản.
-- Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được. Player chính không có nút mở YouTube; đăng nhập YouTube vẫn nằm trong Cài đặt.
+- Trạng thái mất mạng, lỗi API/quota, video không cho nhúng, link sai, player không tải được. Thông báo tự ẩn sau 2 giây. Player chính không có nút mở YouTube; đăng nhập YouTube vẫn nằm trong Cài đặt.
 - Trang quyền riêng tư, thao tác bàn phím, nhãn accessibility; đo viewport qua visualViewport và resize.
 
 ## Tìm kiếm: cấu hình một lần trên từng trình duyệt

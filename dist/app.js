@@ -25,12 +25,16 @@ const pendingAPI=new Map();
 let captionsWanted=null,captionsTimer=null;
 let items=[],current=null,player=null,playerReady=false,apiPromise=null,query='',nextPage='',requestSerial=0,composing=false,rawInput='',cinema=false,seeking=false,returnFocus=null,controlsTimer=null,lastProgressSavedAt=0;
 function notice(message){
+  clearTimeout(noticeTimer);
   const dialogStatus=document.querySelector('dialog[open] .dialog-status');
   $('notice-text').textContent=message;
   $('notice').hidden=Boolean(dialogStatus);
-  if(dialogStatus){dialogStatus.textContent=message;dialogStatus.hidden=false;}
+  if(dialogStatus){noticeTarget=dialogStatus;dialogStatus.textContent=message;dialogStatus.hidden=false;}
+  else noticeTarget=$('notice');
+  noticeTimer=setTimeout(()=>{if(noticeTarget===dialogStatus&&dialogStatus)dialogStatus.hidden=true;else if(noticeTarget===$('notice'))$('notice').hidden=true;noticeTarget=null;noticeTimer=null;},2000);
 }
-$('dismiss').onclick=()=>{$('notice').hidden=true;};
+let noticeTimer=null,noticeTarget=null;
+$('dismiss').onclick=()=>{$('notice').hidden=true;if(noticeTarget===$('notice')){clearTimeout(noticeTimer);noticeTimer=null;noticeTarget=null;}};
 function updateTelex(){$('telex').setAttribute('aria-pressed',String(telexOn));$('telex').textContent=telexOn?'Telex ✓':'Telex';}
 updateTelex();$('telex').onclick=()=>{telexOn=!telexOn;rawInput=lastInput=$('query').value;storage.set('telex',telexOn);updateTelex();$('query').focus();};
 $('query').addEventListener('compositionstart',()=>{composing=true;});
