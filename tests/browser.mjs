@@ -127,5 +127,23 @@ try{
   const notice=await rect(page,'notice'),transport=await rect(page,'transport');assert.ok(notice.y+notice.height<transport.y);
   assert.deepEqual(errors,[]);await page.close();
  });
+ await scenario('Normal player auto-hides controls without covering the queue, including passenger mode',async()=>{
+  for(const side of ['left','right']){
+   const {page,errors}=await setup({url:'/?v='+ids[0],storage:{playerSide:side}});
+   await page.waitForFunction(()=>document.body.classList.contains('controls-hidden'));
+   await page.waitForTimeout(300);
+   assert.equal(await page.locator('#transport').isVisible(),false);
+   const wake=await rect(page,'controls-wake'),stage=await rect(page,'stage');
+   assert.ok(Math.abs(wake.x-stage.x)<1&&Math.abs(wake.width-stage.width)<1);
+   await page.locator('#controls-wake').click();
+   await page.locator('#transport').waitFor({state:'visible'});
+   await page.locator('#fullscreen').click();
+   await page.waitForFunction(()=>document.body.classList.contains('controls-hidden'));
+   await page.locator('#controls-wake').click();await page.locator('#fullscreen').click();
+   await page.waitForFunction(()=>!document.body.classList.contains('cinema')&&document.body.classList.contains('controls-hidden'));
+   await page.locator('#open-search').click();assert.equal(await page.locator('#search-dialog').isVisible(),true);
+   assert.deepEqual(errors,[]);await page.close();
+  }
+ });
  console.log(`${passed} browser regression scenarios passed (YouTube/API mocked).`);
 }finally{await browser.close();}

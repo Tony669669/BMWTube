@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=youtube-dark-logo">
+  <link rel="stylesheet" href="style.css?v=player-autohide">
 </head>
 <body>
 <div id="app-shell">
@@ -47,12 +47,12 @@
           <div><p class="eyebrow">ĐANG XEM · YOUTUBE</p><h1 id="video-title">Video YouTube</h1></div>
           <a id="original" class="button secondary" href="https://m.youtube.com/">YouTube ↗</a>
         </div>
+        <button id="controls-wake" type="button" aria-label="Chạm để hiện thanh điều khiển" title="Chạm để hiện thanh điều khiển"></button>
       </div>
       <aside id="video-aside">
         <div class="aside-heading"><h2 id="queue-title">Cùng tìm kiếm</h2><button id="back" type="button" aria-label="Quay lại danh sách">←</button></div>
         <div id="queue"></div>
       </aside>
-      <button id="controls-wake" type="button" aria-label="Chạm để hiện thanh điều khiển" title="Chạm để hiện thanh điều khiển"></button>
     </section>
   </main>
 
@@ -120,6 +120,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=premium-check"></script>
+<script type="module" src="app.js?v=player-autohide"></script>
 </body>
 </html>

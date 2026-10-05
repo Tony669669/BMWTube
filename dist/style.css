@@ -172,10 +172,14 @@ body.cinema #stage{width:var(--cinema-width,100%)!important;flex:0 0 var(--cinem
 body.passenger.cinema #stage{margin-left:auto}
 body.cinema #video-info{display:none}
 body.cinema #transport{height:58px;background:linear-gradient(180deg,transparent 0%,#000c 42%,#000 100%);transition:opacity .24s ease,transform .24s ease,visibility .24s}
-body.cinema.controls-hidden #transport{opacity:0;transform:translateY(100%);visibility:hidden;pointer-events:none}
-body.cinema.controls-hidden #controls-wake{display:block;position:absolute;inset:0;z-index:3;width:100%;height:100%;min-width:0;min-height:0;padding:0;border-radius:0;background:transparent;cursor:pointer}
-body.cinema #controls-wake:hover{background:transparent}
-@media(prefers-reduced-motion:reduce){body.cinema #transport,body.cinema #video-info{transition:none}}
+body.controls-hidden #transport{opacity:0;transform:translateY(100%);visibility:hidden;pointer-events:none}
+body.controls-hidden #controls-wake{display:block;position:absolute;inset:0;z-index:3;width:100%;height:100%;min-width:0;min-height:0;padding:0;border-radius:0;background:transparent;cursor:pointer}
+#controls-wake:hover{background:transparent}
+#transport,#video-info{transition:opacity .24s ease,transform .24s ease,visibility .24s}
+@media(prefers-reduced-motion:reduce){#transport,#video-info{transition:none}}
 @media(max-width:400px){body.cinema #transport{height:88px}}
 
 .dialog-status{color:var(--text);border-left:2px solid var(--accent);padding-left:12px;overflow-wrap:anywhere}
+
+body.controls-hidden #video-info{opacity:0;visibility:hidden;pointer-events:none}
+body.controls-hidden #original{pointer-events:none}
