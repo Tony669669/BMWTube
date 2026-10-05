@@ -186,6 +186,8 @@ function openSearch(){returnFocus=document.activeElement;enterRailDialog('open-s
 function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
 function openSettings(){returnFocus=document.activeElement;enterRailDialog('account');$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['app-profile'].value=appProfile;$('icons-near-arrows').checked=iconsNearArrows;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
+$('search-dialog').addEventListener('cancel',leaveRailDialog);
+$('settings').addEventListener('cancel',leaveRailDialog);
 function selectAppProfile(event){
   if(!$('settings').open)return;
   appProfile=event.target.value==='yellow'?'yellow':'red';
