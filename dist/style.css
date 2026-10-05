@@ -272,6 +272,7 @@ body.keyword-search #viewport-label{display:none}
 .library-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:5px;border:1px solid var(--line);border-radius:12px;background:#15171a}
 .library-tabs button{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1 1 150px;min-width:130px;min-height:42px;padding:6px 12px;border-radius:9px;color:#c4c8ce;font-size:14px}
 .library-tabs button span{font-size:17px;line-height:1}
+.library-tabs button svg{display:block;width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .library-tabs button.active{background:#292d32;color:var(--text);box-shadow:inset 0 0 0 1px #454a51}
 #video-info .video-save-actions{display:flex;align-items:center;gap:4px;flex:0 0 auto;pointer-events:auto}
 .video-save-actions button{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;min-height:40px;padding:5px;border-radius:10px;background:#141619dd;color:#e0e2e5;font-size:23px;pointer-events:auto}
