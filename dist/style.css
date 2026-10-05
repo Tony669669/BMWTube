@@ -223,8 +223,8 @@ body.passenger.icons-near-arrows #app-rail{transform:none}
 body.cinema #app-rail{display:flex}
 body.icons-near-arrows:not(.passenger) #browse{padding-right:8px}
 body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
-body:not(.cinema):not(.passenger) #video-aside{padding-right:0}
-body.passenger:not(.cinema) #video-aside{padding-right:16px;padding-left:0}
+body:not(.cinema) #video-aside{padding-left:0;padding-right:0}
+body.passenger:not(.cinema) #video-aside{padding-left:0;padding-right:0}
 @media(max-width:760px){body.icons-near-arrows #app-rail{gap:.9px}}
 @media(max-height:390px){body.icons-near-arrows #app-rail{gap:.45px}}
 
