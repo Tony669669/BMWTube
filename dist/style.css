@@ -257,3 +257,6 @@ body.keyword-search #viewport-label{display:none}
 #settings summary{min-height:27px;padding-top:7px;font-size:9px}
 #settings footer{gap:8px;margin-top:10px}
 #settings footer a{font-size:8px}
+
+/* Keep the rail divider fixed while nudging right-side navigation controls inward. */
+body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-5px}
