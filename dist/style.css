@@ -265,3 +265,5 @@ body.keyword-search #viewport-label{display:none}
 
 /* Keep the rail divider fixed while nudging right-side navigation controls inward. */
 body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-5px}
+
+#stage{left:3px}
