@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=search-history-2rows-20261006">
+  <link rel="stylesheet" href="style.css?v=player-surface-toggle-20261006">
 </head>
 <body>
 <div id="app-shell">
@@ -47,7 +47,7 @@
 
     <section id="watch" hidden aria-label="Xem video">
       <div id="stage">
-        <div id="video-frame"><div id="player"></div><div id="audio-only-cover" aria-hidden="true" hidden><img id="audio-only-thumbnail" alt=""><div class="audio-only-shade"><div class="audio-only-caption"><h2 id="audio-only-title"></h2><p id="audio-only-channel" hidden></p></div></div></div><div id="video-skip"><button id="previous-video" class="skip-button" type="button" aria-label="Video trước" title="Video trước" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 6l-10 6 10 6z"/></svg></button><button id="next-video" class="skip-button" type="button" aria-label="Video tiếp theo" title="Video tiếp theo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 6l10 6-10 6z"/></svg></button></div><button id="center-play-pause" class="center-play-pause" type="button" aria-label="Phát video" title="Phát video" aria-pressed="false" disabled><svg class="center-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><svg class="center-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg></button></div>
+        <div id="video-frame"><div id="player"></div><div id="video-tap-toggle" aria-hidden="true"></div><div id="audio-only-cover" aria-hidden="true" hidden><img id="audio-only-thumbnail" alt=""><div class="audio-only-shade"><div class="audio-only-caption"><h2 id="audio-only-title"></h2><p id="audio-only-channel" hidden></p></div></div></div><div id="video-skip"><button id="previous-video" class="skip-button" type="button" aria-label="Video trước" title="Video trước" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 6l-10 6 10 6z"/></svg></button><button id="next-video" class="skip-button" type="button" aria-label="Video tiếp theo" title="Video tiếp theo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 6l10 6-10 6z"/></svg></button></div><button id="center-play-pause" class="center-play-pause" type="button" aria-label="Phát video" title="Phát video" aria-pressed="false" disabled><svg class="center-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><svg class="center-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg></button><button id="controls-wake" type="button" aria-label="Chạm để phát hoặc tạm dừng video" title="Chạm để phát hoặc tạm dừng video"></button></div>
         <div id="transport">
           <button id="play" class="transport-button" type="button" aria-label="Phát video" disabled>▶</button>
           <span id="elapsed">0:00</span>
@@ -67,7 +67,6 @@
             <button id="add-to-playlist" type="button" aria-label="Thêm vào playlist" title="Thêm vào playlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h12M4 12h12M4 18h7M19 14v7M15.5 17.5h7"/></svg></button>
           </div>
         </div>
-        <button id="controls-wake" type="button" aria-label="Chạm để hiện thanh điều khiển" title="Chạm để hiện thanh điều khiển"></button>
       </div>
       <aside id="video-aside">
         <div class="aside-heading"><h2 id="queue-title">Cùng tìm kiếm</h2><button id="back" type="button" aria-label="Quay lại danh sách">←</button></div>
@@ -157,6 +156,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=cc-default-off-20261006"></script>
+<script type="module" src="app.js?v=player-surface-toggle-20261006"></script>
 </body>
 </html>

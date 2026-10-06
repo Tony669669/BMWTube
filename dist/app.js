@@ -274,7 +274,10 @@ $('cc').onclick=()=>{
     },1500);
   }catch{notice('Không đổi được phụ đề trong player này. Hãy mở video trên YouTube.');}
 };
-$('play').onclick=()=>{if(!playerReady)return;player.getPlayerState()===1?player.pauseVideo():player.playVideo();};$('center-play-pause').onclick=()=>{if(!playerReady)return;showPlayerControls();player.getPlayerState()===1?player.pauseVideo():player.playVideo();};
+function togglePlaybackFromSurface(){showPlayerControls();if(!playerReady)return;player.getPlayerState()===1?player.pauseVideo():player.playVideo();}
+$('play').onclick=()=>{if(!playerReady)return;player.getPlayerState()===1?player.pauseVideo():player.playVideo();};$('center-play-pause').onclick=togglePlaybackFromSurface;
+$('video-tap-toggle').addEventListener('click',togglePlaybackFromSurface);
+$('audio-only-cover').addEventListener('click',togglePlaybackFromSurface);
 $('seek').addEventListener('pointerdown',()=>{seeking=true;showPlayerControls();});$('seek').addEventListener('input',()=>{seeking=true;syncSeekProgress();showPlayerControls();$('elapsed').textContent=timeLabel(Number($('seek').value)/1000*(player?.getDuration?.()||0));});$('seek').addEventListener('change',()=>{if(playerReady)player.seekTo(Number($('seek').value)/1000*player.getDuration(),true);seeking=false;syncSeekProgress();showPlayerControls();});$('seek').addEventListener('pointercancel',()=>{seeking=false;showPlayerControls();});
 window.addEventListener('pointerup',()=>{if(seeking){seeking=false;showPlayerControls();}});
 setInterval(()=>{if(!playerReady||$('watch').hidden)return;const duration=player.getDuration()||0;const elapsed=player.getCurrentTime()||0;$('duration').textContent=timeLabel(duration);$('seek').disabled=!duration;if(!seeking){$('elapsed').textContent=timeLabel(elapsed);$('seek').value=duration?String(elapsed/duration*1000):'0';syncSeekProgress();}if(!document.hidden)saveContinueProgress();},500);
@@ -297,7 +300,7 @@ function setCinema(enabled){
   showPlayerControls();
   resize();
 }
-$('controls-wake').addEventListener('click',showPlayerControls);
+$('controls-wake').addEventListener('click',togglePlaybackFromSurface);
 $('transport').addEventListener('pointerdown',showPlayerControls);
 $('transport').addEventListener('focusin',showPlayerControls);
 $('transport').addEventListener('focusout',showPlayerControls);
