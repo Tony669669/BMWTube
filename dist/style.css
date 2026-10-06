@@ -231,6 +231,7 @@ body.controls-hidden #controls-wake{display:block;position:absolute;inset:0;z-in
 .dialog-status{color:var(--text);border-left:2px solid var(--accent);padding-left:12px;overflow-wrap:anywhere}
 
 body.controls-hidden #video-info{opacity:0;visibility:hidden;pointer-events:none}
+body.native-controls-test #transport,body.native-controls-test #controls-wake{display:none!important}
 /* Local library shortcuts fit the short CarPlay viewport and remain scrollable. */
 #app-rail{overflow:hidden;overscroll-behavior:contain}
 #favorite-channel{pointer-events:auto;flex:0 0 auto;font-size:25px;min-width:44px;min-height:44px}
@@ -446,6 +447,11 @@ body.recent-page #results .recent-card-actions .video-action svg{width:21px;heig
 @media(max-width:900px){body.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
 @media(max-width:520px){body.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
 @media(max-width:340px){body.recent-page #results{grid-template-columns:minmax(0,1fr)}}
+/* Override the higher-specificity compact APTV yellow feed grid on recent history. */
+body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(5,minmax(0,1fr));justify-content:stretch;gap:20px 16px}
+@media(max-width:900px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
+@media(max-width:520px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+@media(max-width:340px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:minmax(0,1fr)}}
 
 /* Shift the right rail divider left without moving its navigation icons. */
 body:not(.passenger) #app-rail{border-left:0}
