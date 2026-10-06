@@ -26,7 +26,7 @@ let homeDefault=storage.get('homeDefault','favorites')==='explore'?'explore':'fa
 let homeMode=homeDefault;
 let appProfile=storage.get('appProfile','red')==='yellow'?'yellow':'red';
 document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
-const nativeControlsTest=new URLSearchParams(location.search).get('testYoutubeControls')==='1'&&appProfile==='yellow';
+const nativeControlsTest=new URLSearchParams(location.search).get('testYoutubeControls')==='1';
 document.body.classList.toggle('native-controls-test',nativeControlsTest);
 let appendAllowed=true,lastInput='',skipTelex=false;
 const pendingAPI=new Map();
