@@ -155,7 +155,7 @@ dialog summary{cursor:pointer;min-height:44px;padding-top:12px}
 dialog footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}
 dialog footer a{font-size:13px;color:var(--muted)}
 
-#search-dialog{position:fixed;top:20px;left:50%;margin:0;transform:translateX(-50%);width:min(760px,94vw);overflow:auto;max-height:calc(var(--vh,100vh) - 40px)}
+#search-dialog{position:fixed;top:20px;left:50%;margin:0;transform:translateX(-50%);width:min(532px,65.8vw);overflow:auto;max-height:calc(var(--vh,100vh) - 40px)}
 #search-dialog form{margin:0}
 .search-dialog-heading{justify-content:flex-start;min-width:0}
 .search-dialog-heading h2{flex:0 0 auto}
@@ -165,8 +165,8 @@ dialog footer a{font-size:13px;color:var(--muted)}
 .search-dialog-heading>#search-history-chips .chips button{flex:0 0 auto;max-width:130px;min-width:0;min-height:30px;padding:3px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;background:#25282c;color:#d5d7db;font-size:12px}
 #search-dialog .text-button{flex:0 0 auto;min-width:30px;min-height:30px;padding:3px}
 .search-field{display:flex;align-items:center;gap:7px;padding:0 5px 0 14px;background:#202226;border:1px solid #303339;border-radius:12px}
-.search-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;min-width:36px;min-height:36px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;transition:background-color .15s ease,color .15s ease}
-.search-icon svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.search-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;min-width:48px;min-height:48px;padding:0;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;transition:background-color .15s ease,color .15s ease}
+.search-icon svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .search-icon:hover{background:#34383e;color:var(--text)}
 .search-icon:active{background:#42474f}
 .search-icon:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
@@ -222,6 +222,7 @@ body.compact-player:not(.cinema) #video-aside{margin-top:0}
   #duration{margin-right:auto}
   #video-info .eyebrow{display:none}
   dialog{padding:14px}
+  #search-dialog{width:calc(100vw - 24px)}
   .search-field{flex-wrap:wrap}
   #query{flex:1 1 150px}
 }
