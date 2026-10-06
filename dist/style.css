@@ -155,7 +155,7 @@ dialog summary{cursor:pointer;min-height:44px;padding-top:12px}
 dialog footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px}
 dialog footer a{font-size:13px;color:var(--muted)}
 
-#search-dialog{width:min(760px,94vw);overflow:auto;max-height:calc(var(--vh,100vh) - 24px)}
+#search-dialog{position:fixed;top:20px;left:50%;margin:0;transform:translateX(-50%);width:min(760px,94vw);overflow:auto;max-height:calc(var(--vh,100vh) - 40px)}
 #search-dialog form{margin:0}
 .search-dialog-heading{justify-content:flex-start;min-width:0}
 .search-dialog-heading h2{flex:0 0 auto}
