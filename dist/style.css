@@ -348,14 +348,13 @@ body.keyword-search #home-modes{display:none}
 .playlist-label strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 .playlist-label small{font-size:12px}
 .playlist-remove{flex:0 0 38px;width:38px;min-width:38px;height:38px;color:var(--muted);font-size:22px}
-.playlist-videos{display:grid;grid-template-columns:repeat(auto-fill,var(--feed-card-width,154px));justify-content:space-between;gap:20px 16px}
+.playlist-videos{display:grid;grid-template-columns:repeat(auto-fill,calc(var(--feed-card-width,154px) + 38px));justify-content:space-between;gap:20px 16px}
 .playlist-video .card img{border-radius:8px}
 .playlist-video .card h3{font-size:14px;line-height:1.35;margin-top:8px;-webkit-line-clamp:3}
 .playlist-video .card-channel{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;white-space:normal}
-.playlist-video-thumb-row{display:flex;align-items:stretch;gap:3px;min-width:0}
-.playlist-thumb-play{flex:1 1 auto!important;width:auto!important;min-width:0;padding:0;border-radius:8px}
-.playlist-thumb-play img{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
-.playlist-video-actions{display:flex;flex:0 0 32px;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-wrap:nowrap}
+.playlist-video{position:relative}
+.playlist-video-content{width:var(--feed-card-width,154px);max-width:100%;min-width:0}
+.playlist-video-actions{position:absolute;top:0;left:calc(var(--feed-card-width,154px) + 4px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:2px;flex-wrap:nowrap;width:30px;min-width:30px}
 .playlist-video-actions .video-action{flex:0 0 26px;width:30px;height:26px;min-width:30px;min-height:26px;padding:2px;border-radius:7px}
 .playlist-video-title{margin:7px 0 0;font-size:14px;font-weight:500;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .playlist-video-actions .video-action:disabled{opacity:.3;cursor:default}

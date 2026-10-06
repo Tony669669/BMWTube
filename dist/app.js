@@ -378,18 +378,18 @@ function renderPlaylistVideos(){
   if(!playlist.videos.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='Playlist này chưa có video. Mở video rồi dùng nút danh sách để thêm.';target.append(empty);return;}
   playlist.videos.forEach((video,index)=>{
     const card=document.createElement('article');card.className='video-card playlist-video';card.dataset.videoId=video.id;
-    const thumbRow=document.createElement('div');thumbRow.className='playlist-video-thumb-row';
-    const play=document.createElement('button');play.type='button';play.className='card card-play playlist-thumb-play';
+    const content=document.createElement('div');content.className='playlist-video-content';
+    const play=document.createElement('button');play.type='button';play.className='card card-play';
     const img=document.createElement('img');img.src=`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;img.loading='lazy';img.alt='';
     play.append(img);play.onclick=()=>playPlaylistAt(playlist.id,index);
     const actions=document.createElement('div');actions.className='card-actions playlist-video-actions';
     const up=iconButton('Di chuyển video lên','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-7 7 7-7 7 7"/></svg>',null,()=>movePlaylistVideo(index,-1));up.disabled=index===0;
     const down=iconButton('Di chuyển video xuống','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m7-7-7 7-7-7"/></svg>',null,()=>movePlaylistVideo(index,1));down.disabled=index===playlist.videos.length-1;
     const remove=iconButton('Bỏ video khỏi playlist',removeIcon,null,()=>{playlist.videos.splice(index,1);savePlaylists();renderPlaylistVideos();});
-    actions.append(up,down,remove);thumbRow.append(play,actions);
+    actions.append(up,down,remove);
     const title=document.createElement('h3');title.className='playlist-video-title';title.textContent=video.title;
     const channel=document.createElement('p');channel.className='card-channel';channel.textContent=video.channel||'YouTube';
-    card.append(thumbRow,title,channel);target.append(card);
+    content.append(play,title,channel);card.append(content,actions);target.append(card);
   });
 }
 function movePlaylistVideo(index,direction){const playlist=playlists.find(item=>item.id===selectedPlaylistId);if(!playlist)return;const next=index+direction;if(next<0||next>=playlist.videos.length)return;[playlist.videos[index],playlist.videos[next]]=[playlist.videos[next],playlist.videos[index]];savePlaylists();renderPlaylistVideos();}
