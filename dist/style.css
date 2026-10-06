@@ -433,6 +433,15 @@ body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-column
 
 @media(prefers-reduced-motion:reduce){.transport-button,#seek::-webkit-slider-thumb,#seek::-moz-range-thumb{transition:none}}
 
+/* Recent history uses five wider thumbnail cards with touch-sized actions. */
+body.recent-page #results{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+body.recent-page #results .recent-card-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;justify-content:stretch}
+body.recent-page #results .recent-card-actions .video-action{flex:initial;width:100%;min-width:0;height:40px;min-height:40px;padding:4px}
+body.recent-page #results .recent-card-actions .video-action svg{width:21px;height:21px}
+@media(max-width:900px){body.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
+@media(max-width:520px){body.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+@media(max-width:340px){body.recent-page #results{grid-template-columns:minmax(0,1fr)}}
+
 /* Shift the right rail divider left without moving its navigation icons. */
 body:not(.passenger) #app-rail{border-left:0}
 body:not(.passenger) #app-rail::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) + 5px);width:1px;background:var(--line);pointer-events:none;z-index:9}
