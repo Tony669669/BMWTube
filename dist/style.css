@@ -167,12 +167,12 @@ dialog footer a{font-size:13px;color:var(--muted)}
 .search-dialog-heading{justify-content:flex-start;min-width:0}
 .search-dialog-heading h2{flex:0 0 auto}
 .search-dialog-heading>#search-history-chips{flex:1;min-width:0;overflow:hidden}
-.search-dialog-heading>#search-history-chips .chips{display:flex;flex-wrap:nowrap;overflow:auto;scrollbar-width:none;margin:0;gap:5px}
+.search-dialog-heading>#search-history-chips .chips{display:grid;grid-auto-flow:column;grid-auto-columns:max-content;grid-template-rows:repeat(2,auto);align-content:start;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:none;max-height:65px;margin:0;gap:5px}
 .search-dialog-heading>#search-history-chips .chips::-webkit-scrollbar{display:none}
 .search-dialog-heading>#search-history-chips .chips button{flex:0 0 auto;max-width:130px;min-width:0;min-height:30px;padding:3px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:7px;background:#25282c;color:#d5d7db;font-size:12px}
 #search-dialog .text-button{flex:0 0 auto;min-width:30px;min-height:30px;padding:3px}
-.search-field{display:flex;align-items:center;gap:7px;padding:0 5px 0 14px;background:#202226;border:1px solid #303339;border-radius:12px}
-.search-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;min-width:48px;min-height:48px;padding:0;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;transition:background-color .15s ease,color .15s ease}
+.search-field{display:flex;align-items:center;gap:7px;padding:0 5px 0 0;background:#202226;border:1px solid #303339;border-radius:12px}
+.search-icon{display:grid;place-items:center;align-self:stretch;flex:0 0 48px;width:48px;height:auto;min-width:48px;min-height:0;margin:0;padding:0;border:0;border-radius:11px 0 0 11px;background:transparent;color:var(--muted);cursor:pointer;transition:background-color .15s ease,color .15s ease}
 .search-icon svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .search-icon:hover{background:#34383e;color:var(--text)}
 .search-icon:active{background:#42474f}
