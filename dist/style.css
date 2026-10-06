@@ -329,12 +329,12 @@ body.keyword-search #home-modes{display:none}
 .playlist-label strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 .playlist-label small{font-size:12px}
 .playlist-remove{flex:0 0 38px;width:38px;min-width:38px;height:38px;color:var(--muted);font-size:22px}
-.playlist-videos{display:grid;gap:6px}
-.playlist-video{display:flex;align-items:center;gap:4px;min-width:0;padding:5px 0;border-bottom:1px solid var(--line)}
-.playlist-video-open{display:flex;align-items:center;gap:10px;flex:1;min-width:0;min-height:54px;padding:3px;text-align:left}
-.playlist-video-open img{width:96px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--panel)}
-.playlist-video-open span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.playlist-video>button:not(.playlist-video-open){flex:0 0 36px;width:36px;min-width:36px;min-height:36px;padding:4px;color:var(--muted)}
+.playlist-videos{display:grid;grid-template-columns:repeat(auto-fill,var(--feed-card-width,154px));justify-content:space-between;gap:20px 16px}
+.playlist-video .card img{border-radius:8px}
+.playlist-video .card h3{font-size:14px;line-height:1.35;margin-top:8px;-webkit-line-clamp:3}
+.playlist-video .card-channel{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;white-space:normal}
+.playlist-video-actions{justify-content:center}
+.playlist-video-actions .video-action:disabled{opacity:.3;cursor:default}
 .playlist-create-label{display:block;margin:8px 0;font-size:13px}
 .playlist-create-row{display:flex;gap:8px}
 .playlist-create-row input{flex:1;min-width:0;padding:10px 12px;border:1px solid #4b4f55;border-radius:8px;background:#101113;color:var(--text);font:inherit}
@@ -353,7 +353,7 @@ body.keyword-search #home-modes{display:none}
   #video-info .video-save-actions{gap:1px}
   .video-save-actions button{flex-basis:34px;width:34px;height:34px;min-width:34px;min-height:34px;font-size:20px}
   .video-save-actions button svg{width:20px;height:20px}
-  .playlist-heading{flex-wrap:wrap}.playlist-heading h2{flex-basis:100%}.playlist-cover{flex-basis:76px;width:76px}.playlist-video-open img{width:76px}
+  .playlist-heading{flex-wrap:wrap}.playlist-heading h2{flex-basis:100%}.playlist-cover{flex-basis:76px;width:76px}.playlist-videos{gap:15px 10px}
 }
 body.aptv-yellow .video-card{gap:1px}
 body.aptv-yellow .card-channel{min-height:26px;font-size:10px}
