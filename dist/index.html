@@ -8,14 +8,14 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=native-controls-test2-20261006">
+  <link rel="stylesheet" href="style.css?v=player-skip-search-20261006">
 </head>
 <body>
 <div id="app-shell">
   <main id="main">
     <section id="browse">
       <div class="section-heading">
-        <div id="browse-heading-main" class="heading-main"><h1 id="browse-title">Trang chủ</h1><div id="home-modes" class="home-modes" role="group" aria-label="Nguồn trang chủ"><button type="button" data-home-mode="favorites" aria-pressed="true">Kênh yêu thích</button><button type="button" data-home-mode="explore" aria-pressed="false">Khám phá</button></div></div>
+        <div id="browse-heading-main" class="heading-main"><button id="open-search" class="search-shortcut" type="button" aria-label="Tìm kiếm" aria-expanded="false" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="9" r="5"/><path d="m18.5 12.5 3 3M3 18h7m-3-3-3 3 3 3"/></svg></button><h1 id="browse-title">Trang chủ</h1><div id="home-modes" class="home-modes" role="group" aria-label="Nguồn trang chủ"><button type="button" data-home-mode="favorites" aria-pressed="true">Kênh yêu thích</button><button type="button" data-home-mode="explore" aria-pressed="false">Khám phá</button></div></div>
       </div>
       <div id="recent-searches" class="chips" aria-label="Từ khóa đã tìm gần đây" hidden></div>
       <div id="channel-results-section" class="channel-results-section" hidden>
@@ -47,7 +47,7 @@
 
     <section id="watch" hidden aria-label="Xem video">
       <div id="stage">
-        <div id="video-frame"><div id="player"></div><div id="audio-only-cover" aria-hidden="true" hidden><img id="audio-only-thumbnail" alt=""><div class="audio-only-shade"><div class="audio-only-caption"><h2 id="audio-only-title"></h2><p id="audio-only-channel" hidden></p></div></div></div></div>
+        <div id="video-frame"><div id="player"></div><div id="audio-only-cover" aria-hidden="true" hidden><img id="audio-only-thumbnail" alt=""><div class="audio-only-shade"><div class="audio-only-caption"><h2 id="audio-only-title"></h2><p id="audio-only-channel" hidden></p></div></div></div><button id="player-search" class="search-shortcut" type="button" aria-label="Tìm kiếm" aria-expanded="false" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="9" r="5"/><path d="m18.5 12.5 3 3M3 18h7m-3-3-3 3 3 3"/></svg></button><div id="video-skip"><button id="previous-video" class="skip-button" type="button" aria-label="Video trước" title="Video trước" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 6l-10 6 10 6z"/></svg></button><button id="next-video" class="skip-button" type="button" aria-label="Video tiếp theo" title="Video tiếp theo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 6l10 6-10 6z"/></svg></button></div></div>
         <div id="transport">
           <button id="play" class="transport-button" type="button" aria-label="Phát video" disabled>▶</button>
           <span id="elapsed">0:00</span>
@@ -78,7 +78,6 @@
 
   <nav id="app-rail" aria-label="Điều hướng BMWTube">
     <button id="home" type="button" aria-label="Trang chủ" title="Trang chủ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.8 10 8.2-6.5 8.2 6.5M5.8 9.2v10h5v-5.7h2.4v5.7h5v-10"/></svg></button>
-    <button id="open-search" type="button" aria-label="Tìm kiếm" aria-expanded="false" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 4.2 4.2"/></svg></button>
     <button id="open-recent" type="button" aria-label="Đã xem gần đây" title="Đã xem gần đây"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6M12 7v5l3 2"/></svg></button>
     <button id="open-favorite-videos" type="button" aria-label="Video yêu thích" title="Video yêu thích"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9z"/></svg></button>
     <button id="open-library" type="button" aria-label="Thư viện" title="Thư viện"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 12 2l8 3.5M4 9l8 3.5L20 9M4 12.5l8 3.5 8-3.5M4 16l8 3.5 8-3.5"/></svg></button>
@@ -157,6 +156,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=native-controls-test2-20261006"></script>
+<script type="module" src="app.js?v=player-skip-search-20261006"></script>
 </body>
 </html>
