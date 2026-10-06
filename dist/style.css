@@ -171,6 +171,7 @@ dialog footer a{font-size:13px;color:var(--muted)}
 .search-icon:active{background:#42474f}
 .search-icon:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 #query{border:0;background:transparent;padding:14px 8px}
+#query:focus-visible{outline:none;outline-offset:0}
 #telex{min-width:0;padding:0 10px;color:var(--muted);font-size:13px;background:transparent}
 #telex[aria-pressed=true]{color:var(--text);background:transparent;box-shadow:none}
 #telex:hover{background:transparent}
