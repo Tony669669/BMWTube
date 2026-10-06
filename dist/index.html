@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=recent-history-actions-20261006">
+  <link rel="stylesheet" href="style.css?v=audio-only-channel-overlay-20261006">
 </head>
 <body>
 <div id="app-shell">
@@ -47,7 +47,7 @@
 
     <section id="watch" hidden aria-label="Xem video">
       <div id="stage">
-        <div id="video-frame"><div id="player"></div><img id="audio-only-cover" alt="" aria-hidden="true" hidden></div>
+        <div id="video-frame"><div id="player"></div><div id="audio-only-cover" aria-hidden="true" hidden><img id="audio-only-thumbnail" alt=""><div class="audio-only-shade"><div class="audio-only-caption"><h2 id="audio-only-title"></h2><p id="audio-only-channel" hidden></p></div></div></div></div>
         <div id="transport">
           <button id="play" class="transport-button" type="button" aria-label="Phát video" disabled>▶</button>
           <span id="elapsed">0:00</span>
@@ -157,6 +157,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=recent-history-actions-20261006"></script>
+<script type="module" src="app.js?v=audio-only-channel-overlay-20261006"></script>
 </body>
 </html>
