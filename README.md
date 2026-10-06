@@ -89,4 +89,4 @@ Kết quả kiểm tra trình duyệt và giới hạn còn lại xem [TESTING.m
 
 ### Nút CC
 
-CC nằm cạnh nút mở rộng, có gạch đỏ khi module phụ đề đang bật. Tích hợp kiểm tra `loadModule`/`unloadModule` của player hiện tại và cập nhật theo `onApiChange`. Hai hàm này không được cam kết trong tài liệu API công khai; nếu không có, nút bị vô hiệu hóa. Trạng thái ban đầu đọc module; sau thao tác phản ánh lựa chọn bật/tắt đã gửi. Không bảo đảm video có track hiển thị. Nếu không tải được module thì thông báo để mở trên YouTube. Cần xác minh lại trong APTV.
+CC nằm cạnh nút mở rộng. Mặc định CC tắt và nút màu ghi; trạng thái màu theo lựa chọn của BMWTube, không suy ra từ `getOptions()` vì API này liệt kê khả năng của module chứ không xác nhận phụ đề đang hiển thị. Khi player khởi tạo hoặc đổi video, BMWTube thử gọi `unloadModule('captions')` trước khi phát. `cc_load_policy: 0` vẫn theo tùy chọn người dùng của YouTube; `loadModule`/`unloadModule` không được cam kết trong tài liệu API công khai, nên tắt cưỡng bức là best effort và cần xác minh trên APTV. Không bảo đảm video có track phụ đề.
