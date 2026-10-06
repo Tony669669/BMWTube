@@ -30,7 +30,7 @@ const nativeControlsTest=new URLSearchParams(location.search).get('testYoutubeCo
 document.body.classList.toggle('native-controls-test',nativeControlsTest);
 let appendAllowed=true,lastInput='',skipTelex=false;
 const pendingAPI=new Map();
-let captionsWanted=null,captionsTimer=null;
+let captionsWanted=null,captionsTimer=null,captionsOffTimer=null,captionsOffAttempts=0;
 let items=[],current=null,player=null,playerReady=false,apiPromise=null,query='',nextPage='',requestSerial=0,composing=false,rawInput='',cinema=false,seeking=false,audioOnly=false,returnFocus=null,controlsTimer=null,lastProgressSavedAt=0;
 function notice(message){
   clearTimeout(noticeTimer);
@@ -226,16 +226,25 @@ function saveContinueProgress(force=false){
 function syncSeekProgress(){const value=Math.max(0,Math.min(1000,Number($('seek').value)||0));$('seek').style.setProperty('--seek-progress',`${value/10}%`);}
 async function watch(video, startSeconds=0,fromPlaylist=false,queueItems=null){
   if(!fromPlaylist)playlistPlayback=null;
-  if(playerReady&&current?.id!==video.id)saveContinueProgress(true);playbackQueue=Array.isArray(queueItems)?queueItems.map(item=>({...item})):[];playbackQueueIndex=playbackQueue.findIndex(item=>item.id===video.id);requestSerial++;lastProgressSavedAt=0;$('load-more').disabled=false;seeking=false;$('seek').value='0';syncSeekProgress();captionsWanted=false;clearTimeout(captionsTimer);$('cc').disabled=true;if(playerReady)turnCaptionsOff(player);current=video;syncAudioOnly();updatePlayerButtons();syncPlaybackNavigation();$('browse').hidden=true;$('watch').hidden=false;$('video-title').textContent=video.title;$('notice').hidden=true;
+  if(playerReady&&current?.id!==video.id)saveContinueProgress(true);playbackQueue=Array.isArray(queueItems)?queueItems.map(item=>({...item})):[];playbackQueueIndex=playbackQueue.findIndex(item=>item.id===video.id);requestSerial++;lastProgressSavedAt=0;$('load-more').disabled=false;seeking=false;$('seek').value='0';syncSeekProgress();captionsWanted=false;captionsOffAttempts=0;clearTimeout(captionsTimer);clearTimeout(captionsOffTimer);$('cc').disabled=true;current=video;if(playerReady)requestCaptionsOff(video.id);syncAudioOnly();updatePlayerButtons();syncPlaybackNavigation();$('browse').hidden=true;$('watch').hidden=false;$('video-title').textContent=video.title;$('notice').hidden=true;
   showPlayerControls();
   recent=[video,...recent.filter(v=>v.id!==video.id)].slice(0,20);storage.set('recent',recent);updateQueue();resize();const id=video.id;
-  try{await loadPlayerAPI();if(current?.id!==id||$('watch').hidden)return;if(player){if(playerReady)player.loadVideoById({videoId:id,startSeconds});return;}
-    player=new YT.Player('player',{videoId:id,width:'100%',height:'100%',playerVars:{start:Math.floor(startSeconds),cc_load_policy:0,playsinline:1,controls:nativeControlsTest?1:0,fs:0,rel:0,origin:location.origin},events:{onReady:event=>{playerReady=true;$('play').disabled=false;$('center-play-pause').disabled=false;syncCenterPlayPause(event.target.getPlayerState());captionsWanted=false;turnCaptionsOff(event.target);syncCaptions();if(current&&current.id!==id)event.target.cueVideoById(current.id);if(!$('watch').hidden)event.target.playVideo();},onApiChange:()=>{if(captionsWanted===false)turnCaptionsOff(player);syncCaptions();},onStateChange:event=>{syncCaptions();syncCenterPlayPause(event.data);$('play').textContent=event.data===1?'Ⅱ':'▶';$('play').setAttribute('aria-label',event.data===1?'Tạm dừng':'Phát video');if(event.data===1){const title=player.getVideoData?.().title;if(title&&current){current={...current,title};$('video-title').textContent=title;syncAudioOnly();recent=recent.map(v=>v.id===current.id?current:v);storage.set('recent',recent);}}if(event.data===2)saveContinueProgress(true);if(event.data===0&&current){if(repeatVideo){try{player.seekTo(0,true);player.playVideo();}catch{}}else{removeContinueRecord(current.id);const active=playlistPlayback&&playlists.find(list=>list.id===playlistPlayback.playlistId);const index=active?.videos.findIndex(video=>video.id===current.id)??-1;if(active&&index>=0&&index+1<active.videos.length)playPlaylistAt(active.id,index+1);}}},onError:event=>{const messages={2:'Đường dẫn video không hợp lệ.',5:'APTV không phát được định dạng video này.',100:'Video đã bị xóa hoặc chuyển sang riêng tư.',101:'Chủ video không cho phép phát nhúng.',150:'Chủ video không cho phép phát nhúng.',153:'APTV không gửi thông tin nguồn cần thiết cho YouTube.'};notice(messages[event.data]||'YouTube không phát được video. Video này có thể cần mở trực tiếp trên YouTube.');}}});
+  try{await loadPlayerAPI();if(current?.id!==id||$('watch').hidden)return;if(player){if(playerReady){player.loadVideoById({videoId:id,startSeconds});requestCaptionsOff(id);}return;}
+    player=new YT.Player('player',{videoId:id,width:'100%',height:'100%',playerVars:{start:Math.floor(startSeconds),cc_load_policy:0,playsinline:1,controls:nativeControlsTest?1:0,fs:0,rel:0,origin:location.origin},events:{onReady:event=>{playerReady=true;$('play').disabled=false;$('center-play-pause').disabled=false;syncCenterPlayPause(event.target.getPlayerState());captionsWanted=false;requestCaptionsOff(id);syncCaptions();if(current&&current.id!==id)event.target.cueVideoById(current.id);if(!$('watch').hidden)event.target.playVideo();},onApiChange:()=>{if(captionsWanted===false)requestCaptionsOff(current?.id);syncCaptions();},onStateChange:event=>{if(captionsWanted===false&&event.data===1)requestCaptionsOff(current?.id);syncCaptions();syncCenterPlayPause(event.data);$('play').textContent=event.data===1?'Ⅱ':'▶';$('play').setAttribute('aria-label',event.data===1?'Tạm dừng':'Phát video');if(event.data===1){const title=player.getVideoData?.().title;if(title&&current){current={...current,title};$('video-title').textContent=title;syncAudioOnly();recent=recent.map(v=>v.id===current.id?current:v);storage.set('recent',recent);}}if(event.data===2)saveContinueProgress(true);if(event.data===0&&current){if(repeatVideo){try{player.seekTo(0,true);player.playVideo();}catch{}}else{removeContinueRecord(current.id);const active=playlistPlayback&&playlists.find(list=>list.id===playlistPlayback.playlistId);const index=active?.videos.findIndex(video=>video.id===current.id)??-1;if(active&&index>=0&&index+1<active.videos.length)playPlaylistAt(active.id,index+1);}}},onError:event=>{const messages={2:'Đường dẫn video không hợp lệ.',5:'APTV không phát được định dạng video này.',100:'Video đã bị xóa hoặc chuyển sang riêng tư.',101:'Chủ video không cho phép phát nhúng.',150:'Chủ video không cho phép phát nhúng.',153:'APTV không gửi thông tin nguồn cần thiết cho YouTube.'};notice(messages[event.data]||'YouTube không phát được video. Video này có thể cần mở trực tiếp trên YouTube.');}}});
   }catch(error){if(current?.id===id&&!$('watch').hidden)notice(error.message);}
 }
 function turnCaptionsOff(target=player){
   if(!target||typeof target.unloadModule!=='function')return;
   try{target.unloadModule('captions');}catch{}
+}
+function requestCaptionsOff(videoId=current?.id){
+  if(!playerReady||!player||!videoId||current?.id!==videoId||captionsWanted!==false)return;
+  turnCaptionsOff(player);
+  syncCaptions();
+  if(captionsOffAttempts>=5)return;
+  captionsOffAttempts++;
+  clearTimeout(captionsOffTimer);
+  captionsOffTimer=setTimeout(()=>requestCaptionsOff(videoId),300);
 }
 // YouTube exposes module controls in its current player, but does not
 // guarantee caption toggling in the public API. Feature-detect and verify.
@@ -246,7 +255,6 @@ function syncCaptions(){
   if(!available){$('cc').title='Player này không hỗ trợ nút phụ đề ngoài';return;}
   let active=false;
   try{active=(player.getOptions?.()||[]).includes('captions');}catch{}
-  if(captionsWanted!==null)active=captionsWanted;
   $('cc').setAttribute('aria-pressed',String(active));
   $('cc').setAttribute('aria-label',active?'Tắt phụ đề':'Bật phụ đề');
   $('cc').title=active?'Tắt phụ đề':'Bật phụ đề';
@@ -254,9 +262,11 @@ function syncCaptions(){
 $('cc').onclick=()=>{
   if(!playerReady)return;
   captionsWanted=$('cc').getAttribute('aria-pressed')!=='true';
+  clearTimeout(captionsOffTimer);captionsOffAttempts=0;
   try{
     if(captionsWanted)player.loadModule('captions');else player.unloadModule('captions');
     syncCaptions();
+    if(!captionsWanted)requestCaptionsOff(current?.id);
     clearTimeout(captionsTimer);
     captionsTimer=setTimeout(()=>{
       syncCaptions();
