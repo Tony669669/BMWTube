@@ -8,14 +8,14 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=favorite-channel-search-filter-20261006">
+  <link rel="stylesheet" href="style.css?v=favorite-video-search-filter-20261007">
 </head>
 <body>
 <div id="app-shell">
   <main id="main">
     <section id="browse">
       <div class="section-heading">
-        <div id="browse-heading-main" class="heading-main"><h1 id="browse-title">Trang chủ</h1><button id="favorite-channel-filter" class="search-channel-filter" type="button" aria-label="Lọc video từ kênh yêu thích" aria-pressed="false" title="Chỉ hiện kết quả từ kênh yêu thích" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg><span>Kênh yêu thích</span></button><div id="home-modes" class="home-modes" role="group" aria-label="Nguồn trang chủ"><button type="button" data-home-mode="favorites" aria-pressed="true">Kênh yêu thích</button><button type="button" data-home-mode="explore" aria-pressed="false">Khám phá</button></div></div>
+        <div id="browse-heading-main" class="heading-main"><h1 id="browse-title">Trang chủ</h1><div id="search-filter-chips" class="search-filter-chips" hidden><button id="favorite-channel-filter" class="search-filter-chip search-channel-filter" type="button" aria-label="Lọc video từ kênh yêu thích" aria-pressed="false" title="Chỉ hiện kết quả từ kênh yêu thích"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg><span>Kênh yêu thích</span></button><button id="favorite-video-filter" class="search-filter-chip search-video-filter" type="button" aria-label="Lọc video yêu thích" aria-pressed="false" title="Chỉ hiện video đã yêu thích"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9z"/></svg><span>Video yêu thích</span></button></div><div id="home-modes" class="home-modes" role="group" aria-label="Nguồn trang chủ"><button type="button" data-home-mode="favorites" aria-pressed="true">Kênh yêu thích</button><button type="button" data-home-mode="explore" aria-pressed="false">Khám phá</button></div></div>
       </div>
       <div id="recent-searches" class="chips" aria-label="Từ khóa đã tìm gần đây" hidden></div>
       <div id="channel-results-section" class="channel-results-section" hidden>
@@ -164,6 +164,6 @@
     <footer><a href="privacy.html">Quyền riêng tư</a><button class="primary" type="submit">Lưu cài đặt</button></footer>
   </form>
 </dialog>
-<script type="module" src="app.js?v=favorite-channel-search-filter-20261006"></script>
+<script type="module" src="app.js?v=favorite-video-search-filter-20261007"></script>
 </body>
 </html>
