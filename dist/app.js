@@ -24,6 +24,9 @@ let selectedPlaylistId='',repeatVideo=storage.get('repeatVideo',false)===true,pl
 const uploadsCache=new Map();
 let homeDefault=storage.get('homeDefault','favorites')==='explore'?'explore':'favorites';
 let homeMode=homeDefault;
+const libraryDefaultOptions=['continue','watch-later','favorite-channels','playlists'];
+const savedLibraryDefault=storage.get('libraryDefault','favorite-channels');
+let libraryDefault=libraryDefaultOptions.includes(savedLibraryDefault)?savedLibraryDefault:'favorite-channels';
 let appProfile=storage.get('appProfile','red')==='yellow'?'yellow':'red';
 let audioOnlyDefault=storage.get('audioOnlyDefault',false)===true;
 document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
@@ -356,7 +359,7 @@ $('previous-video').onclick=()=>moveInPlaybackQueue(-1);$('next-video').onclick=
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
 function openSearch(){returnFocus=document.activeElement;renderHistory();enterRailDialog('open-search');const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');$('query').focus();}
 function closeSearch(){const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
-function openSettings(){if($('settings-form').parentElement===$('inline-settings'))$('settings').append($('settings-form'));returnFocus=document.activeElement;enterRailDialog(returnFocus?.id||null);$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['audio-only-default'].value=audioOnlyDefault?'on':'off';$('settings-form').elements['app-profile'].value=appProfile;$('settings-form').elements['home-mode'].value=homeDefault;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
+function openSettings(){if($('settings-form').parentElement===$('inline-settings'))$('settings').append($('settings-form'));returnFocus=document.activeElement;enterRailDialog(returnFocus?.id||null);$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['audio-only-default'].value=audioOnlyDefault?'on':'off';$('settings-form').elements['library-default'].value=libraryDefault;$('settings-form').elements['app-profile'].value=appProfile;$('settings-form').elements['home-mode'].value=homeDefault;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
  $('clear-searches').onclick=()=>{history=[];storage.set('searches',history);renderHistory();$('query').focus();};
 function closeSettings(){if($('settings').close)$('settings').close();else $('settings').removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
 $('search-dialog').addEventListener('cancel',leaveRailDialog);
@@ -396,6 +399,16 @@ document.querySelectorAll('input[name="audio-only-default"]').forEach(input=>{
   input.addEventListener('click',selectAudioOnlyDefault);
   input.addEventListener('change',selectAudioOnlyDefault);
 });
+function selectLibraryDefault(event){
+  if(!$('settings').open&&$('settings-form').parentElement!==$('inline-settings'))return;
+  libraryDefault=libraryDefaultOptions.includes(event.target.value)?event.target.value:'favorite-channels';
+  storage.set('libraryDefault',libraryDefault);
+  if($('settings').open)closeSettings();
+}
+document.querySelectorAll('input[name="library-default"]').forEach(input=>{
+  input.addEventListener('click',selectLibraryDefault);
+  input.addEventListener('change',selectLibraryDefault);
+});
 $('home').onclick=()=>home();$('open-search').onclick=openSearch;$('close-search').onclick=closeSearch;$('search-dialog').addEventListener('click',event=>{if(event.target===$('search-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeSearch();}});$('close-settings').onclick=closeSettings;$('settings').addEventListener('click',event=>{if(event.target===$('settings')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeSettings();}});$('premium-link').onclick=()=>{savePlaybackURL();try{sessionStorage.setItem('bmwtube.loginPending','1');}catch{}closeSettings();};$('settings-form').onsubmit=event=>{event.preventDefault();const nextKey=$('api-key').value.trim();const keyChanged=nextKey!==key;key=nextKey;storage.set('key',key);playerSide=$('settings-form').elements['player-side'].value==='right'?'right':'left';storage.set('playerSide',playerSide);document.body.classList.toggle('passenger',playerSide==='right');resize();const inline=$('settings-form').parentElement===$('inline-settings');if(!inline)closeSettings();notice('Đã lưu cài đặt trên trình duyệt này.');if(keyChanged&&$('watch').hidden&&!inline)query&&key?search(query):home();};$('clear-history').onclick=()=>{recent=[];history=[];continueWatching=[];storage.set('recent',recent);storage.set('searches',history);storage.set('continueWatching',continueWatching);renderHistory();if($('watch').hidden){if(libraryMode==='recent')showRecent();else if(libraryMode==='library'&&librarySection==='continue')showLibrary('continue');else if(!libraryMode)home();}notice('Đã xóa lịch sử BMWTube trên thiết bị.');};
 
 function selectHomeMode(event){
@@ -423,12 +436,12 @@ function libraryView(mode,title,activeRail=null){
 function showRecent(){libraryView('recent','Đã xem gần đây');items=[...recent];renderCards($('results'),items,{recentActions:true});if(!items.length)emptyLibrary('Chưa có video đã xem trên trình duyệt này.');}
 function showLibrary(section=librarySection,activeRail=null){
   librarySection=Object.hasOwn(libraryTitles,section)?section:'continue';libraryView('library',libraryTitles[librarySection],activeRail);
-  if(librarySection==='settings'){$('inline-settings').append($('settings-form'));$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['audio-only-default'].value=audioOnlyDefault?'on':'off';$('settings-form').elements['app-profile'].value=appProfile;$('settings-form').elements['home-mode'].value=homeDefault;resize();return;}
+  if(librarySection==='settings'){$('inline-settings').append($('settings-form'));$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['audio-only-default'].value=audioOnlyDefault?'on':'off';$('settings-form').elements['library-default'].value=libraryDefault;$('settings-form').elements['app-profile'].value=appProfile;$('settings-form').elements['home-mode'].value=homeDefault;resize();return;}
   if(librarySection==='continue'){items=[...continueWatching];renderCards($('results'),items,{removeFrom:'continue'});if(!items.length)emptyLibrary('Video bạn bắt đầu xem sẽ xuất hiện ở đây để tiếp tục từ vị trí đã dừng.');}
   else if(librarySection==='watch-later'){items=[...watchLater];renderCards($('results'),items,{removeFrom:'watch-later'});if(!items.length)emptyLibrary('Bấm biểu tượng đồng hồ trên video để thêm vào Xem sau.');}
   else if(librarySection==='playlists')renderPlaylists();else showFavoriteChannels();
 }
-function openLibrary(){showLibrary('favorite-channels','open-library');}
+function openLibrary(){showLibrary(libraryDefault,'open-library');}
 function openFavoriteVideos(){libraryView('favorite-videos','Video yêu thích','open-favorite-videos');items=[...favoriteVideos];renderCards($('results'),items,{removeFrom:'favorite'});if(!items.length)emptyLibrary('Bấm ☆ trên video để lưu video yêu thích.');}
 document.querySelectorAll('#library-tabs [data-library]').forEach(button=>button.addEventListener('click',()=>showLibrary(button.dataset.library)));
 function savePlaylists(){storage.set('playlists',playlists);}
