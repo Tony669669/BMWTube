@@ -24,7 +24,7 @@ let selectedPlaylistId='',repeatVideo=storage.get('repeatVideo',false)===true,pl
 const uploadsCache=new Map();
 let homeDefault=storage.get('homeDefault','favorites')==='explore'?'explore':'favorites';
 let homeMode=homeDefault;
-const libraryDefaultOptions=['continue','watch-later','favorite-channels','playlists'];
+const libraryDefaultOptions=['watch-later','favorite-channels','playlists'];
 const savedLibraryDefault=storage.get('libraryDefault','favorite-channels');
 let libraryDefault=libraryDefaultOptions.includes(savedLibraryDefault)?savedLibraryDefault:'favorite-channels';
 let appProfile=storage.get('appProfile','red')==='yellow'?'yellow':'red';
