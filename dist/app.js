@@ -264,7 +264,7 @@ function updateQueue(){
         marker.classList.add('playing-marker');
         marker.setAttribute('viewBox','0 0 20 20');
         marker.setAttribute('aria-hidden','true');
-        marker.innerHTML='<path d="M3 1.5 18 10 3 18.5Z" fill="#ff9500" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>';
+        marker.innerHTML='<defs><linearGradient id="playing-marker-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc400"/><stop offset="1" stop-color="#f04b3a"/></linearGradient></defs><circle cx="10" cy="10" r="9.5" fill="url(#playing-marker-gradient)"/><path d="M8 5.5a1 1 0 0 0-1.6.8v7.4a1 1 0 0 0 1.6.8l5-3.7a1 1 0 0 0 0-1.6Z" fill="#fff"/>';
         card.append(marker);
       }
       return card;
