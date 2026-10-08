@@ -141,6 +141,7 @@ button.transport-button:hover{background-color:rgba(29,33,38,.97)}
 #queue .card h3{grid-column:2;font-size:14px;line-height:1.3;margin:0;align-self:end}
 #queue .card p{grid-column:2;font-size:11px;align-self:start}
 #queue .playing-marker{grid-row:1/3;grid-column:1;place-self:center;width:20px;height:20px;z-index:1;pointer-events:none}
+#queue .playing-title-marker{display:inline-block;margin-right:5px;color:#ff9500;font-size:12px;line-height:1;vertical-align:baseline}
 body.passenger #stage{order:2}
 body.passenger #video-aside{order:1;border-left:0;border-right:1px solid var(--line)}
 #controls-wake{display:none}

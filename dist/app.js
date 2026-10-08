@@ -255,6 +255,11 @@ function updateQueue(){
       if(video.id===current?.id){
         card.setAttribute('aria-current','true');
         card.setAttribute('aria-label',`Đang phát: ${video.title}`);
+        const titleMarker=document.createElement('span');
+        titleMarker.className='playing-title-marker';
+        titleMarker.setAttribute('aria-hidden','true');
+        titleMarker.textContent='▶';
+        card.querySelector('h3').prepend(titleMarker);
         const marker=document.createElementNS('http://www.w3.org/2000/svg','svg');
         marker.classList.add('playing-marker');
         marker.setAttribute('viewBox','0 0 20 20');
