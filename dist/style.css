@@ -139,8 +139,7 @@ button.transport-button:hover{background-color:rgba(29,33,38,.97)}
 #queue .card img{grid-row:1/3;grid-column:1;border-radius:5px}
 #queue .card h3{grid-column:2;font-size:14px;line-height:1.3;margin:0;align-self:end}
 #queue .card p{grid-column:2;font-size:11px;align-self:start}
-#queue .card[aria-current="true"] img{outline:2px solid var(--accent);outline-offset:-2px}
-#queue .card[aria-current="true"] h3,#queue .card[aria-current="true"] p{color:var(--accent)}
+#queue .playing-marker{grid-row:1/3;grid-column:1;place-self:center;width:20px;height:20px;z-index:1;pointer-events:none}
 body.passenger #stage{order:2}
 body.passenger #video-aside{order:1;border-left:0;border-right:1px solid var(--line)}
 #controls-wake{display:none}

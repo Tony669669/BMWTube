@@ -254,8 +254,13 @@ function updateQueue(){
       const card=queueCard(video,()=>playPlaylistAt(playlist.id,index));
       if(video.id===current?.id){
         card.setAttribute('aria-current','true');
-        const channel=card.querySelector('p');
-        channel.textContent=`Đang phát · ${channel.textContent}`;
+        card.setAttribute('aria-label',`Đang phát: ${video.title}`);
+        const marker=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        marker.classList.add('playing-marker');
+        marker.setAttribute('viewBox','0 0 20 20');
+        marker.setAttribute('aria-hidden','true');
+        marker.innerHTML='<path d="M3 1.5 18 10 3 18.5Z" fill="#ff9500" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>';
+        card.append(marker);
       }
       return card;
     }));
@@ -486,7 +491,7 @@ function renderPlaylistVideos(){
   });
 }
 function movePlaylistVideo(index,direction){const playlist=playlists.find(item=>item.id===selectedPlaylistId);if(!playlist)return;const next=index+direction;if(next<0||next>=playlist.videos.length)return;[playlist.videos[index],playlist.videos[next]]=[playlist.videos[next],playlist.videos[index]];savePlaylists();renderPlaylistVideos();}
-function openPlaylistDialog(video=current){if(video&&!video.id){notice('Mở video trước khi thêm vào playlist.');return;}$('playlist-form').dataset.videoId=video?.id||'';$('playlist-form')._video=video?.id?video:null;$('playlist-form').querySelector('.dialog-status').hidden=true;$('playlist-name').value='';const picker=$('playlist-picker');picker.replaceChildren();playlists.forEach(playlist=>{const button=document.createElement('button');button.type='button';button.className='playlist-pick';button.textContent=`${playlist.name} · ${playlist.videos.length}`;button.disabled=!video;button.onclick=()=>{addVideoToPlaylist(playlist,video);$('playlist-dialog').close();};picker.append(button);});$('playlist-empty').hidden=playlists.length>0;if($('playlist-dialog').showModal)$('playlist-dialog').showModal();else $('playlist-dialog').setAttribute('open','');$('playlist-name').focus();}
+function openPlaylistDialog(video=current){if(video&&!video.id){notice('Mở video trước khi thêm vào playlist.');return;}$('playlist-form').dataset.videoId=video?.id||'';$('playlist-form')._video=video?.id?video:null;$('playlist-form').querySelector('.dialog-status').hidden=true;$('playlist-name').value='';const picker=$('playlist-picker');picker.replaceChildren();playlists.forEach(playlist=>{const button=document.createElement('button');button.type='button';button.className='playlist-pick';button.textContent=`${playlist.name} · ${playlist.videos.length}`;button.disabled=!video;button.onclick=()=>{addVideoToPlaylist(playlist,video);$('playlist-dialog').close();};picker.append(button);});$('playlist-empty').hidden=playlists.length>0;if($('playlist-dialog').showModal)$('playlist-dialog').showModal();else $('playlist-dialog').setAttribute('open','');$('close-playlist').focus({preventScroll:true});}
 function addVideoToPlaylist(playlist,video){if(!playlist||!video?.id)return;if(playlist.videos.some(item=>item.id===video.id)){notice('Video này đã có trong playlist.');return;}playlist.videos.unshift({...video,position:0,duration:0});savePlaylists();if(selectedPlaylistId===playlist.id)renderPlaylistVideos();if(libraryMode==='library'&&librarySection==='playlists')renderPlaylists();notice(`Đã thêm vào “${playlist.name}”.`);}
 $('create-playlist').onclick=()=>openPlaylistDialog(null);$('play-playlist').onclick=()=>playPlaylistAt(selectedPlaylistId,0);$('playlist-back').onclick=()=>{selectedPlaylistId='';renderPlaylists();};$('add-to-playlist').onclick=()=>openPlaylistDialog(current);$('close-playlist').onclick=()=>$('playlist-dialog').close();$('playlist-dialog').addEventListener('click',event=>{if(event.target===$('playlist-dialog'))$('playlist-dialog').close();});$('playlist-form').addEventListener('submit',event=>{event.preventDefault();const created=createPlaylist($('playlist-name').value);if(!created)return;const video=$('playlist-form')._video;if(video)addVideoToPlaylist(created,video);$('playlist-dialog').close();if(libraryMode==='library'&&librarySection==='playlists'){selectedPlaylistId=created.id;renderPlaylists();}});
 function removeFromList(listName,id){
