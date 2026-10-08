@@ -249,11 +249,16 @@ function loadPlayerAPI(){if(window.YT?.Player)return Promise.resolve();if(apiPro
 function updateQueue(){
   const playlist=playlistPlayback&&playlists.find(list=>list.id===playlistPlayback.playlistId);
   if(playlist){
-    const currentIndex=playbackQueueIndex;
-    const upcoming=repeatVideo&&currentIndex>=0?[playlist.videos[currentIndex]]:currentIndex>=0?playlist.videos.slice(currentIndex+1):[];
     $('queue-title').textContent=`Playlist · ${playlist.name}`;
-    $('queue').replaceChildren(...upcoming.map(video=>queueCard(video,()=>watch(video,0,true,playbackQueue))));
-    if(!upcoming.length){const p=document.createElement('p');p.className='empty';p.textContent='Đã đến video cuối của playlist.';$('queue').append(p);}
+    $('queue').replaceChildren(...playlist.videos.map((video,index)=>{
+      const card=queueCard(video,()=>playPlaylistAt(playlist.id,index));
+      if(video.id===current?.id){
+        card.setAttribute('aria-current','true');
+        const channel=card.querySelector('p');
+        channel.textContent=`Đang phát · ${channel.textContent}`;
+      }
+      return card;
+    }));
     return;
   }
   const list=playbackQueue.filter(v=>v.id!==current?.id);$('queue-title').textContent=query?'Cùng tìm kiếm':'Video khác';renderCards($('queue'),list);if(!list.length){const p=document.createElement('p');p.className='empty';p.textContent='Dùng nút Tìm kiếm bên cạnh để tìm thêm video. Các kết quả sẽ xuất hiện ở đây.';$('queue').append(p);}
