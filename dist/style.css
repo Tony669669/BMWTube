@@ -24,16 +24,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 
 #app-shell{display:grid;grid-template-columns:minmax(0,1fr) var(--rail-width);min-height:var(--vh,100vh)}
 #main{grid-column:1;grid-row:1;min-width:0;min-height:var(--vh,100vh)}
-#app-rail{grid-column:2;grid-row:1;position:sticky;top:0;height:var(--vh,100vh);min-height:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 7px max(12px,env(safe-area-inset-bottom));border-left:1px solid var(--line);background:var(--bg);z-index:8}
+:is(#app-rail,#passenger-rail){grid-column:2;grid-row:1;position:sticky;top:0;height:var(--vh,100vh);min-height:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 7px max(12px,env(safe-area-inset-bottom));border-left:1px solid var(--line);background:var(--bg);z-index:8}
 .rail-brand{width:48px;height:48px;display:grid;place-items:center;flex:0 0 auto}
 .rail-logo{display:block;width:100%;height:100%}
-#app-rail button{width:48px;height:48px;min-width:48px;min-height:48px;flex:0 0 auto;color:#bfc3c9;font-size:25px;border-radius:12px}
-#app-rail button svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#app-rail button{position:relative}
-#app-rail button:hover{background:transparent;color:var(--text)}
-#app-rail button[aria-current="page"],#app-rail button[aria-expanded="true"],#app-rail button:focus-visible{background:transparent;color:var(--text);outline:none;box-shadow:none}
-#app-rail button[aria-current="page"]::after,#app-rail button[aria-expanded="true"]::after,#app-rail button:focus-visible::after{content:"";position:absolute;left:auto;right:2px;top:50%;width:2px;height:16px;border-radius:2px;background:var(--accent);transform:translateY(-50%)}
-#app-rail #home{margin-top:0}
+:is(#app-rail,#passenger-rail) button{width:48px;height:48px;min-width:48px;min-height:48px;flex:0 0 auto;color:#bfc3c9;font-size:25px;border-radius:12px}
+:is(#app-rail,#passenger-rail) button svg{display:block;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:is(#app-rail,#passenger-rail) button{position:relative}
+:is(#app-rail,#passenger-rail) button:hover{background:transparent;color:var(--text)}
+:is(#app-rail,#passenger-rail) button[aria-current="page"],:is(#app-rail,#passenger-rail) button[aria-expanded="true"],:is(#app-rail,#passenger-rail) button:focus-visible{background:transparent;color:var(--text);outline:none;box-shadow:none}
+:is(#app-rail,#passenger-rail) button[aria-current="page"]::after,:is(#app-rail,#passenger-rail) button[aria-expanded="true"]::after,:is(#app-rail,#passenger-rail) button:focus-visible::after{content:"";position:absolute;left:auto;right:2px;top:50%;width:2px;height:16px;border-radius:2px;background:var(--accent);transform:translateY(-50%)}
+:is(#app-rail,#passenger-rail) #home{margin-top:0}
 body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr)}
 body.passenger #main{grid-column:2}
 body.passenger #app-rail{grid-column:1;grid-row:1;border-left:0;border-right:1px solid var(--line)}
@@ -210,9 +210,9 @@ body.home-feed #browse>.section-heading{display:flex;align-items:center;justify-
 body.home-feed #viewport-label{display:none}
 @media(max-width:760px){
   :root{--rail-width:58px}
-  #app-rail{gap:6px;padding:8px 4px}
-  .rail-brand,#app-rail button{width:44px;height:44px;min-width:44px;min-height:44px}
-  #app-rail button{font-size:23px}
+  :is(#app-rail,#passenger-rail){gap:6px;padding:8px 4px}
+  .rail-brand,:is(#app-rail,#passenger-rail) button{width:44px;height:44px;min-width:44px;min-height:44px}
+  :is(#app-rail,#passenger-rail) button{font-size:23px}
   #browse{padding:20px;padding-top:18px;padding-left:15px}
   .muted{display:none}
   .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 12px}
@@ -234,7 +234,7 @@ body:not(.cinema):not(.compact-player).passenger #video-aside{margin-right:0}
 body.compact-player:not(.cinema) #video-aside{margin-top:0}
 #results>.empty{grid-column:1/-1}
 #results>.empty .button,#results>.empty button{margin:0 12px 12px 0}
-#app-rail button{display:grid;place-items:center}
+:is(#app-rail,#passenger-rail) button{display:grid;place-items:center}
 @media(max-width:400px){
   #transport{flex-wrap:wrap;gap:0 4px;height:88px;padding:0 8px}
   #seek{order:-1;flex:0 0 100%;height:30px}
@@ -267,13 +267,13 @@ body.controls-hidden #controls-wake{display:block;position:absolute;inset:0;z-in
 body.controls-hidden #video-info{opacity:0;visibility:hidden;pointer-events:none}
 body.native-controls-test #transport,body.native-controls-test #controls-wake,body.native-controls-test #video-skip,body.native-controls-test #video-tap-toggle{display:none!important}
 /* Local library shortcuts fit the short CarPlay viewport and remain scrollable. */
-#app-rail{overflow:hidden;overscroll-behavior:contain}
+:is(#app-rail,#passenger-rail){overflow:hidden;overscroll-behavior:contain}
 #favorite-channel{pointer-events:auto;flex:0 0 auto;font-size:25px;min-width:44px;min-height:44px}
 #favorite-channel[aria-pressed="true"]{color:#ffd66b}
 .favorite-card{display:flex;gap:8px;min-width:0;align-items:stretch}
 .favorite-card>button:first-child{flex:1;min-width:0;overflow-wrap:anywhere;text-align:left}
 .favorite-card>button:last-child{flex:0 0 44px;color:#ffd66b}
-@media(max-height:390px){#app-rail{gap:3px;padding-top:5px;padding-bottom:5px}#app-rail #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
+@media(max-height:390px){:is(#app-rail,#passenger-rail){gap:3px;padding-top:5px;padding-bottom:5px}:is(#app-rail,#passenger-rail) #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
 /* APTV yellow reserves one full navigation rail at the browser's right edge. */
 body.aptv-yellow #app-shell{margin-right:var(--rail-width);border-right:1px solid var(--line)}
 body.aptv-yellow:not(.passenger) #app-shell{grid-template-columns:minmax(0,1fr) 0px}
@@ -285,20 +285,20 @@ body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.
 .red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
 @media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
 /* Yellow APTV reserves space for its browser controls and defaults the app rail below ⋯. */
-body.aptv-yellow #app-rail{gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:none}
-body.aptv-yellow:not(.passenger) #app-rail{position:fixed;right:0;width:var(--rail-width)}
-body.aptv-yellow:not(.passenger) #app-rail{padding-top:calc(clamp(52px,20vh,96px) + 15px)}
-body.aptv-yellow #app-rail button{height:40px;min-height:40px}
+body.aptv-yellow :is(#app-rail,#passenger-rail){gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:none}
+:is(body.aptv-yellow:not(.passenger) #app-rail,body.aptv-yellow.passenger #passenger-rail){position:fixed;right:0;width:var(--rail-width)}
+:is(body.aptv-yellow:not(.passenger) #app-rail,body.aptv-yellow.passenger #passenger-rail){padding-top:calc(clamp(52px,20vh,96px) + 15px)}
+body.aptv-yellow :is(#app-rail,#passenger-rail) button{height:40px;min-height:40px}
 body.passenger.aptv-yellow #app-rail{transform:none}
-body.cinema #app-rail{display:flex}
+body.cinema :is(#app-rail,#passenger-rail){display:flex}
 body.aptv-yellow:not(.passenger) #browse{padding-right:8px}
 body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
 body:not(.cinema) #video-aside{padding-left:5px;padding-right:0}
 body.passenger:not(.cinema) #video-aside{padding-left:5px;padding-right:0}
 body:not(.cinema) #video-aside{padding-right:5px}
 body.passenger:not(.cinema) #video-aside{padding-right:5px}
-@media(max-width:760px){body.aptv-yellow #app-rail{gap:.9px}}
-@media(max-height:390px){body.aptv-yellow #app-rail{gap:.45px}}
+@media(max-width:760px){body.aptv-yellow :is(#app-rail,#passenger-rail){gap:.9px}}
+@media(max-height:390px){body.aptv-yellow :is(#app-rail,#passenger-rail){gap:.45px}}
 
 /* Compact recent searches; on keyword results they share the title row. */
 .chips{gap:5px}
@@ -431,7 +431,7 @@ body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:
 #settings footer a{font-size:8px}
 
 /* Keep the rail divider fixed while nudging right-side navigation controls inward. */
-body:not(.passenger) #app-rail>.rail-brand,body:not(.passenger) #app-rail>button{position:relative;left:-15px}
+:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>.rail-brand,:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>button{position:relative;left:-15px}
 
 #stage{left:3px}
 
@@ -496,6 +496,12 @@ body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(5
 @media(max-width:340px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:minmax(0,1fr)}}
 
 /* Shift the right rail divider left without moving its navigation icons. */
-body:not(.passenger) #app-rail{border-left:0}
-body:not(.passenger) #app-rail::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) + 5px);width:1px;background:var(--line);pointer-events:none;z-index:9}
+:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail){border-left:0}
+:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) + 5px);width:1px;background:var(--line);pointer-events:none;z-index:9}
 body.aptv-yellow:not(.passenger) #app-shell{border-right:0}
+
+/* Passenger mode keeps the left rail and adds the driver's right rail. */
+body:not(.passenger) #passenger-rail{display:none}
+body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) var(--rail-width)}
+body.passenger #passenger-rail{grid-column:3}
+body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) 0px;border-right:0}

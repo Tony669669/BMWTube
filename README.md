@@ -18,7 +18,7 @@ Mở http://localhost:4173. Localhost chỉ dùng trên máy này; để mở tr
 ## Chức năng
 
 - Dán link YouTube hoặc video ID để phát bằng IFrame Player API chính thức, không cần API key.
-- Player dùng toàn bộ chiều cao viewport ngay cả trước khi bật chế độ mở rộng. Cài đặt chọn player sát trái (ghế lái) hoặc sát phải (ghế phụ); danh sách video và cột điều hướng đổi bên theo lựa chọn. Hình và chữ của video không bị lật.
+- Player dùng toàn bộ chiều cao viewport ngay cả trước khi bật chế độ mở rộng. Cài đặt chọn player sát trái (ghế lái) hoặc sát phải (ghế phụ); danh sách video đổi bên theo lựa chọn. Chế độ ghế phụ có thêm cột điều hướng bên phải tại đúng vị trí của ghế lái, đồng thời giữ cột bên trái. Hình và chữ của video không bị lật.
 - Play/pause, thanh tua, thời gian, nút CC bật/tắt phụ đề. Không thêm volume, ±10s hay Next.
 - Cột điều hướng luôn hiện với icon nét mảnh kiểu macOS cho Trang chủ, Tìm kiếm, Cài đặt; logo play dùng màu tối trung tính. Tìm kiếm và Cài đặt mở popup. Nút mở rộng ẩn danh sách và cột điều hướng; video 16:9 dùng hết chiều cao viewport. Thanh Play/Pause và tua phủ lên mép dưới video, tự ẩn sau 3 giây trong chế độ mở rộng và hiện lại khi chạm màn hình.
 - Tìm kiếm và phân trang qua YouTube Data API v3 khi có API key; kết quả hiển thị cả kênh và video. Chip **Kênh yêu thích** và **Video yêu thích** nằm cạnh tiêu đề truy vấn, lọc các kết quả đã tải theo channel ID/video ID lưu trên thiết bị; bật/tắt chip không gọi API. Khi bật cả hai, kết quả phải khớp cả hai bộ lọc. Mỗi lần gửi tìm kiếm hỏi riêng loại kênh và video để giữ bộ lọc video có thể nhúng; không gọi theo từng phím. Khám phá dùng `videos.list(mostPopular)`.
