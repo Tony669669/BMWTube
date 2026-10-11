@@ -434,6 +434,8 @@ body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:
 :is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>.rail-brand,:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>button{position:relative;left:-15px}
 
 #stage{left:3px}
+/* In passenger mode the divider belongs at the queue/player boundary. */
+body.passenger #stage{left:0}
 
 @media(max-width:720px){.channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.channel-grid{grid-template-columns:minmax(0,1fr)}}
