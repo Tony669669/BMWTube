@@ -434,9 +434,6 @@ body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:
 :is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>.rail-brand,:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)>button{position:relative;left:-15px}
 
 #stage{left:3px}
-/* In passenger mode the divider belongs at the queue/player boundary. */
-body.passenger #stage{left:0}
-
 @media(max-width:720px){.channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.channel-grid{grid-template-columns:minmax(0,1fr)}}
 .library-tabs button#library-settings{min-width:0}
@@ -497,9 +494,9 @@ body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(5
 @media(max-width:520px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
 @media(max-width:340px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:minmax(0,1fr)}}
 
-/* Shift the right rail divider left without moving its navigation icons. */
+/* Keep the right rail divider on the rail edge, outside the player area. */
 :is(body:not(.passenger) #app-rail,body.passenger #passenger-rail){border-left:0}
-:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) + 5px);width:1px;background:var(--line);pointer-events:none;z-index:9}
+:is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) - 1px);width:1px;background:var(--line);pointer-events:none;z-index:9}
 body.aptv-yellow:not(.passenger) #app-shell{border-right:0}
 
 /* Passenger mode keeps the left rail and adds the driver's right rail. */
