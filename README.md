@@ -90,3 +90,17 @@ Kết quả kiểm tra trình duyệt và giới hạn còn lại xem [TESTING.m
 ### Nút CC
 
 CC nằm cạnh nút mở rộng. Mặc định CC tắt và nút màu ghi; trạng thái màu theo lựa chọn của BMWTube, không suy ra từ `getOptions()` vì API này liệt kê khả năng của module chứ không xác nhận phụ đề đang hiển thị. Khi player khởi tạo hoặc đổi video, BMWTube thử gọi `unloadModule('captions')` trước khi phát. `cc_load_policy: 0` vẫn theo tùy chọn người dùng của YouTube; `loadModule`/`unloadModule` không được cam kết trong tài liệu API công khai, nên tắt cưỡng bức là best effort và cần xác minh trên APTV. Không bảo đảm video có track phụ đề.
+
+## Sao lưu GitHub
+
+Trong **Cài đặt → Sao lưu GitHub**, nhập fine-grained personal access token cho riêng repo `Tony669669/BMWTube`, quyền **Contents: Read and write**, rồi bấm **Lưu lên GitHub**. Tạo token tại https://github.com/settings/personal-access-tokens/new. Không đưa token vào mã nguồn hay tin nhắn. Token mặc định chỉ tồn tại khi trang đang mở; chọn **Nhớ token** nếu cần, hoặc **Quên token** để xóa khỏi trình duyệt.
+
+Bản sao nằm tại `backup.json` trên nhánh `bmwtube-backups`. Lần lưu đầu tạo nhánh từ `main` nếu chưa có. Workflow Pages chỉ theo dõi `main`, vì vậy sao lưu không triển khai lại website. Không cần backend, database hoặc GitHub Actions mới. Repo/nhánh được cấu hình trong `dist/backup.js`; không thay đổi quyền công khai của repo tự động.
+
+Trình duyệt mới kiểm tra bản công khai khi mở và hiện nút xem bản sao nếu chưa có dữ liệu. Có thể chủ động bấm **Kiểm tra bản sao**, xem ngày và số lượng, rồi **Khôi phục từ bản này → Xác nhận khôi phục**. App tải lại sau khi áp dụng; **Hoàn tác lần khôi phục** đưa dữ liệu trở về trạng thái trước đó. Trình duyệt có dữ liệu không tự bị ghi đè. Bản công khai đọc được không cần token; repo riêng tư cần token ngay cả khi khôi phục.
+
+Dữ liệu gồm playlist và thứ tự video, video/kênh yêu thích, Xem sau, gần đây, tìm kiếm, tiến trình xem, Telex, vị trí player, profile APTV, trang/mục thư viện mặc định, lặp video và mặc định chỉ nghe. **Không sao lưu YouTube API key, GitHub token, cookie hay phiên đăng nhập.** Các khóa hiện có được giữ nguyên khi khôi phục. JSON dùng schema phiên bản 1, giới hạn 900 KiB; vượt giới hạn sẽ báo lỗi, không cắt dữ liệu.
+
+Nếu repo công khai, bản sao **và lịch sử Git** công khai, bao gồm playlist/lịch sử xem và tìm kiếm. Xóa dữ liệu ở bản mới không xóa phiên bản cũ trong Git. Nút Lưu chủ động gửi dữ liệu lên GitHub; không có tự đồng bộ nền. Khi thiết bị khác đã cập nhật file, app yêu cầu xem bản sao trước khi chọn khôi phục hoặc thay bản GitHub bằng dữ liệu ở đây. Kiểm tra SHA ngăn việc âm thầm ghi đè một bản vừa thay đổi. Không tự gộp playlist.
+
+Kiểm thử: `npm test` kiểm tra schema, Unicode, loại bỏ khóa, hoàn tác, lỗi bộ nhớ, xung đột và giao tiếp GitHub giả lập. `npm run test:backup-browser` kiểm tra giao diện trên viewport iPhone/xe với GitHub giả lập; sử dụng biến `PLAYWRIGHT_MODULE` và `CHROME_PATH` như `test:browser`. Vẫn cần thử Safari iPhone và APTV/CarPlay thực tế; kiểm thử desktop không xác nhận WebView trên xe.

@@ -506,3 +506,17 @@ body:not(.passenger) #passenger-rail{display:none}
 body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) var(--rail-width)}
 body.passenger #passenger-rail{grid-column:3}
 body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) 0px;border-right:0}
+
+/* Backup controls work in both the settings dialog and the inline library settings. */
+#backup-section{scroll-margin-top:16px}
+#backup-section input[type=password]{width:100%;min-width:0;box-sizing:border-box}
+#backup-section .backup-remember{display:flex;align-items:center;gap:10px;margin:12px 0}
+#backup-section .backup-remember input{width:22px;height:22px;flex:0 0 auto}
+.backup-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+#backup-section button,#backup-section .button{min-height:44px;white-space:normal}
+#backup-status,#backup-local,#backup-summary{overflow-wrap:anywhere}
+#backup-preview,#backup-confirm,#backup-undo-confirm{padding:12px;border:1px solid var(--line);border-radius:12px;margin:12px 0}
+#backup-replace,#backup-undo{margin-top:12px}
+#backup-banner{position:fixed;bottom:16px;left:calc(var(--rail-width) + 12px);right:calc(var(--rail-width) + 12px);z-index:30;background:#19212d;border:1px solid #506075;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;box-shadow:0 6px 24px #0008}
+#backup-banner[hidden],#backup-section [hidden]{display:none!important}
+#backup-banner button{min-height:44px}

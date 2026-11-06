@@ -1,3 +1,4 @@
+import {initBackup} from './backup-ui.js?v=github-backup-1';
 import {telex,videoId,timeLabel,playerSize} from './core.js?v=review-fixes';
 const $=id=>document.getElementById(id);
 // Build both navigation rails from the same icons and actions, with unique IDs.
@@ -12,7 +13,8 @@ passengerRail.querySelectorAll('button').forEach(button=>{
 });
 $('app-rail').after(passengerRail);
 function railButtons(id){return [$(id),$('passenger-'+id)].filter(Boolean);}
-const storage={get(key,fallback){try{return JSON.parse(localStorage.getItem('bmwtube.'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('bmwtube.'+key,JSON.stringify(value));}catch{notice('Trình duyệt không cho lưu dữ liệu. Cài đặt chỉ dùng trong phiên này.');}}};
+let backupApplying=false;
+const storage={get(key,fallback){try{return JSON.parse(localStorage.getItem('bmwtube.'+key))??fallback;}catch{return fallback;}},set(key,value){if(backupApplying)return;try{localStorage.setItem('bmwtube.'+key,JSON.stringify(value));document.dispatchEvent(new Event('bmwtube-data-changed'));}catch{notice('Trình duyệt không cho lưu dữ liệu. Cài đặt chỉ dùng trong phiên này.');}}};
 let key=storage.get('key',''),recent=storage.get('recent',[]),history=storage.get('searches',[]),telexOn=storage.get('telex',false),playerSide=storage.get('playerSide','left');
 if(typeof key!=='string')key='';
 telexOn=telexOn===true;
@@ -661,3 +663,5 @@ if(document.modelContext?.registerTool){
   try{Promise.resolve(document.modelContext.registerTool({name:'open_youtube_video',title:'Mở video trong BMWTube',description:'Mở một link YouTube trong player và lưu vào lịch sử cục bộ; có thể bắt đầu phát video.',inputSchema:{type:'object',properties:{url:{type:'string'}},required:['url'],additionalProperties:false},annotations:{readOnlyHint:false},async execute(input){if(!input||typeof input.url!=='string'||Object.keys(input).some(k=>k!=='url'))throw Error('Cần một URL YouTube hợp lệ.');const id=videoId(input.url);if(!id)throw Error('Link YouTube không hợp lệ.');await watch({id,title:'Video YouTube',channel:'YouTube'});return {videoId:id,view:'player',ready:playerReady};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}
   window.addEventListener('pagehide',event=>{if(!event.persisted)lifecycle.abort();});
 }
+
+initBackup({beforeApply:()=>{backupApplying=true;},applyFailed:()=>{backupApplying=false;},openSettings});

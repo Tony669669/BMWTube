@@ -35,3 +35,11 @@
 - Viewport BMW 1422×456 CSS px, DPR 3 lấy từ ảnh người dùng cung cấp. Kiểm tra desktop không thay thế bàn phím, touch và WebView thực trên xe.
 - CC dùng các hàm module mà YouTube không cam kết trong API công khai; có feature detection, nhưng vẫn cần thử trên APTV.
 - GitHub Actions mặc định chạy unit tests trước khi triển khai. Browser regression là lệnh riêng, chưa đưa vào workflow.
+
+## Sao lưu GitHub — 06/11/2026
+
+- `npm test`: 15/15 đạt, gồm 8 kiểm thử mới cho schema sao lưu, tiếng Việt, loại khóa truy cập, khôi phục/hoàn tác, rollback khi hết bộ nhớ, đọc công khai, tạo nhánh và xung đột SHA.
+- `npm run test:backup-browser`: 4 nhóm đạt với GitHub giả lập: khôi phục/hoàn tác ở 390×844 và 1422×456; lưu lần đầu, thay bản khi xung đột, nhớ/quên token và giữ API key; dữ liệu sai phiên bản và token lỗi. Đã xem ảnh giao diện ở cả hai kích thước.
+- `node --check` cho app và các module sao lưu, `git diff --check`: đạt.
+- `npm run test:browser` cũ dừng ở kiểm tra vị trí player `3 != 0` tại `tests/browser.mjs:53`. Chạy cùng bộ kiểm thử trên bản HEAD trước thay đổi, được trích riêng vào `/tmp`, cho đúng lỗi đó. Đây là lỗi có sẵn của kiểm thử/bố cục, không phải bằng chứng hồi quy do sao lưu.
+- Không dùng token thật, không ghi bản sao lên GitHub và chưa triển khai website. Safari iPhone/APTV/CarPlay cần kiểm thử trên thiết bị thực; viewport Chrome không thay thế kiểm thử đó.
