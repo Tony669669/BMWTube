@@ -31,13 +31,16 @@ try{
   const box=await mic.boundingBox(),field=await page.locator('.search-field').boundingBox();
   assert.ok(box.y>=field.y+field.height);assert.equal(box.width,72);assert.equal(box.height,72);
   assert.equal(await mic.evaluate(el=>getComputedStyle(el).borderRadius),'50%');
+  assert.ok(Math.abs(box.x+box.width/2-field.x-field.width/2)<1);
+  assert.equal(await page.locator('#open-voice-search, #passenger-open-voice-search, #search-dialog h2, #search-dialog .dialog-hint, .voice-search-action span').count(),0);
+  assert.equal(await mic.locator('svg').evaluate(el=>getComputedStyle(el).stroke),'rgb(255, 255, 255)');
   await page.screenshot({path:`/tmp/bmwtube-voice-${width}.png`});
   await mic.click();assert.equal(await mic.getAttribute('aria-pressed'),'true');
   await page.evaluate(()=>window.recognition.result('nhạc Trịnh'));
   await page.waitForFunction(()=>!document.querySelector('#search-dialog').open);
   await page.waitForFunction(()=>document.querySelector('#browse-title').textContent==='Không tìm thấy kết quả');
   assert.ok(queries.includes('nhạc Trịnh'));
-  await page.locator('#open-voice-search').click();
+  await page.locator('#open-search').click();await mic.click();
   assert.equal(await mic.getAttribute('aria-pressed'),'true');
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>window.recognition.aborted),true);
   const count=queries.length;await page.evaluate(()=>window.recognition.result('late'));

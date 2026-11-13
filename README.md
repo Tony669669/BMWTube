@@ -107,6 +107,6 @@ Kiểm thử: `npm test` kiểm tra schema, Unicode, loại bỏ khóa, hoàn t�
 
 ## Tìm bằng giọng nói
 
-Chạm nút micro trên thanh điều hướng hoặc nút micro tròn dưới ô tìm kiếm, cho phép truy cập micro và nói tên video bằng tiếng Việt. Kết quả cuối cùng tự gửi vào luồng tìm kiếm hiện có (cần API key để tìm trong BMWTube; nếu chưa có key sẽ mở kết quả YouTube). Chạm lại để hủy; đóng hộp tìm kiếm hoặc chuyển khỏi trang cũng dừng nghe. Mỗi lượt nghe giới hạn 15 giây.
+Chạm nút micro tròn dưới ô tìm kiếm, cho phép truy cập micro và nói tên video bằng tiếng Việt. Kết quả cuối cùng tự gửi vào luồng tìm kiếm hiện có (cần API key để tìm trong BMWTube; nếu chưa có key sẽ mở kết quả YouTube). Chạm lại để hủy; đóng hộp tìm kiếm hoặc chuyển khỏi trang cũng dừng nghe. Mỗi lượt nghe giới hạn 15 giây.
 
 Cần HTTPS/localhost và trình duyệt hỗ trợ SpeechRecognition hoặc webkitSpeechRecognition. Khả năng truy cập micro trên APTV/WebView cần kiểm tra trực tiếp trên thiết bị. Không hỗ trợ thì dùng micro của bàn phím hoặc nhập tay. Âm thanh có thể được trình duyệt gửi tới dịch vụ nhận giọng nói; BMWTube không lưu âm thanh.

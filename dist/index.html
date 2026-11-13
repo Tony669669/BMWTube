@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=github-backup-1-passenger-right-rail-20261009">
+  <link rel="stylesheet" href="style.css?v=voice-clean-2">
 </head>
 <body>
 <div id="app-shell">
@@ -78,7 +78,6 @@
   <nav id="app-rail" aria-label="Điều hướng BMWTube">
     <button id="home" type="button" aria-label="Trang chủ" title="Trang chủ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.8 10 8.2-6.5 8.2 6.5M5.8 9.2v10h5v-5.7h2.4v5.7h5v-10"/></svg></button>
     <button id="open-search" type="button" aria-label="Tìm kiếm" aria-expanded="false" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 4.2 4.2"/></svg></button>
-    <button id="open-voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
     <button id="open-recent" type="button" aria-label="Đã xem gần đây" title="Đã xem gần đây"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6M12 7v5l3 2"/></svg></button>
     <button id="open-favorite-videos" type="button" aria-label="Video yêu thích" title="Video yêu thích"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9z"/></svg></button>
     <button id="open-library" type="button" aria-label="Thư viện" title="Thư viện"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 12 2l8 3.5M4 9l8 3.5L20 9M4 12.5l8 3.5 8-3.5M4 16l8 3.5 8-3.5"/></svg></button>
@@ -89,7 +88,7 @@
 
 <dialog id="search-dialog" aria-label="Tìm kiếm YouTube">
   <form id="search-form" role="search">
-    <div class="dialog-heading search-dialog-heading"><h2>Tìm kiếm</h2><div id="search-history-chips"></div><button id="clear-searches" type="button" class="text-button" hidden>⌫</button><button id="close-search" type="button" aria-label="Đóng">×</button></div>
+    <div class="dialog-heading search-dialog-heading"><div id="search-history-chips"></div><button id="clear-searches" type="button" class="text-button" hidden>⌫</button><button id="close-search" type="button" aria-label="Đóng">×</button></div>
     <div class="search-field">
       <button class="search-icon" type="submit" aria-label="Tìm kiếm" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 4.2 4.2"/></svg></button>
       <input id="query" type="search" lang="vi" placeholder="Tìm kiếm hoặc dán link YouTube" aria-label="Tìm kiếm hoặc dán link YouTube" autocomplete="off" spellcheck="false" enterkeyhint="search">
@@ -98,12 +97,9 @@
     </div>
     <p class="dialog-status" role="status" hidden></p>
     <div class="voice-search-action">
-      <button id="voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
-      <span>Nói để tìm kiếm</span>
+      <button id="voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11v1a6 6 0 0 0 12 0v-1M12 18v3M9 21h6"/></svg></button>
     </div>
     <p id="voice-status" role="status" hidden></p>
-    <p class="dialog-hint">Chạm micro, nói tên video để tự tìm. Dùng khi đã dừng xe hoặc nhờ hành khách thao tác.</p>
-    <p class="dialog-hint">Telex chuyển chữ ngay trong BMWTube khi bàn phím APTV gửi từng ký tự.</p>
     <p id="empty-search-history" class="muted" hidden>Chưa có từ khóa tìm kiếm gần đây.</p>
   </form>
 </dialog>
@@ -223,6 +219,6 @@
   <button id="backup-banner-open" type="button" class="primary">Xem bản sao</button>
   <button id="backup-banner-close" type="button" class="secondary" aria-label="Đóng thông báo sao lưu">×</button>
 </aside>
-<script type="module" src="app.js?v=voice-search-1"></script>
+<script type="module" src="app.js?v=voice-clean-2"></script>
 </body>
 </html>

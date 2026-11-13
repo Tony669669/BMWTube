@@ -50,3 +50,9 @@
 - `npm run test:voice-browser`: đạt ở 390×844 và 1422×456 với Chrome và SpeechRecognition/YouTube API giả lập. Kiểm tra nút tròn 72px dưới ô nhập, tự tìm tiếng Việt, mở từ thanh điều hướng, Escape và lỗi quyền. Đã xem ảnh cả hai kích thước. Dùng `PLAYWRIGHT_MODULE` và `CHROME_PATH` như bộ kiểm tra trình duyệt hiện có.
 - `node --check dist/app.js`, `node --check dist/voice-search.js`, `git diff --check`: đạt.
 - Chưa xác minh giọng nói/micro thật trên APTV hoặc triển khai website.
+
+### Tinh gọn giao diện micro
+
+- Bỏ tiêu đề, nhãn và hướng dẫn trong popup; bỏ micro trên cả hai thanh điều hướng.
+- Đổi phiên bản CSS/JS để tránh dùng CSS cũ.
+- 20/20 unit test đạt; browser voice test đạt tại 390×844 và 1422×456, gồm kiểm tra nút tròn 72px căn giữa, nét SVG trắng, loại bỏ thành phần cũ và giữ luồng tìm/hủy/báo lỗi. Đã xem ảnh cả hai kích thước.

@@ -31,14 +31,14 @@ export function createVoiceSearch({Recognition,secure=true,onState,onText,onSear
         'service-not-allowed':'Trình duyệt không cho phép nhận giọng nói. Hãy dùng micro trên bàn phím hoặc nhập từ khóa.',
         'audio-capture':'Không truy cập được micro. Kiểm tra micro của thiết bị rồi thử lại.',
         'network':'Không kết nối được dịch vụ nhận giọng nói. Kiểm tra mạng rồi thử lại.',
-        'no-speech':'Chưa nghe rõ. Chạm micro để nói lại.',
+        'no-speech':'Chưa nghe rõ, thử lại.',
         'language-not-supported':'Trình duyệt chưa hỗ trợ nhận tiếng Việt. Hãy nhập từ khóa.',
         'aborted':'Đã dừng micro.'
       };
       cancel(messages[event.error]||'Không nhận được giọng nói. Chạm micro để thử lại.');
     };
-    recognition.onend=()=>{if(active===recognition)cancel('Chưa nghe rõ. Chạm micro để nói lại.');};
-    onState(true,'Đang nghe… Nói tên video bằng tiếng Việt. Chạm micro lần nữa để hủy.');
+    recognition.onend=()=>{if(active===recognition)cancel('Chưa nghe rõ, thử lại.');};
+    onState(true,'Đang nghe…');
     timer=setTimeout(()=>cancel('Đã hết thời gian nghe. Chạm micro để thử lại.'),15000);
     try{recognition.start();}catch{cancel('Không khởi động được micro. Kiểm tra quyền micro rồi thử lại.');}
   }
