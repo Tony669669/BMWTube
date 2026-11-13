@@ -83,3 +83,9 @@
 
 - Removed voice button, status space, speech recognition module and direct microphone permission requests after APTV crashed during capture permission recovery.
 - 15 remaining unit tests pass. Text search browser checks at 390x844 and 1422x456 verify no voice controls, text submission, reopen/close and no page errors.
+
+### Search viewport stability in embedded browsers
+
+- Responsive widths now use the layout viewport rather than the zoom-dependent visual viewport. Visible height is normalized by visual scale while retaining software-keyboard height constraints.
+- Search explicitly blurs its input before closing, restores focus without scrolling, and recalculates layout on the next frame. Text autosizing is held at 100%.
+- 16 unit tests pass. Search browser checks pass at 390x844 and 1422x456, including simulated 2x visual viewport shrink before submission and stable dimensions after results. This does not emulate CarCinema's native WebView zoom; on-device confirmation remains necessary.

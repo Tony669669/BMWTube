@@ -24,11 +24,29 @@ try{
   assert.equal(await page.locator('#search-dialog').evaluate(el=>getComputedStyle(el).animationName),'none');
   assert.equal(await page.locator('#query').evaluate(el=>el===document.activeElement),true);
   assert.equal(await page.locator('#voice-search,#voice-status,.voice-status-slot').count(),0);
+  const dimensions=()=>page.evaluate(()=>{
+    const css=getComputedStyle(document.documentElement);
+    return ['--feed-card-width','--yellow-card-width','--player-width','--vh'].map(name=>css.getPropertyValue(name));
+  });
+  const initialDimensions=await dimensions();
+  await page.evaluate(()=>{
+    const original=window.visualViewport;window.originalViewport=original;
+    Object.defineProperty(window,'visualViewport',{configurable:true,value:{width:document.documentElement.clientWidth/2,height:innerHeight/2,scale:2}});
+    window.dispatchEvent(new Event('resize'));
+  });
+  assert.deepEqual(await dimensions(),initialDimensions);
   await page.locator('#query').fill('nhạc Trịnh');
   await page.locator('#search-form').evaluate(form=>form.requestSubmit());
   await page.waitForFunction(()=>!document.querySelector('#search-dialog').open);
   await page.waitForFunction(()=>document.querySelector('#browse-title').textContent==='Không tìm thấy kết quả');
   assert.ok(queries.includes('nhạc Trịnh'));
+  assert.equal(await page.locator('#query').evaluate(el=>el===document.activeElement),false);
+  assert.deepEqual(await dimensions(),initialDimensions);
+  await page.evaluate(()=>{
+    Object.defineProperty(window,'visualViewport',{configurable:true,value:window.originalViewport});
+    window.dispatchEvent(new Event('resize'));
+  });
+  assert.deepEqual(await dimensions(),initialDimensions);
   await page.locator('#open-search').click();
   await page.locator('#close-search').click();
   assert.equal(await page.locator('#search-dialog').evaluate(el=>el.open),false);

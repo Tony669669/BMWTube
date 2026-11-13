@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {telex,videoId,timeLabel,playerSize} from '../dist/core.js';
+import {telex,videoId,timeLabel,playerSize,viewportSize} from '../dist/core.js';
 test('Vietnamese Telex handles tone, shapes, capitals and syllables',()=>{
   for(const [raw,expected] of [['tieengs Vieejt','tiếng Việt'],['ddawng nhaapj','đăng nhập'],['truowngf','trường'],['phowr','phở'],['nghieeng','nghiêng'],['quas','quá'],['duowng','dương'],['ass','as'],['DDawng','Đăng'],['Tiếng Việt','Tiếng Việt']])assert.equal(telex(raw),expected,raw);
 });
@@ -21,4 +21,12 @@ test('BMW viewport uses full height with the navigation rail outside the player'
 });
 test('Ultrawide player fits height and leaves space at right',()=>{
   for(const [width,height] of [[1280,480],[1920,720]]){const w=playerSize(width,height-72);assert.ok(w<=width-260);assert.ok(w*9/16+132<=height-72);const full=playerSize(width,height,true);assert.ok(full<width);assert.ok(full*9/16<=height);}
+});
+
+test('Viewport layout stays stable under zoom and still fits the software keyboard',()=>{
+  assert.deepEqual(viewportSize(1422,456,{width:711,height:228,scale:2}),{width:1422,height:456});
+  assert.deepEqual(viewportSize(390,844,{width:390,height:400,scale:1}),{width:390,height:400});
+  assert.deepEqual(viewportSize(390,844,{width:195,height:200,scale:2}),{width:390,height:400});
+  assert.deepEqual(viewportSize(844,390,{width:422,height:195,scale:2}),{width:844,height:390});
+  assert.deepEqual(viewportSize(1422,456,null),{width:1422,height:456});
 });

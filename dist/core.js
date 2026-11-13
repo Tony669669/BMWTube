@@ -43,3 +43,10 @@ export function videoId(value){
 }
 export function timeLabel(seconds){const number=Number(seconds);const s=Number.isFinite(number)?Math.max(0,Math.floor(number)):0;return s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s/60)%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 export function playerSize(width,height,cinema=false){const available=Math.max(0,height-(cinema?0:132));return Math.max(0,Math.min(width,available*16/9,cinema?width:Math.max(0,width-260)));}
+
+// Visual viewport shrinks during zoom; it must not drive responsive breakpoints.
+export function viewportSize(layoutWidth,layoutHeight,visual){
+  const scale=Number.isFinite(visual?.scale)&&visual.scale>0?visual.scale:1;
+  const visibleHeight=Number.isFinite(visual?.height)&&visual.height>0?visual.height*scale:layoutHeight;
+  return {width:layoutWidth,height:Math.min(layoutHeight,visibleHeight)};
+}
