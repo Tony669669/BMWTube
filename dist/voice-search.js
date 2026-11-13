@@ -13,6 +13,9 @@ export function createVoiceSearch({Recognition,secure=true,onState,onText,onSear
     try{recognition=new Recognition();}catch{onState(false,'Không mở được micro. Hãy dùng micro trên bàn phím hoặc nhập từ khóa.');return;}
     active=recognition;
     recognition.lang='vi-VN';recognition.continuous=false;recognition.interimResults=true;recognition.maxAlternatives=1;
+    recognition.onstart=()=>{
+      if(active===recognition)onState(true,'Đang nghe…','listening');
+    };
     recognition.onresult=event=>{
       if(active!==recognition)return;
       const results=Array.from(event.results);
@@ -38,7 +41,7 @@ export function createVoiceSearch({Recognition,secure=true,onState,onText,onSear
       cancel(messages[event.error]||'Không nhận được giọng nói. Chạm micro để thử lại.');
     };
     recognition.onend=()=>{if(active===recognition)cancel('Chưa nghe rõ, thử lại.');};
-    onState(true,'Đang nghe…');
+    onState(true,'Đang mở micro…','starting');
     timer=setTimeout(()=>cancel('Đã hết thời gian nghe. Chạm micro để thử lại.'),15000);
     try{recognition.start();}catch{cancel('Không khởi động được micro. Kiểm tra quyền micro rồi thử lại.');}
   }

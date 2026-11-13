@@ -1,4 +1,4 @@
-import {createVoiceSearch} from './voice-search.js?v=2';
+import {createVoiceSearch} from './voice-search.js?v=3';
 import {initBackup} from './backup-ui.js?v=github-backup-1';
 import {telex,videoId,timeLabel,playerSize} from './core.js?v=review-fixes';
 const $=id=>document.getElementById(id);
@@ -395,8 +395,10 @@ function closeSettings(){if($('settings').close)$('settings').close();else $('se
 const voiceSearch=createVoiceSearch({
   Recognition:window.SpeechRecognition||window.webkitSpeechRecognition,
   secure:window.isSecureContext,
-  onState:(listening,message)=>{
+  onState:(listening,message,phase='idle')=>{
     for(const button of [$('voice-search')]){
+      button.dataset.voiceState=phase;
+      button.setAttribute('aria-busy',String(phase==='starting'));
       button.setAttribute('aria-pressed',String(listening));
       button.setAttribute('aria-label',listening?'Dừng micro':'Tìm bằng giọng nói');
       button.title=listening?'Dừng micro':'Tìm bằng giọng nói';

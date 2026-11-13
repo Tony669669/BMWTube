@@ -39,3 +39,18 @@ test('end without a final transcript does not submit interim text',()=>{
   const s=setup();s.voice.start();s.instances[0].result('partial',false);s.instances[0].onend();
   assert.deepEqual(s.searches,[]);assert.equal(s.states.at(-1)[0],false);
 });
+test('listening begins only on start event; cancelled sessions cannot restart feedback',()=>{
+  const s=setup();s.voice.start();const old=s.instances[0];
+  assert.equal(s.states.at(-1)[2],'starting');
+  old.onstart();assert.equal(s.states.at(-1)[2],'listening');
+  s.voice.cancel();const count=s.states.length;old.onstart();assert.equal(s.states.length,count);
+  s.voice.start();old.onstart();assert.equal(s.states.at(-1)[2],'starting');
+  s.instances[1].onstart();assert.equal(s.states.at(-1)[2],'listening');
+  s.voice.cancel();assert.equal(s.states.at(-1)[0],false);
+});
+test('timeout clears feedback and rejects a delayed start event',t=>{
+  t.mock.timers.enable({apis:['setTimeout']});
+  const s=setup();s.voice.start();t.mock.timers.tick(15000);
+  assert.equal(s.states.at(-1)[0],false);assert.equal(s.instances[0].aborted,true);
+  const count=s.states.length;s.instances[0].onstart();assert.equal(s.states.length,count);
+});

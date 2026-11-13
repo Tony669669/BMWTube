@@ -56,3 +56,8 @@
 - Bỏ tiêu đề, nhãn và hướng dẫn trong popup; bỏ micro trên cả hai thanh điều hướng.
 - Đổi phiên bản CSS/JS để tránh dùng CSS cũ.
 - 20/20 unit test đạt; browser voice test đạt tại 390×844 và 1422×456, gồm kiểm tra nút tròn 72px căn giữa, nét SVG trắng, loại bỏ thành phần cũ và giữ luồng tìm/hủy/báo lỗi. Đã xem ảnh cả hai kích thước.
+
+### Hiệu ứng trạng thái micro
+
+- Viền xoay khi đang mở micro; chỉ chuyển xanh, phát hai vòng sóng và nhịp SVG sau sự kiện recognition start. Dừng/hủy/lỗi/hết giờ đưa về trạng thái nghỉ, bỏ qua start trễ của phiên cũ. Giữ nguyên thời điểm tự tìm và giới hạn 15 giây.
+- `npm test`: 22/22 đạt, có kiểm thử start trễ và timeout. Browser test đạt ở 390×844 và 1422×456, xác minh trạng thái chờ/nghe/dừng, màu và animation, chế độ giảm chuyển động. Đã xem ảnh cả hai kích thước. Kiểm tra dùng nhận giọng nói giả lập; thiết bị APTV cần thử micro thật.

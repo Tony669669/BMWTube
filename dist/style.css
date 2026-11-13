@@ -523,12 +523,26 @@ body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) mi
 
 /* Voice search: large touch target and a persistent listening indicator. */
 .voice-search-action{display:flex;justify-content:center;margin:24px 0 8px}
-#voice-search{display:grid;place-items:center;width:72px;height:72px;min-width:72px;min-height:72px;padding:18px;border:0;border-radius:50%;background:#ff4e45;color:#fff;box-shadow:0 4px 16px #0003;cursor:pointer}
+#voice-search{position:relative;isolation:isolate;display:grid;place-items:center;width:72px;height:72px;min-width:72px;min-height:72px;padding:18px;border:0;border-radius:50%;background:#ff4e45;color:#fff;box-shadow:0 4px 16px #0003;cursor:pointer}
 #voice-search:focus-visible{outline:3px solid var(--text);outline-offset:4px}
 #voice-search svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-#voice-search[aria-pressed=true]{color:#fff;background:#b32635;box-shadow:0 0 0 2px #ff8794 inset}
 #voice-status{font-size:14px;line-height:1.5;margin:14px 2px 0;color:var(--muted);text-align:center}
 #voice-search:hover{background:#ed4038}
-#voice-search[aria-pressed=true]:hover{background:#b32635}
 #search-dialog #empty-search-history{display:none}
 @media(max-height:390px){:is(#app-rail,#passenger-rail){overflow-y:auto}}
+
+/* Recognition startup and actual listening have distinct visual states. */
+#voice-search::before,#voice-search::after{content:"";position:absolute;inset:-6px;border-radius:50%;pointer-events:none;opacity:0}
+#voice-search[data-voice-state=starting]::before{opacity:1;border:3px solid #ffffff30;border-top-color:#fff;animation:voice-spin 1s linear infinite}
+#voice-search[data-voice-state=listening]{background:#13864e;box-shadow:0 0 0 3px #75efb0,0 0 24px #27d88350}
+#voice-search[data-voice-state=listening]::before,#voice-search[data-voice-state=listening]::after{border:2px solid #75efb0;animation:voice-wave 1.8s ease-out infinite}
+#voice-search[data-voice-state=listening]::after{animation-delay:.9s}
+#voice-search[data-voice-state=listening] svg{animation:voice-breathe 1.2s ease-in-out infinite}
+@keyframes voice-spin{to{transform:rotate(360deg)}}
+@keyframes voice-wave{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.38);opacity:0}}
+@keyframes voice-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@media(prefers-reduced-motion:reduce){
+  #voice-search::before,#voice-search::after,#voice-search svg{animation:none!important}
+  #voice-search[data-voice-state=listening]::before{opacity:1}
+  #voice-search[data-voice-state=listening]::after{opacity:0}
+}
