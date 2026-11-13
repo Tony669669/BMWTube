@@ -78,6 +78,7 @@
   <nav id="app-rail" aria-label="Điều hướng BMWTube">
     <button id="home" type="button" aria-label="Trang chủ" title="Trang chủ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.8 10 8.2-6.5 8.2 6.5M5.8 9.2v10h5v-5.7h2.4v5.7h5v-10"/></svg></button>
     <button id="open-search" type="button" aria-label="Tìm kiếm" aria-expanded="false" title="Tìm kiếm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 4.2 4.2"/></svg></button>
+    <button id="open-voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
     <button id="open-recent" type="button" aria-label="Đã xem gần đây" title="Đã xem gần đây"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6M12 7v5l3 2"/></svg></button>
     <button id="open-favorite-videos" type="button" aria-label="Video yêu thích" title="Video yêu thích"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9z"/></svg></button>
     <button id="open-library" type="button" aria-label="Thư viện" title="Thư viện"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 12 2l8 3.5M4 9l8 3.5L20 9M4 12.5l8 3.5 8-3.5M4 16l8 3.5 8-3.5"/></svg></button>
@@ -96,6 +97,12 @@
       <button class="search-submit" type="submit" aria-label="Tìm kiếm">→</button>
     </div>
     <p class="dialog-status" role="status" hidden></p>
+    <div class="voice-search-action">
+      <button id="voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
+      <span>Nói để tìm kiếm</span>
+    </div>
+    <p id="voice-status" role="status" hidden></p>
+    <p class="dialog-hint">Chạm micro, nói tên video để tự tìm. Dùng khi đã dừng xe hoặc nhờ hành khách thao tác.</p>
     <p class="dialog-hint">Telex chuyển chữ ngay trong BMWTube khi bàn phím APTV gửi từng ký tự.</p>
     <p id="empty-search-history" class="muted" hidden>Chưa có từ khóa tìm kiếm gần đây.</p>
   </form>
@@ -216,6 +223,6 @@
   <button id="backup-banner-open" type="button" class="primary">Xem bản sao</button>
   <button id="backup-banner-close" type="button" class="secondary" aria-label="Đóng thông báo sao lưu">×</button>
 </aside>
-<script type="module" src="app.js?v=github-backup-1"></script>
+<script type="module" src="app.js?v=voice-search-1"></script>
 </body>
 </html>

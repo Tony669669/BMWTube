@@ -520,3 +520,13 @@ body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) mi
 #backup-banner{position:fixed;bottom:16px;left:calc(var(--rail-width) + 12px);right:calc(var(--rail-width) + 12px);z-index:30;background:#19212d;border:1px solid #506075;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;box-shadow:0 6px 24px #0008}
 #backup-banner[hidden],#backup-section [hidden]{display:none!important}
 #backup-banner button{min-height:44px}
+
+/* Voice search: large touch target and a persistent listening indicator. */
+.voice-search-action{display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px 0 10px}
+.voice-search-action span{font-size:13px;color:var(--muted)}
+#voice-search{display:grid;place-items:center;width:72px;height:72px;min-width:72px;min-height:72px;padding:18px;border-radius:50%;background:var(--accent);color:#fff}
+#voice-search:focus-visible{outline:3px solid var(--text);outline-offset:4px}
+#voice-search svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+#voice-search[aria-pressed=true],:is(#app-rail,#passenger-rail) button[aria-pressed=true]{color:#fff;background:#b32635;box-shadow:0 0 0 2px #ff8794 inset}
+#voice-status{font-size:14px;line-height:1.5;margin:10px 2px;color:var(--text)}
+@media(max-height:390px){:is(#app-rail,#passenger-rail){overflow-y:auto}}

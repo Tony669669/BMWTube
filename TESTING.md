@@ -43,3 +43,10 @@
 - `node --check` cho app và các module sao lưu, `git diff --check`: đạt.
 - `npm run test:browser` cũ dừng ở kiểm tra vị trí player `3 != 0` tại `tests/browser.mjs:53`. Chạy cùng bộ kiểm thử trên bản HEAD trước thay đổi, được trích riêng vào `/tmp`, cho đúng lỗi đó. Đây là lỗi có sẵn của kiểm thử/bố cục, không phải bằng chứng hồi quy do sao lưu.
 - Không dùng token thật, không ghi bản sao lên GitHub và chưa triển khai website. Safari iPhone/APTV/CarPlay cần kiểm thử trên thiết bị thực; viewport Chrome không thay thế kiểm thử đó.
+
+## Tìm bằng giọng nói — 13/11/2026
+
+- `npm test`: 20/20 đạt, gồm nhận kết quả cuối, bỏ qua kết quả tạm/cũ, hủy, lỗi quyền/mạng/micro, thiếu hỗ trợ và thử lại.
+- `npm run test:voice-browser`: đạt ở 390×844 và 1422×456 với Chrome và SpeechRecognition/YouTube API giả lập. Kiểm tra nút tròn 72px dưới ô nhập, tự tìm tiếng Việt, mở từ thanh điều hướng, Escape và lỗi quyền. Đã xem ảnh cả hai kích thước. Dùng `PLAYWRIGHT_MODULE` và `CHROME_PATH` như bộ kiểm tra trình duyệt hiện có.
+- `node --check dist/app.js`, `node --check dist/voice-search.js`, `git diff --check`: đạt.
+- Chưa xác minh giọng nói/micro thật trên APTV hoặc triển khai website.
