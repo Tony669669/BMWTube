@@ -104,9 +104,3 @@ Dữ liệu gồm playlist và thứ tự video, video/kênh yêu thích, Xem sa
 Nếu repo công khai, bản sao **và lịch sử Git** công khai, bao gồm playlist/lịch sử xem và tìm kiếm. Xóa dữ liệu ở bản mới không xóa phiên bản cũ trong Git. Nút Lưu chủ động gửi dữ liệu lên GitHub; không có tự đồng bộ nền. Khi thiết bị khác đã cập nhật file, app yêu cầu xem bản sao trước khi chọn khôi phục hoặc thay bản GitHub bằng dữ liệu ở đây. Kiểm tra SHA ngăn việc âm thầm ghi đè một bản vừa thay đổi. Không tự gộp playlist.
 
 Kiểm thử: `npm test` kiểm tra schema, Unicode, loại bỏ khóa, hoàn tác, lỗi bộ nhớ, xung đột và giao tiếp GitHub giả lập. `npm run test:backup-browser` kiểm tra giao diện trên viewport iPhone/xe với GitHub giả lập; sử dụng biến `PLAYWRIGHT_MODULE` và `CHROME_PATH` như `test:browser`. Vẫn cần thử Safari iPhone và APTV/CarPlay thực tế; kiểm thử desktop không xác nhận WebView trên xe.
-
-## Tìm bằng giọng nói
-
-Chạm nút micro tròn dưới ô tìm kiếm, cho phép truy cập micro và nói tên video bằng tiếng Việt. Kết quả cuối cùng tự gửi vào luồng tìm kiếm hiện có (cần API key để tìm trong BMWTube; nếu chưa có key sẽ mở kết quả YouTube). Chạm lại để hủy; đóng hộp tìm kiếm hoặc chuyển khỏi trang cũng dừng nghe. Mỗi lượt nghe giới hạn 15 giây.
-
-Cần HTTPS/localhost và trình duyệt hỗ trợ SpeechRecognition hoặc webkitSpeechRecognition. Khả năng truy cập micro trên APTV/WebView cần kiểm tra trực tiếp trên thiết bị. Không hỗ trợ thì dùng micro của bàn phím hoặc nhập tay. Âm thanh có thể được trình duyệt gửi tới dịch vụ nhận giọng nói; BMWTube không lưu âm thanh.

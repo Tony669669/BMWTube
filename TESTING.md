@@ -78,3 +78,8 @@
 - Distinguishes capture errors from recognition restrictions. Late permission grants after cancellation or timeout still release tracks.
 - 26 unit tests pass; mocked browser checks pass at 390x844 and 1422x456, including permission recovery, released tracks, recognition retry, blocked service and stable panel dimensions.
 - Actual APTV yellow behavior remains unverified. This compatibility attempt cannot bypass host application restrictions.
+
+### Remove unusable microphone feature
+
+- Removed voice button, status space, speech recognition module and direct microphone permission requests after APTV crashed during capture permission recovery.
+- 15 remaining unit tests pass. Text search browser checks at 390x844 and 1422x456 verify no voice controls, text submission, reopen/close and no page errors.
