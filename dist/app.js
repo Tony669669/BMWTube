@@ -1,4 +1,4 @@
-import {createVoiceSearch} from './voice-search.js?v=3';
+import {createVoiceSearch} from './voice-search.js?v=4';
 import {initBackup} from './backup-ui.js?v=github-backup-1';
 import {telex,videoId,timeLabel,playerSize} from './core.js?v=review-fixes';
 const $=id=>document.getElementById(id);
@@ -387,7 +387,7 @@ function syncRepeatButton(){const button=$('repeat-video');button.setAttribute('
 syncRepeatButton();$('repeat-video').onclick=()=>{repeatVideo=!repeatVideo;storage.set('repeatVideo',repeatVideo);syncRepeatButton();updateQueue();notice(repeatVideo?'Đã bật lặp video.':'Đã tắt lặp video.');};
 $('previous-video').onclick=()=>moveInPlaybackQueue(-1);$('next-video').onclick=()=>moveInPlaybackQueue(1);
 window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);window.addEventListener('offline',()=>notice('Mất kết nối mạng. Video có thể dừng khi hết phần đã tải.'));window.addEventListener('online',()=>notice('Đã có mạng. Bạn có thể thử lại tìm kiếm hoặc phát video.'));
-function openSearch(focusInput=true){returnFocus=document.activeElement;renderHistory();enterRailDialog('open-search');const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;$('voice-status').hidden=true;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');if(focusInput)$('query').focus();else $('voice-search').focus();}
+function openSearch(focusInput=true){returnFocus=document.activeElement;renderHistory();enterRailDialog('open-search');const dialog=$('search-dialog');dialog.querySelector('.dialog-status').hidden=true;$('voice-status').textContent='Chạm micro để nói';$('voice-status').hidden=false;if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');if(focusInput)$('query').focus();else $('voice-search').focus();}
 function closeSearch(){voiceSearch.cancel();const dialog=$('search-dialog');if(dialog.close&&dialog.open)dialog.close();else dialog.removeAttribute('open');leaveRailDialog();returnFocus?.focus();}
 function openSettings(){if($('settings-form').parentElement===$('inline-settings'))$('settings').append($('settings-form'));returnFocus=document.activeElement;enterRailDialog(returnFocus?.id||null);$('settings').querySelector('.dialog-status').hidden=true;$('api-key').value=key;$('settings-form').elements['player-side'].value=playerSide;$('settings-form').elements['audio-only-default'].value=audioOnlyDefault?'on':'off';$('settings-form').elements['library-default'].value=libraryDefault;$('settings-form').elements['app-profile'].value=appProfile;$('settings-form').elements['home-mode'].value=homeDefault;resize();if($('settings').showModal)$('settings').showModal();else $('settings').setAttribute('open','');}
  $('clear-searches').onclick=()=>{history=[];storage.set('searches',history);renderHistory();$('query').focus();};

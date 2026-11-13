@@ -31,6 +31,8 @@ try{
   const mic=page.locator('#voice-search');
   const layout=async()=>({dialog:await page.locator('#search-dialog').boundingBox(),mic:await mic.boundingBox()});
   const initialLayout=await layout();
+  assert.equal(await page.locator('#voice-status').textContent(),'Chạm micro để nói');
+  assert.equal(await page.locator('#voice-status').isVisible(),true);
 
   const box=await mic.boundingBox(),field=await page.locator('.search-field').boundingBox();
   assert.ok(box.y>=field.y+field.height);assert.equal(box.width,86);assert.equal(box.height,86);
@@ -57,6 +59,7 @@ try{
   assert.equal(await mic.locator('svg').evaluate(el=>getComputedStyle(el).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await mic.click();assert.deepEqual(await layout(),initialLayout);
+  assert.equal(await page.locator('#voice-status').textContent(),'Chạm micro để nói');
   await mic.click();await page.evaluate(()=>window.recognition.onstart());
 
   await page.evaluate(()=>window.recognition.result('nhạc Trịnh'));

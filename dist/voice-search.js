@@ -1,7 +1,7 @@
 // One explicit gesture starts one utterance; stale events never trigger a search.
 export function createVoiceSearch({Recognition,secure=true,onState,onText,onSearch}){
   let active=null,timer=null;
-  function cancel(message='Đã dừng micro.'){
+  function cancel(message='Chạm micro để nói'){
     const previous=active;active=null;clearTimeout(timer);
     if(previous){try{previous.abort();}catch{}onState(false,message);}
   }
