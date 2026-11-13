@@ -314,7 +314,7 @@ body.keyword-search #home-modes{display:none}
 @media(prefers-reduced-motion:no-preference){
   .home-modes button,.video-action,#repeat-video,.playlist-open,.playlist-pick{transition:background-color .16s ease,color .16s ease,transform .16s ease}
   .home-modes button:active,.playlist-pick:active{transform:scale(.97)}
-  dialog[open]{animation:bmw-dialog-in .16s ease-out}
+  dialog[open]:not(#search-dialog){animation:bmw-dialog-in .16s ease-out}
   body.home-feed #results .video-card{animation:bmw-card-in .22s ease-out both}
   body.home-feed #results .video-card:nth-child(2){animation-delay:.025s}
   body.home-feed #results .video-card:nth-child(3){animation-delay:.05s}
@@ -523,9 +523,9 @@ body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) mi
 
 /* Voice search: large touch target and a persistent listening indicator. */
 .voice-search-action{display:flex;justify-content:center;margin:24px 0 8px}
-#voice-search{position:relative;isolation:isolate;display:grid;place-items:center;width:72px;height:72px;min-width:72px;min-height:72px;padding:18px;border:0;border-radius:50%;background:#ff4e45;color:#fff;box-shadow:0 4px 16px #0003;cursor:pointer}
+#voice-search{position:relative;isolation:isolate;display:grid;place-items:center;width:86px;height:86px;min-width:86px;min-height:86px;padding:18px;border:0;border-radius:50%;background:#ff4e45;color:#fff;box-shadow:0 4px 16px #0003;cursor:pointer}
 #voice-search:focus-visible{outline:3px solid var(--text);outline-offset:4px}
-#voice-search svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#voice-search svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #voice-status{font-size:14px;line-height:1.5;margin:14px 2px 0;color:var(--muted);text-align:center}
 #voice-search:hover{background:#ed4038}
 #search-dialog #empty-search-history{display:none}
@@ -534,8 +534,8 @@ body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) mi
 /* Recognition startup and actual listening have distinct visual states. */
 #voice-search::before,#voice-search::after{content:"";position:absolute;inset:-6px;border-radius:50%;pointer-events:none;opacity:0}
 #voice-search[data-voice-state=starting]::before{opacity:1;border:3px solid #ffffff30;border-top-color:#fff;animation:voice-spin 1s linear infinite}
-#voice-search[data-voice-state=listening]{background:#13864e;box-shadow:0 0 0 3px #75efb0,0 0 24px #27d88350}
-#voice-search[data-voice-state=listening]::before,#voice-search[data-voice-state=listening]::after{border:2px solid #75efb0;animation:voice-wave 1.8s ease-out infinite}
+#voice-search[data-voice-state=listening]{background:#ffc247;color:#29200d;box-shadow:0 0 0 3px #ffda80,0 0 24px #ffc24750}
+#voice-search[data-voice-state=listening]::before,#voice-search[data-voice-state=listening]::after{border:2px solid #ffda80;animation:voice-wave 1.8s ease-out infinite}
 #voice-search[data-voice-state=listening]::after{animation-delay:.9s}
 #voice-search[data-voice-state=listening] svg{animation:voice-breathe 1.2s ease-in-out infinite}
 @keyframes voice-spin{to{transform:rotate(360deg)}}
@@ -546,3 +546,5 @@ body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) mi
   #voice-search[data-voice-state=listening]::before{opacity:1}
   #voice-search[data-voice-state=listening]::after{opacity:0}
 }
+
+#search-dialog,#search-dialog::backdrop{animation:none;transition:none}

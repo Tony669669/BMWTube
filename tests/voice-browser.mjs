@@ -26,10 +26,11 @@ try{
   });
   await page.goto('https://bmwtube.test');
   await page.locator('#open-search').click();
-  await page.locator('#search-dialog').evaluate(async el=>{await Promise.all(el.getAnimations().map(a=>a.finished));});
+  assert.equal(await page.locator('#search-dialog').evaluate(el=>getComputedStyle(el).animationName),'none');
+  assert.equal(await page.locator('#query').evaluate(el=>el===document.activeElement),true);
   const mic=page.locator('#voice-search');
   const box=await mic.boundingBox(),field=await page.locator('.search-field').boundingBox();
-  assert.ok(box.y>=field.y+field.height);assert.equal(box.width,72);assert.equal(box.height,72);
+  assert.ok(box.y>=field.y+field.height);assert.equal(box.width,86);assert.equal(box.height,86);
   assert.equal(await mic.evaluate(el=>getComputedStyle(el).borderRadius),'50%');
   assert.ok(Math.abs(box.x+box.width/2-field.x-field.width/2)<1);
   assert.equal(await page.locator('#open-voice-search, #passenger-open-voice-search, #search-dialog h2, #search-dialog .dialog-hint, .voice-search-action span').count(),0);
@@ -42,8 +43,9 @@ try{
   await page.evaluate(()=>window.recognition.onstart());
   assert.equal(await mic.getAttribute('data-voice-state'),'listening');
   assert.equal(await mic.getAttribute('aria-busy'),'false');
-  assert.equal(await mic.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(19, 134, 78)');
+  assert.equal(await mic.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 194, 71)');
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::after').animationName),'voice-wave');
+  assert.equal(await mic.locator('svg').evaluate(el=>getComputedStyle(el).stroke),'rgb(41, 32, 13)');
   await page.screenshot({path:`/tmp/bmwtube-listening-${width}.png`});
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::before').animationName),'none');

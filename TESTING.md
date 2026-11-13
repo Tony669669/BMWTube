@@ -61,3 +61,8 @@
 
 - Viền xoay khi đang mở micro; chỉ chuyển xanh, phát hai vòng sóng và nhịp SVG sau sự kiện recognition start. Dừng/hủy/lỗi/hết giờ đưa về trạng thái nghỉ, bỏ qua start trễ của phiên cũ. Giữ nguyên thời điểm tự tìm và giới hạn 15 giây.
 - `npm test`: 22/22 đạt, có kiểm thử start trễ và timeout. Browser test đạt ở 390×844 và 1422×456, xác minh trạng thái chờ/nghe/dừng, màu và animation, chế độ giảm chuyển động. Đã xem ảnh cả hai kích thước. Kiểm tra dùng nhận giọng nói giả lập; thiết bị APTV cần thử micro thật.
+
+### Micro vàng 86px và mở tìm kiếm tức thì
+
+- Nút micro 86×86px ở mọi trạng thái, SVG 38px; đang nghe dùng vàng hổ phách, nét icon tối và vòng sóng vàng. Bảng tìm kiếm và backdrop không có animation/transition khi mở; các dialog khác giữ hiệu ứng.
+- 22/22 unit test đạt. Browser test đạt ở 390×844 và 1422×456, kiểm tra kích thước, màu, focus ô nhập, không có animation mở và hiệu ứng micro/giảm chuyển động. Đã xem ảnh cả hai kích thước.
