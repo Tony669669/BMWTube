@@ -8,7 +8,7 @@
   <meta name="description" content="Trình xem YouTube tối giản cho màn hình rộng, tối ưu thao tác chạm.">
   <title>BMWTube</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23101113'/%3E%3Cpath d='M12 8L25 16L12 24Z' fill='%23ff483e'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css?v=voice-amber-86-4">
+  <link rel="stylesheet" href="style.css?v=voice-fixed-panel-5">
 </head>
 <body>
 <div id="app-shell">
@@ -99,7 +99,7 @@
     <div class="voice-search-action">
       <button id="voice-search" type="button" aria-label="Tìm bằng giọng nói" aria-pressed="false" title="Tìm bằng giọng nói"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11v1a6 6 0 0 0 12 0v-1M12 18v3M9 21h6"/></svg></button>
     </div>
-    <p id="voice-status" role="status" hidden></p>
+    <div class="voice-status-slot"><p id="voice-status" role="status" hidden></p></div>
     <p id="empty-search-history" class="muted" hidden>Chưa có từ khóa tìm kiếm gần đây.</p>
   </form>
 </dialog>
@@ -219,6 +219,6 @@
   <button id="backup-banner-open" type="button" class="primary">Xem bản sao</button>
   <button id="backup-banner-close" type="button" class="secondary" aria-label="Đóng thông báo sao lưu">×</button>
 </aside>
-<script type="module" src="app.js?v=voice-amber-86-4"></script>
+<script type="module" src="app.js?v=voice-fixed-panel-5"></script>
 </body>
 </html>

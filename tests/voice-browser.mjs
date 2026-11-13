@@ -29,6 +29,9 @@ try{
   assert.equal(await page.locator('#search-dialog').evaluate(el=>getComputedStyle(el).animationName),'none');
   assert.equal(await page.locator('#query').evaluate(el=>el===document.activeElement),true);
   const mic=page.locator('#voice-search');
+  const layout=async()=>({dialog:await page.locator('#search-dialog').boundingBox(),mic:await mic.boundingBox()});
+  const initialLayout=await layout();
+
   const box=await mic.boundingBox(),field=await page.locator('.search-field').boundingBox();
   assert.ok(box.y>=field.y+field.height);assert.equal(box.width,86);assert.equal(box.height,86);
   assert.equal(await mic.evaluate(el=>getComputedStyle(el).borderRadius),'50%');
@@ -38,6 +41,7 @@ try{
   await page.screenshot({path:`/tmp/bmwtube-voice-${width}.png`});
   await mic.click();assert.equal(await mic.getAttribute('aria-pressed'),'true');
   assert.equal(await mic.getAttribute('data-voice-state'),'starting');
+  assert.deepEqual(await layout(),initialLayout);
   assert.equal(await page.locator('#voice-status').textContent(),'Đang mở micro…');
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::before').animationName),'voice-spin');
   await page.evaluate(()=>window.recognition.onstart());
@@ -46,11 +50,15 @@ try{
   assert.equal(await mic.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 194, 71)');
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::after').animationName),'voice-wave');
   assert.equal(await mic.locator('svg').evaluate(el=>getComputedStyle(el).stroke),'rgb(41, 32, 13)');
+  assert.deepEqual(await layout(),initialLayout);
   await page.screenshot({path:`/tmp/bmwtube-listening-${width}.png`});
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::before').animationName),'none');
   assert.equal(await mic.locator('svg').evaluate(el=>getComputedStyle(el).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});
+  await mic.click();assert.deepEqual(await layout(),initialLayout);
+  await mic.click();await page.evaluate(()=>window.recognition.onstart());
+
   await page.evaluate(()=>window.recognition.result('nhạc Trịnh'));
   assert.equal(await mic.getAttribute('data-voice-state'),'idle');
   await page.waitForFunction(()=>!document.querySelector('#search-dialog').open);
@@ -62,9 +70,15 @@ try{
   assert.equal(await mic.getAttribute('data-voice-state'),'idle');
   const count=queries.length;await page.evaluate(()=>window.recognition.result('late'));
   assert.equal(queries.length,count);
-  await page.locator('#open-search').click();await mic.click();
+  await page.locator('#open-search').click();
+  const errorLayout=await layout();await mic.click();
   await page.evaluate(()=>window.recognition.onerror({error:'not-allowed'}));
   assert.match(await page.locator('#voice-status').textContent(),/quyền micro/);
+  assert.deepEqual(await layout(),errorLayout);
+  await page.locator('#voice-status').evaluate(el=>{el.textContent=el.textContent.repeat(8);});
+  assert.deepEqual(await layout(),errorLayout);
+  assert.equal(await page.locator('.voice-status-slot').evaluate(el=>el.scrollHeight>el.clientHeight),true);
+
   assert.equal(await mic.getAttribute('aria-pressed'),'false');
   assert.equal(await mic.getAttribute('data-voice-state'),'idle');
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::before').animationName),'none');

@@ -66,3 +66,8 @@
 
 - Nút micro 86×86px ở mọi trạng thái, SVG 38px; đang nghe dùng vàng hổ phách, nét icon tối và vòng sóng vàng. Bảng tìm kiếm và backdrop không có animation/transition khi mở; các dialog khác giữ hiệu ứng.
 - 22/22 unit test đạt. Browser test đạt ở 390×844 và 1422×456, kiểm tra kích thước, màu, focus ô nhập, không có animation mở và hiệu ứng micro/giảm chuyển động. Đã xem ảnh cả hai kích thước.
+
+### Giữ cố định đáy bảng khi bật micro
+
+- Chừa vùng trạng thái cao 42px (hai dòng) ngay khi mở bảng. Nội dung dài cuộn trong vùng này.
+- 22/22 unit test đạt. Browser test đạt ở 390×844 và 1422×456; so sánh toàn bộ kích thước/vị trí bảng và micro ở trạng thái nghỉ, mở, nghe, dừng, lỗi và thông báo dài. Xác minh vùng thông báo dài có cuộn; đã xem ảnh BMW.
