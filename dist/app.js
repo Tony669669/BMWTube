@@ -1,4 +1,4 @@
-import {createVoiceSearch} from './voice-search.js?v=4';
+import {createVoiceSearch} from './voice-search.js?v=permission-check-5';
 import {initBackup} from './backup-ui.js?v=github-backup-1';
 import {telex,videoId,timeLabel,playerSize} from './core.js?v=review-fixes';
 const $=id=>document.getElementById(id);
@@ -395,6 +395,7 @@ function closeSettings(){if($('settings').close)$('settings').close();else $('se
 const voiceSearch=createVoiceSearch({
   Recognition:window.SpeechRecognition||window.webkitSpeechRecognition,
   secure:window.isSecureContext,
+  requestMicrophone:navigator.mediaDevices?.getUserMedia?.bind(navigator.mediaDevices),
   onState:(listening,message,phase='idle')=>{
     for(const button of [$('voice-search')]){
       button.dataset.voiceState=phase;

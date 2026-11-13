@@ -71,3 +71,10 @@
 
 - Chừa vùng trạng thái cao 42px (hai dòng) ngay khi mở bảng. Nội dung dài cuộn trong vùng này.
 - 22/22 unit test đạt. Browser test đạt ở 390×844 và 1422×456; so sánh toàn bộ kích thước/vị trí bảng và micro ở trạng thái nghỉ, mở, nghe, dừng, lỗi và thông báo dài. Xác minh vùng thông báo dài có cuộn; đã xem ảnh BMW.
+
+### Embedded browser microphone permission recovery
+
+- After recognition is blocked, the next tap requests audio-only getUserMedia. Capture is immediately stopped, with no recording or upload. A fresh tap starts recognition after permission succeeds.
+- Distinguishes capture errors from recognition restrictions. Late permission grants after cancellation or timeout still release tracks.
+- 26 unit tests pass; mocked browser checks pass at 390x844 and 1422x456, including permission recovery, released tracks, recognition retry, blocked service and stable panel dimensions.
+- Actual APTV yellow behavior remains unverified. This compatibility attempt cannot bypass host application restrictions.

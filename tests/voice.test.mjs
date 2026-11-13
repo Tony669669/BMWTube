@@ -54,3 +54,42 @@ test('timeout clears feedback and rejects a delayed start event',t=>{
   assert.equal(s.states.at(-1)[0],false);assert.equal(s.instances[0].aborted,true);
   const count=s.states.length;s.instances[0].onstart();assert.equal(s.states.length,count);
 });
+function streamFixture(){
+  const track={readyState:'live',stop(){this.readyState='ended';}};
+  return {track,stream:{getTracks:()=>[track],getAudioTracks:()=>[track]}};
+}
+test('permission recovery runs on next tap, releases capture and waits for a new gesture',async()=>{
+  const {track,stream}=streamFixture();let calls=0;
+  const s=setup({requestMicrophone:async constraints=>{assert.deepEqual(constraints,{audio:true,video:false});calls++;return stream;}});
+  s.voice.start();assert.equal(calls,0);s.instances[0].onerror({error:'not-allowed'});
+  await s.voice.start();assert.equal(calls,1);assert.equal(track.readyState,'ended');
+  assert.equal(s.instances.length,1);assert.match(s.states.at(-1)[1],/Chạm micro lần nữa/);
+  s.voice.start();assert.equal(s.instances.length,2);
+  s.instances[1].onerror({error:'service-not-allowed'});
+  assert.match(s.states.at(-1)[1],/Đã mở được micro nhưng/);
+});
+test('permission granted after cancellation releases tracks without changing UI or searching',async()=>{
+  let resolve;const {stream,track}=streamFixture();
+  const s=setup({requestMicrophone:()=>new Promise(r=>{resolve=r;})});
+  s.voice.start();s.instances[0].onerror({error:'not-allowed'});
+  const pending=s.voice.start();s.voice.cancel();const count=s.states.length;
+  resolve(stream);await pending;
+  assert.equal(track.readyState,'ended');assert.equal(s.states.length,count);assert.deepEqual(s.searches,[]);
+});
+test('permission timeout ignores late grants and still releases tracks',async t=>{
+  t.mock.timers.enable({apis:['setTimeout']});
+  let resolve;const {stream,track}=streamFixture();
+  const s=setup({requestMicrophone:()=>new Promise(r=>{resolve=r;})});
+  s.voice.start();s.instances[0].onerror({error:'not-allowed'});
+  const pending=s.voice.start();t.mock.timers.tick(15000);const count=s.states.length;
+  assert.equal(s.states.at(-1)[0],false);resolve(stream);await pending;
+  assert.equal(s.states.length,count);assert.equal(track.readyState,'ended');
+});
+test('capture errors identify blocked access, missing and busy microphones',async()=>{
+  for(const name of ['NotAllowedError','SecurityError','NotFoundError','NotReadableError']){
+    const s=setup({requestMicrophone:async()=>{throw Object.assign(Error(),{name});}});
+    s.voice.start();s.instances[0].onerror({error:'not-allowed'});await s.voice.start();
+    assert.ok(s.states.at(-1)[1].includes(name));assert.equal(s.states.at(-1)[0],false);
+    assert.deepEqual(s.searches,[]);
+  }
+});

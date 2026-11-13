@@ -8,6 +8,11 @@ try{
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{
    localStorage.setItem('bmwtube.key',JSON.stringify('test-key'));
+   Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:async()=>{
+    window.captureChecks=(window.captureChecks||0)+1;
+    const track={readyState:'live',stop(){this.readyState='ended';window.captureStopped=true;}};
+    return {getTracks:()=>[track],getAudioTracks:()=>[track]};
+   }});
    window.SpeechRecognition=class{
     constructor(){window.recognition=this;}
     start(){}
@@ -76,7 +81,7 @@ try{
   await page.locator('#open-search').click();
   const errorLayout=await layout();await mic.click();
   await page.evaluate(()=>window.recognition.onerror({error:'not-allowed'}));
-  assert.match(await page.locator('#voice-status').textContent(),/quyền micro/);
+  assert.match(await page.locator('#voice-status').textContent(),/thử cấp quyền/);
   assert.deepEqual(await layout(),errorLayout);
   await page.locator('#voice-status').evaluate(el=>{el.textContent=el.textContent.repeat(8);});
   assert.deepEqual(await layout(),errorLayout);
@@ -85,6 +90,17 @@ try{
   assert.equal(await mic.getAttribute('aria-pressed'),'false');
   assert.equal(await mic.getAttribute('data-voice-state'),'idle');
   assert.equal(await mic.evaluate(el=>getComputedStyle(el,'::before').animationName),'none');
+  await mic.click();
+  await page.waitForFunction(()=>document.querySelector('#voice-status').textContent.includes('Đã mở được micro'));
+  assert.equal(await page.evaluate(()=>window.captureChecks),1);
+  assert.equal(await page.evaluate(()=>window.captureStopped),true);
+  assert.equal(await mic.getAttribute('aria-pressed'),'false');
+  assert.deepEqual(await layout(),errorLayout);
+  await mic.click();await page.evaluate(()=>window.recognition.onstart());
+  assert.equal(await mic.getAttribute('data-voice-state'),'listening');
+  await page.evaluate(()=>window.recognition.onerror({error:'service-not-allowed'}));
+  assert.match(await page.locator('#voice-status').textContent(),/Đã mở được micro nhưng/);
+  assert.deepEqual(await layout(),errorLayout);
   assert.deepEqual(errors,[]);await page.close();console.log(`PASS voice UI ${width}`);
  }
 }finally{await browser.close();}
