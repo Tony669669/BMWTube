@@ -89,3 +89,9 @@
 - Responsive widths now use the layout viewport rather than the zoom-dependent visual viewport. Visible height is normalized by visual scale while retaining software-keyboard height constraints.
 - Search explicitly blurs its input before closing, restores focus without scrolling, and recalculates layout on the next frame. Text autosizing is held at 100%.
 - 16 unit tests pass. Search browser checks pass at 390x844 and 1422x456, including simulated 2x visual viewport shrink before submission and stable dimensions after results. This does not emulate CarCinema's native WebView zoom; on-device confirmation remains necessary.
+
+### Search input zoom recovery attempt
+
+- Snapshot visual scale and viewport dimensions before opening search. After closing and blurring, wait for stable keyboard-dismissed dimensions, then briefly reapply initial/minimum/maximum viewport scale to the captured value and restore the original meta content.
+- Bounded polling; skip when scale did not increase, orientation/layout width changed or another input is focused. Reopening search and pagehide cancel recovery and restore any temporary viewport setting.
+- 19 unit tests pass. Browser checks pass at 390x844 and 1422x456 with simulated visual zoom; verify temporary meta update and restoration. Native CarCinema zoom behavior remains unverified and may ignore viewport updates.

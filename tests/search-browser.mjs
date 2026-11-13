@@ -29,6 +29,11 @@ try{
     return ['--feed-card-width','--yellow-card-width','--player-width','--vh'].map(name=>css.getPropertyValue(name));
   });
   const initialDimensions=await dimensions();
+  const viewportContent=await page.locator('meta[name=viewport]').getAttribute('content');
+  await page.evaluate(()=>{
+    window.viewportChanges=[];
+    new MutationObserver(records=>{window.viewportChanges.push(...records.map(r=>r.oldValue));}).observe(document.querySelector('meta[name=viewport]'),{attributes:true,attributeOldValue:true,attributeFilter:['content']});
+  });
   await page.evaluate(()=>{
     const original=window.visualViewport;window.originalViewport=original;
     Object.defineProperty(window,'visualViewport',{configurable:true,value:{width:document.documentElement.clientWidth/2,height:innerHeight/2,scale:2}});
@@ -42,6 +47,8 @@ try{
   assert.ok(queries.includes('nhạc Trịnh'));
   assert.equal(await page.locator('#query').evaluate(el=>el===document.activeElement),false);
   assert.deepEqual(await dimensions(),initialDimensions);
+  await page.waitForFunction(()=>window.viewportChanges.some(value=>value.includes('minimum-scale=1')));
+  assert.equal(await page.locator('meta[name=viewport]').getAttribute('content'),viewportContent);
   await page.evaluate(()=>{
     Object.defineProperty(window,'visualViewport',{configurable:true,value:window.originalViewport});
     window.dispatchEvent(new Event('resize'));
