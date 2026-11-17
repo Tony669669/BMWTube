@@ -116,7 +116,7 @@ export async function makeBackup(storage, password = '') {
   str(youtubeKey, 2000);
   if(youtubeKey) {
     passwordRequired(password);
-    if(password.length < 12) throw Error('Mật khẩu sao lưu cần ít nhất 12 ký tự.');
+    if(password.length < 6) throw Error('Mật khẩu sao lưu cần ít nhất 6 ký tự.');
     const api = cryptoAPI(), salt = api.getRandomValues(new Uint8Array(16)), iv = api.getRandomValues(new Uint8Array(12));
     const key = await deriveKey(password, salt);
     const ciphertext = new Uint8Array(await api.subtle.encrypt({name: 'AES-GCM', iv}, key, new TextEncoder().encode(youtubeKey)));

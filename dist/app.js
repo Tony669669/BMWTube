@@ -1,5 +1,5 @@
 import {createSearchZoomRecovery} from './search-zoom.js?v=1';
-import {initBackup} from './backup-ui.js?v=github-backup-2';
+import {initBackup} from './backup-ui.js?v=github-backup-3';
 import {telex,videoId,timeLabel,playerSize,viewportSize} from './core.js?v=stable-viewport-9';
 const $=id=>document.getElementById(id);
 // Build both navigation rails from the same icons and actions, with unique IDs.

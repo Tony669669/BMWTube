@@ -91,7 +91,7 @@ test('encrypted key transfers, uses fresh randomness and undo restores absent or
 test('missing/wrong password and tampering never change local data', async () => {
   const source = storage({'bmwtube.key':'"youtube-secret"'});
   await assert.rejects(makeBackup(source), /mật khẩu/);
-  await assert.rejects(makeBackup(source, 'short'), /12/);
+  await assert.rejects(makeBackup(source, 'short'), /6/);
   const backup = await makeBackup(source, password);
   const target = storage({'bmwtube.key':'"previous"', 'bmwtube.backup.undo':'old'});
   const before = Object.fromEntries(target.values);
@@ -121,4 +121,11 @@ test('encrypted restore rolls back key on storage failure and supports legacy un
   const undo = JSON.parse(target.getItem('bmwtube.backup.undo')); delete undo['bmwtube.key'];
   target.setItem('bmwtube.backup.undo', JSON.stringify(undo));
   undoRestore(target); assert.equal(target.getItem('bmwtube.key'), '"old-key"');
+});
+
+test('six-character password is accepted and restores the key', async () => {
+  const source = storage({'bmwtube.key':'"youtube-secret"'}), target = storage();
+  const backup = await makeBackup(source, 'abc123');
+  await restoreBackup(target, backup, 'sha', 'abc123');
+  assert.equal(target.getItem('bmwtube.key'), '"youtube-secret"');
 });
