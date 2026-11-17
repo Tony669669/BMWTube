@@ -95,3 +95,11 @@
 - Snapshot visual scale and viewport dimensions before opening search. After closing and blurring, wait for stable keyboard-dismissed dimensions, then briefly reapply initial/minimum/maximum viewport scale to the captured value and restore the original meta content.
 - Bounded polling; skip when scale did not increase, orientation/layout width changed or another input is focused. Reopening search and pagehide cancel recovery and restore any temporary viewport setting.
 - 19 unit tests pass. Browser checks pass at 390x844 and 1422x456 with simulated visual zoom; verify temporary meta update and restoration. Native CarCinema zoom behavior remains unverified and may ignore viewport updates.
+
+
+## Sao lưu YouTube API key — 17/11/2026
+
+- Backup v2 mã hóa API key bằng AES-GCM và PBKDF2-SHA256; vẫn đọc backup v1. Mật khẩu sai hoặc ciphertext bị sửa không thay đổi dữ liệu. Hoàn tác/rollback bao gồm API key và hỗ trợ snapshot hoàn tác cũ.
+- `npm test`: 22/22 đạt. Kiểm thử thêm mã hóa với salt/IV mới, không lộ key/token/mật khẩu trong JSON, chuyển key sang bộ nhớ trống/có key, mật khẩu thiếu/sai, dữ liệu mã hóa hỏng và lỗi ghi bộ nhớ sau khi cập nhật key.
+- `npm run test:backup-browser`: 5 nhóm đạt trên Chrome, GitHub và key giả lập; gồm 390×844, 1422×456 và chuyển key sang trình duyệt mới, sai mật khẩu không ghi dữ liệu, khôi phục hiển thị key trong cài đặt, hoàn tác xóa key nếu trước đó chưa có. Dùng origin localhost để kiểm tra Web Crypto trong secure context.
+- `node --check` cho module sao lưu và `git diff --check`: đạt. Không gửi key thật, không ghi GitHub thật, chưa triển khai. Chưa thử Web Crypto trên APTV thực.

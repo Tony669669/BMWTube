@@ -160,7 +160,7 @@
     </section>
     <section id="backup-section" aria-labelledby="backup-heading">
       <h3 id="backup-heading">Sao lưu GitHub</h3>
-      <p>Lưu cài đặt, playlist, yêu thích và lịch sử vào Tony669669/BMWTube. Nếu repo công khai, mọi người đều có thể đọc bản sao và lịch sử phiên bản. API key và token không được đưa vào bản sao.</p>
+      <p>Lưu cài đặt, playlist, yêu thích và lịch sử vào Tony669669/BMWTube. Nếu repo công khai, mọi người đều có thể đọc bản sao và lịch sử phiên bản. YouTube API key được mã hóa bằng mật khẩu. Token GitHub không được đưa vào bản sao.</p>
       <label for="backup-token">GitHub token · chỉ cần khi lưu hoặc đọc repo riêng tư</label>
       <input id="backup-token" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Nhập fine-grained token">
       <label class="backup-remember"><input id="backup-remember" type="checkbox"> Nhớ token trên trình duyệt này</label>
@@ -169,6 +169,9 @@
         <button id="backup-forget" type="button" class="secondary">Quên token</button>
       </div>
       <p class="dialog-hint">Chọn repo BMWTube và quyền Contents: Read and write. Token có quyền ghi nội dung trong repo. Mặc định token chỉ giữ khi trang đang mở.</p>
+      <label for="backup-password">Mật khẩu sao lưu API key</label>
+      <input id="backup-password" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Ít nhất 12 ký tự khi lưu">
+      <p class="dialog-hint">Nếu đã lưu API key trong cài đặt, bản sao sẽ chứa key đã mã hóa. Dùng cùng mật khẩu khi chuyển app. Mật khẩu không được lưu; quên mật khẩu sẽ không khôi phục được key. Bản sao cũ không có key vẫn khôi phục được mà không cần mật khẩu.</p>
       <p id="backup-local"></p>
       <div class="backup-actions">
         <button id="backup-save" type="button" class="primary">Lưu lên GitHub</button>
@@ -215,6 +218,6 @@
   <button id="backup-banner-open" type="button" class="primary">Xem bản sao</button>
   <button id="backup-banner-close" type="button" class="secondary" aria-label="Đóng thông báo sao lưu">×</button>
 </aside>
-<script type="module" src="app.js?v=search-zoom-recovery-10"></script>
+<script type="module" src="app.js?v=encrypted-backup-11"></script>
 </body>
 </html>

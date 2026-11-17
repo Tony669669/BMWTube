@@ -1,4 +1,4 @@
-import {GitHubBackup, makeBackup, readData, readBase, saveBase, hasLocalData, restoreBackup, hasUndo, undoRestore, PREFIX} from './backup.js?v=github-backup-1';
+import {GitHubBackup, makeBackup, readData, readBase, saveBase, hasLocalData, restoreBackup, hasUndo, undoRestore, PREFIX} from './backup.js?v=github-backup-2';
 
 export function initBackup({beforeApply, applyFailed, openSettings}) {
   const $ = id => document.getElementById(id), api = new GitHubBackup();
@@ -14,7 +14,7 @@ export function initBackup({beforeApply, applyFailed, openSettings}) {
     try {
       const base = readBase(store), data = readData(store);
       $('backup-local').textContent = !base ? 'Chưa sao lưu từ trình duyệt này.' :
-        JSON.stringify(base.data) === JSON.stringify(data) ? `Dữ liệu khớp bản sao ${new Date(base.createdAt).toLocaleString('vi-VN')}.` : 'Có thay đổi chưa sao lưu.';
+        JSON.stringify(base.data) === JSON.stringify(data) ? `Thư viện và cài đặt khớp bản sao ${new Date(base.createdAt).toLocaleString('vi-VN')}.` : 'Có thay đổi chưa sao lưu.';
       $('backup-undo').hidden = !hasUndo(store);
     } catch(error) { $('backup-local').textContent = error.message; }
   }
@@ -25,7 +25,7 @@ export function initBackup({beforeApply, applyFailed, openSettings}) {
     replaceSha = undefined;
     if(!remote) return;
     const {data, createdAt} = remote.backup;
-    $('backup-summary').textContent = `${new Date(createdAt).toLocaleString('vi-VN')} · ${data.playlists.length} playlist (${data.playlists.reduce((n, p) => n + p.videos.length, 0)} video) · ${data.favoriteVideos.length} video yêu thích · ${data.favoriteChannels.length} kênh · ${data.watchLater.length} xem sau · ${data.recent.length} video gần đây · ${data.searches.length} tìm kiếm · ${data.continueWatching.length} đang xem.`;
+    $('backup-summary').textContent = `${new Date(createdAt).toLocaleString('vi-VN')} · ${data.playlists.length} playlist (${data.playlists.reduce((n, p) => n + p.videos.length, 0)} video) · ${data.favoriteVideos.length} video yêu thích · ${data.favoriteChannels.length} kênh · ${data.watchLater.length} xem sau · ${data.recent.length} video gần đây · ${data.searches.length} tìm kiếm · ${data.continueWatching.length} đang xem. ${remote.backup.youtubeKey ? 'Có YouTube API key đã mã hóa.' : 'Không có YouTube API key; giữ key hiện tại khi khôi phục.'}`;
   }
   async function run(action) {
     if(busy) return;
@@ -57,7 +57,7 @@ export function initBackup({beforeApply, applyFailed, openSettings}) {
     status('Đang lưu lên GitHub…');
     const token = $('backup-token').value.trim();
     remember();
-    const backup = makeBackup(store);
+    const backup = await makeBackup(store, $('backup-password').value);
     try {
       const sha = await api.write(backup, token, expectedSha);
       remote = {sha, backup}; preview();
@@ -76,14 +76,14 @@ export function initBackup({beforeApply, applyFailed, openSettings}) {
   $('backup-replace').onclick = () => { if(replaceSha !== undefined) { const sha = replaceSha; run(() => save(sha)); } };
   $('backup-restore').onclick = () => {
     $('backup-confirm').hidden = false;
-    $('backup-confirm-text').textContent = hasLocalData(store) ?
-      'Thay thế thư viện và cài đặt hiện tại bằng bản sao này? API key/token được giữ nguyên. Có thể hoàn tác lần khôi phục gần nhất.' :
-      'Khôi phục bản sao này vào trình duyệt? API key/token hiện có được giữ nguyên.';
+    $('backup-confirm-text').textContent = 'Khôi phục thư viện và cài đặt từ bản sao này? ' +
+      (remote?.backup.youtubeKey ? 'Nhập mật khẩu sao lưu bên trên để khôi phục cả YouTube API key. ' : 'Bản sao không có API key; giữ key hiện tại. ') +
+      'Token GitHub được giữ nguyên. Có thể hoàn tác lần khôi phục gần nhất.';
   };
   $('backup-cancel').onclick = () => { $('backup-confirm').hidden = true; };
-  function reloadAfter(action) {
+  async function reloadAfter(action) {
     beforeApply();
-    try { action(); }
+    try { await action(); }
     catch(error) { applyFailed(); throw error; }
     // Do not replay a video from the previous library while reloading the restored state.
     const url = new URL(location.href); url.searchParams.delete('v'); url.searchParams.delete('t');
@@ -91,7 +91,7 @@ export function initBackup({beforeApply, applyFailed, openSettings}) {
   }
   $('backup-confirm-restore').onclick = () => run(async () => {
     if(!remote) throw Error('Hãy kiểm tra bản sao trước khi khôi phục.');
-    reloadAfter(() => restoreBackup(store, remote.backup, remote.sha));
+    await reloadAfter(() => restoreBackup(store, remote.backup, remote.sha, $('backup-password').value));
   });
   $('backup-undo').onclick = () => {
     if(!undoArmed) {

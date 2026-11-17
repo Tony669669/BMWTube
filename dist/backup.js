@@ -72,17 +72,67 @@ export function readData(storage) {
   }
   return validateData(data);
 }
-export function makeBackup(storage) {
-  const backup = {app: 'BMWTube', version: 1, createdAt: new Date().toISOString(), data: readData(storage)};
+const KEY = PREFIX + 'key';
+const ITERATIONS = 600000;
+function cryptoAPI() {
+  if(!globalThis.crypto?.subtle) throw Error('Mã hóa cần HTTPS và trình duyệt hỗ trợ Web Crypto.');
+  return globalThis.crypto;
+}
+function passwordRequired(password) {
+  if(typeof password !== 'string' || !password.length) throw Error('Nhập mật khẩu sao lưu để bảo vệ hoặc khôi phục YouTube API key.');
+}
+function bytes64(bytes) { return btoa(String.fromCharCode(...bytes)); }
+function from64(value, min, max) {
+  str(value, max * 2);
+  let bytes;
+  try { bytes = Uint8Array.from(atob(value), c => c.charCodeAt(0)); } catch { fail(); }
+  if(bytes.length < min || bytes.length > max || bytes64(bytes) !== value) fail();
+  return bytes;
+}
+function encryptedKey(value) {
+  if(!object(value) || value.algorithm !== 'AES-GCM' || value.kdf !== 'PBKDF2-SHA256' || value.iterations !== ITERATIONS) fail();
+  from64(value.salt, 16, 16); from64(value.iv, 12, 12); from64(value.ciphertext, 17, 8192);
+  return {algorithm: value.algorithm, kdf: value.kdf, iterations: ITERATIONS, salt: value.salt, iv: value.iv, ciphertext: value.ciphertext};
+}
+async function deriveKey(password, salt) {
+  passwordRequired(password);
+  const api = cryptoAPI();
+  const material = await api.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+  return api.subtle.deriveKey({name: 'PBKDF2', salt, iterations: ITERATIONS, hash: 'SHA-256'}, material, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']);
+}
+export async function decryptBackupKey(backup, password) {
+  if(!backup.youtubeKey) return undefined;
+  const envelope = encryptedKey(backup.youtubeKey);
+  const key = await deriveKey(password, from64(envelope.salt, 16, 16));
+  try {
+    const plain = await cryptoAPI().subtle.decrypt({name: 'AES-GCM', iv: from64(envelope.iv, 12, 12)}, key, from64(envelope.ciphertext, 17, 8192));
+    return str(new TextDecoder('utf-8', {fatal: true}).decode(plain), 2000);
+  } catch { throw Error('Mật khẩu không đúng hoặc API key trong bản sao bị hỏng. Chưa thay đổi dữ liệu.'); }
+}
+export async function makeBackup(storage, password = '') {
+  const backup = {app: 'BMWTube', version: 2, createdAt: new Date().toISOString(), data: readData(storage)};
+  let youtubeKey;
+  try { youtubeKey = JSON.parse(storage.getItem(KEY) || '""'); } catch { fail(); }
+  str(youtubeKey, 2000);
+  if(youtubeKey) {
+    passwordRequired(password);
+    if(password.length < 12) throw Error('Mật khẩu sao lưu cần ít nhất 12 ký tự.');
+    const api = cryptoAPI(), salt = api.getRandomValues(new Uint8Array(16)), iv = api.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(password, salt);
+    const ciphertext = new Uint8Array(await api.subtle.encrypt({name: 'AES-GCM', iv}, key, new TextEncoder().encode(youtubeKey)));
+    backup.youtubeKey = {algorithm: 'AES-GCM', kdf: 'PBKDF2-SHA256', iterations: ITERATIONS, salt: bytes64(salt), iv: bytes64(iv), ciphertext: bytes64(ciphertext)};
+  }
   if(new TextEncoder().encode(JSON.stringify(backup)).length > MAX_BYTES) fail();
   return backup;
 }
 export function parseBackup(text) {
   if(typeof text !== 'string' || new TextEncoder().encode(text).length > MAX_BYTES) fail();
   let value; try { value = JSON.parse(text); } catch { fail(); }
-  if(!object(value) || value.app !== 'BMWTube' || value.version !== 1 ||
+  if(!object(value) || value.app !== 'BMWTube' || ![1, 2].includes(value.version) ||
      typeof value.createdAt !== 'string' || !Number.isFinite(Date.parse(value.createdAt))) fail();
-  return {app: 'BMWTube', version: 1, createdAt: value.createdAt, data: validateData(value.data)};
+  const result = {app: 'BMWTube', version: value.version, createdAt: value.createdAt, data: validateData(value.data)};
+  if(value.version === 2 && value.youtubeKey !== undefined) result.youtubeKey = encryptedKey(value.youtubeKey);
+  return result;
 }
 export function hasLocalData(storage) {
   return Object.keys(DEFAULTS).some(name => storage.getItem(PREFIX + name) !== null);
@@ -94,7 +144,7 @@ export function saveBase(storage, sha, data, createdAt) {
   storage.setItem(BASE, JSON.stringify({sha, data: validateData(data), createdAt}));
 }
 function rawSnapshot(storage) {
-  return Object.fromEntries([...Object.keys(DEFAULTS).map(k => PREFIX + k), BASE].map(k => [k, storage.getItem(k)]));
+  return Object.fromEntries([...Object.keys(DEFAULTS).map(k => PREFIX + k), BASE, KEY].map(k => [k, storage.getItem(k)]));
 }
 function writeRaw(storage, snapshot) {
   for(const [key, value] of Object.entries(snapshot)) {
@@ -102,11 +152,14 @@ function writeRaw(storage, snapshot) {
   }
 }
 // Keep a complete local undo before changing any preferences; roll back partial writes on error.
-export function restoreBackup(storage, backup, sha) {
+export async function restoreBackup(storage, backup, sha, password = '') {
+  backup = parseBackup(JSON.stringify(backup));
+  const youtubeKey = await decryptBackupKey(backup, password);
   const data = validateData(backup.data), before = rawSnapshot(storage), oldUndo = storage.getItem(UNDO);
   try {
     storage.setItem(UNDO, JSON.stringify(before));
     for(const [name, value] of Object.entries(data)) storage.setItem(PREFIX + name, JSON.stringify(value));
+    if(youtubeKey !== undefined) storage.setItem(KEY, JSON.stringify(youtubeKey));
     saveBase(storage, sha, data, backup.createdAt);
   } catch {
     try { storage.removeItem(UNDO); writeRaw(storage, before); if(oldUndo === null) storage.removeItem(UNDO); else storage.setItem(UNDO, oldUndo); } catch {}
@@ -119,6 +172,8 @@ export function undoRestore(storage) {
   if(!raw) throw Error('Không có lần khôi phục để hoàn tác.');
   let saved; try { saved = JSON.parse(raw); } catch { fail(); }
   const before = rawSnapshot(storage);
+  // Undo snapshots from older app versions did not include the API key.
+  if(object(saved) && !(KEY in saved)) saved[KEY] = before[KEY];
   if(!object(saved) || Object.keys(saved).length !== Object.keys(before).length) fail();
   for(const name of Object.keys(before)) if(!(name in saved) || (saved[name] !== null && typeof saved[name] !== 'string')) fail();
   try { writeRaw(storage, saved); storage.removeItem(UNDO); }

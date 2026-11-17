@@ -14,7 +14,7 @@ async function setup({width=390,height=844,initial={},remote=sample()}={}) {
   },initial);
   await page.route('**/*',async route=>{
     const u=new URL(route.request().url());
-    if(u.origin==='http://bmwtube.test') {
+    if(u.origin==='http://localhost:4173') {
       const name=u.pathname==='/'?'index.html':u.pathname.slice(1);
       return route.fulfill({body:await readFile(new URL('../dist/'+name,import.meta.url)),contentType:name.endsWith('.js')?'text/javascript':name.endsWith('.css')?'text/css':'text/html'});
     }
@@ -36,7 +36,7 @@ async function setup({width=390,height=844,initial={},remote=sample()}={}) {
     }
     return route.abort();
   });
-  await page.goto('http://bmwtube.test');
+  await page.goto('http://localhost:4173');
   return {page,state,errors,requests};
 }
 async function settings(page) {
@@ -65,6 +65,7 @@ try {
   {
     const {page,state,errors}=await setup({initial:{key:'local-api-key',telex:true},remote:null});
     await settings(page);
+    await page.locator('#backup-password').fill('test password long');
     await page.locator('#backup-token').fill('test-token');await page.locator('#backup-save').click();
     await page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Đã sao lưu thành công'));
     assert.equal(state.remote.data.telex,true);assert.ok(!JSON.stringify(state.remote).includes('local-api-key'));assert.ok(!JSON.stringify(state.remote).includes('test-token'));
@@ -87,6 +88,40 @@ try {
     await page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Đã áp dụng'));
     assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('bmwtube.key'))),'local-api-key');
     assert.deepEqual(errors,[]);await page.close();console.log('PASS first save, credentials excluded, conflict and preserved API key');
+  }
+  {
+    const source = await setup({initial:{key:'portable-api-key'},remote:null});
+    await settings(source.page);
+    await source.page.locator('#backup-token').fill('test-token');
+    await source.page.locator('#backup-save').click();
+    await source.page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Nhập mật khẩu'));
+    assert.equal(source.state.remote,null);
+    await source.page.locator('#backup-password').fill('transfer password 123');
+    await source.page.locator('#backup-save').click();
+    await source.page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Đã sao lưu thành công'));
+    assert.ok(source.state.remote.youtubeKey);
+    const target = await setup({remote:source.state.remote});
+    await settings(target.page);
+    await target.page.locator('#backup-check').click();
+    await target.page.waitForFunction(()=>document.querySelector('#backup-summary').textContent.includes('đã mã hóa'));
+    await target.page.locator('#backup-password').fill('incorrect password');
+    await target.page.locator('#backup-restore').click();
+    await target.page.locator('#backup-confirm-restore').click();
+    await target.page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Mật khẩu không đúng'));
+    assert.equal(await target.page.evaluate(()=>localStorage.getItem('bmwtube.key')),null);
+    assert.equal(await target.page.evaluate(()=>localStorage.getItem('bmwtube.backup.undo')),null);
+    await target.page.locator('#backup-password').fill('transfer password 123');
+    await target.page.locator('#backup-confirm-restore').click();
+    await target.page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Đã áp dụng'));
+    assert.equal(await target.page.locator('#api-key').inputValue(),'portable-api-key');
+    assert.equal(await target.page.locator('#backup-password').inputValue(),'');
+    await target.page.locator('#backup-undo').click();
+    await target.page.locator('#backup-undo-apply').click();
+    await target.page.waitForFunction(()=>document.querySelector('#backup-status').textContent.includes('Đã áp dụng'));
+    assert.equal(await target.page.evaluate(()=>localStorage.getItem('bmwtube.key')),null);
+    assert.deepEqual(source.errors,[]); assert.deepEqual(target.errors,[]);
+    await source.page.close(); await target.page.close();
+    console.log('PASS encrypted API key transfer, wrong password and undo');
   }
   {
     const {page,state,errors}=await setup({initial:{telex:true}});await settings(page);
