@@ -52,7 +52,7 @@ try {
     assert.equal(await page.locator('input[name="app-profile"]:checked').inputValue(),'yellow');
     assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('bmwtube.appProfile'))),'yellow');
     const geometry=()=>page.evaluate(()=>({
-      elements:['app-shell','app-rail','passenger-rail','browse'].map(id=>{
+      elements:['app-shell','browse'].map(id=>{
         const el=document.getElementById(id),r=el.getBoundingClientRect(),css=getComputedStyle(el);
         return {id,x:r.x,y:r.y,width:r.width,height:r.height,display:css.display};
       }),
@@ -70,7 +70,40 @@ try {
     assert.equal(await page.locator('input[name="app-profile"]:checked').inputValue(),'car-cinema');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     assert.deepEqual(errors,[]); await page.close();
-    console.log(`PASS profiles migrate, persist and share both seat layouts ${width}x${height}`);
+    console.log(`PASS profiles migrate, persist and share content layouts ${width}x${height}`);
+  }
+  for(const side of ['left','right']) {
+    const {page,errors}=await setup({width:1422,height:456,initial:{appProfile:'car-cinema',playerSide:side},remote:null});
+    const measure=()=>page.evaluate(()=>[...document.querySelectorAll('#app-rail,#passenger-rail')].filter(el=>getComputedStyle(el).display!=='none').map(el=>{
+      const r=el.getBoundingClientRect(), buttons=[...el.querySelectorAll('button')].map(b=>b.getBoundingClientRect());
+      return {top:r.top,height:r.height,above:buttons[0].top-r.top,below:r.bottom-buttons.at(-1).bottom,buttons:buttons.map(b=>({top:b.top,bottom:b.bottom,height:b.height}))};
+    }));
+    const centered=async(top,height)=>{
+      const rails=await measure(); assert.equal(rails.length,side==='right'?2:1);
+      for(const r of rails){assert.ok(Math.abs(r.top-top)<1);assert.ok(Math.abs(r.height-height)<1);assert.ok(Math.abs(r.above-r.below)<1);assert.ok(r.above>=7 && r.below>=7);for(const b of r.buttons){assert.ok(b.top>=top && b.bottom<=top+height);}}
+    };
+    await centered(0,456);
+    await page.evaluate(()=>{window.realVisualViewport=window.visualViewport;});
+    for(const [top,height] of [[110,346],[0,300],[30,190],[0,456]]) {
+      await page.evaluate(({top,height})=>{
+        Object.defineProperty(window,'visualViewport',{configurable:true,value:{offsetTop:top,height,scale:1}});
+        window.realVisualViewport.dispatchEvent(new Event('scroll'));
+      },{top,height});
+      await centered(top,height);
+    }
+    await page.evaluate(()=>{Object.defineProperty(window,'visualViewport',{configurable:true,value:window.realVisualViewport});document.dispatchEvent(new Event('fullscreenchange'));});
+    await centered(0,456);
+    await page.setViewportSize({width:1280,height:280});
+    await page.waitForFunction(()=>document.documentElement.style.getPropertyValue('--car-rail-height')==='280px'); await centered(0,280);
+    await page.setViewportSize({width:1422,height:456});
+    await page.waitForFunction(()=>document.documentElement.style.getPropertyValue('--car-rail-height')==='456px'); await centered(0,456);
+    await settings(page);
+    assert.equal(await page.locator('.car-cinema-dot').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 101, 52)');
+    assert.equal(await page.locator('.yellow-dot').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 208, 71)');
+    await page.locator('label:has(input[name="app-profile"][value="yellow"])').click();
+    assert.ok(await page.locator('#app-rail').evaluate(el=>parseFloat(getComputedStyle(el).paddingTop)>50));
+    assert.deepEqual(errors,[]); await page.close();
+    console.log(`PASS Car Cinema centered rails, viewport transitions and profile colors (${side})`);
   }
   for(const [width,height] of [[390,844],[1422,456]]) {
     const {page,errors,requests}=await setup({width,height});

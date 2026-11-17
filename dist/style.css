@@ -523,3 +523,27 @@ body.passenger.compact-browser #app-shell{grid-template-columns:var(--rail-width
 
 #search-dialog #empty-search-history{display:none}
 #search-dialog,#search-dialog::backdrop{animation:none;transition:none}
+
+
+/* Car Cinema centers both navigation groups inside the currently visible web area. */
+.car-cinema-dot{background:#ff6534}
+body.compact-browser[data-app-profile="car-cinema"] :is(#app-rail,#passenger-rail){
+  position:fixed;
+  top:var(--car-rail-top,0px);
+  height:var(--car-rail-height,100dvh);
+  width:var(--rail-width);
+  padding-top:8px;
+  padding-bottom:8px;
+  justify-content:center;
+  gap:clamp(0px,calc((var(--car-rail-height,100dvh) - 216px)/4),4px);
+}
+body.compact-browser[data-app-profile="car-cinema"].passenger #app-rail{left:0;right:auto}
+body.compact-browser[data-app-profile="car-cinema"] :is(#app-rail,#passenger-rail) button{
+  height:clamp(0px,calc((var(--car-rail-height,100dvh) - 16px)/5),40px);
+  min-height:0;
+}
+body.compact-browser[data-app-profile="car-cinema"] :is(#app-rail,#passenger-rail)::before{
+  top:var(--car-rail-top,0px);
+  height:var(--car-rail-height,100dvh);
+  bottom:auto;
+}

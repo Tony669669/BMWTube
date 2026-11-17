@@ -108,4 +108,6 @@ Kiểm thử: `npm test` kiểm tra schema, Unicode, loại bỏ khóa, hoàn t�
 
 ## Profile trình duyệt
 
-Trong **Cài đặt → Ứng dụng đang dùng**, chọn **APTV vàng** (mặc định) hoặc **Car Cinema**. Hai profile hiện dùng cùng bố cục và hành vi, nhưng lưu lựa chọn riêng. APTV đỏ đã được bỏ; lựa chọn đỏ trên thiết bị hoặc trong backup cũ tự chuyển thành APTV vàng. Backup hỗ trợ lưu và khôi phục Car Cinema.
+Trong **Cài đặt → Ứng dụng đang dùng**, chọn **APTV vàng** (mặc định) hoặc **Car Cinema**. Hai profile dùng chung bố cục nội dung và lưu lựa chọn riêng. Car Cinema có chấm màu đỏ cam; thanh điều hướng trái/phải căn giữa vùng web nhìn thấy, cập nhật theo chiều cao và offset của visual viewport khi thanh trình duyệt hiện/ẩn hoặc fullscreen thay đổi. Khi vùng nhìn thấy thấp, khoảng cách và chiều cao nút co lại để giữ đủ các nút. APTV vàng giữ cách đặt thanh điều hướng hiện tại. APTV đỏ đã được bỏ; lựa chọn đỏ trên thiết bị hoặc trong backup cũ tự chuyển thành APTV vàng. Backup hỗ trợ lưu và khôi phục Car Cinema.
+
+Nếu trình duyệt Car Cinema phủ thanh công cụ lên web mà không cập nhật viewport, website không tự đo được phần bị che; cần xác minh trên thiết bị thực.

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {telex,videoId,timeLabel,playerSize,viewportSize} from '../dist/core.js';
+import {telex,videoId,timeLabel,playerSize,viewportSize,railViewport} from '../dist/core.js';
 test('Vietnamese Telex handles tone, shapes, capitals and syllables',()=>{
   for(const [raw,expected] of [['tieengs Vieejt','tiếng Việt'],['ddawng nhaapj','đăng nhập'],['truowngf','trường'],['phowr','phở'],['nghieeng','nghiêng'],['quas','quá'],['duowng','dương'],['ass','as'],['DDawng','Đăng'],['Tiếng Việt','Tiếng Việt']])assert.equal(telex(raw),expected,raw);
 });
@@ -29,4 +29,13 @@ test('Viewport layout stays stable under zoom and still fits the software keyboa
   assert.deepEqual(viewportSize(390,844,{width:195,height:200,scale:2}),{width:390,height:400});
   assert.deepEqual(viewportSize(844,390,{width:422,height:195,scale:2}),{width:844,height:390});
   assert.deepEqual(viewportSize(1422,456,null),{width:1422,height:456});
+});
+
+test('rail viewport follows browser chrome, visible offset and zoom without leaving the screen',()=>{
+  assert.deepEqual(railViewport(456,{height:346,offsetTop:110,scale:1}),{top:110,height:346});
+  assert.deepEqual(railViewport(456,{height:456,offsetTop:0,scale:1}),{top:0,height:456});
+  assert.deepEqual(railViewport(456,{height:200,offsetTop:30,scale:2}),{top:30,height:200});
+  assert.deepEqual(railViewport(456,{height:456,offsetTop:100}),{top:100,height:356});
+  assert.deepEqual(railViewport(456,null),{top:0,height:456});
+  assert.deepEqual(railViewport(456,{height:NaN,offsetTop:-10}),{top:0,height:456});
 });

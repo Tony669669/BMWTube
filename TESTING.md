@@ -112,3 +112,12 @@
 - `npm run test:backup-browser`: 7 nhóm đạt, gồm chuyển profile qua nhãn giao diện, lưu qua reload, chuyển dữ liệu đỏ cũ và so sánh bố cục trái/phải giữa hai profile tại 390×844 và 1422×456. GitHub và API key giả lập.
 - `npm run test:search-browser`: đạt tại 390×844 và 1422×456; kích thước ổn định khi tìm kiếm và mô phỏng zoom.
 - Chưa triển khai thay đổi profile hoặc kiểm tra trên thiết bị Car Cinema/APTV thực.
+
+
+## Căn thanh điều hướng Car Cinema và màu profile — 17/11/2026
+
+- Car Cinema căn giữa cả hai thanh điều hướng trong vùng visual viewport, có offset; dùng tọa độ riêng để không đổi cách tính bố cục nội dung khi zoom. Cập nhật khi resize, visual viewport scroll/resize, orientation và fullscreenchange. Nút/gap co lại khi thiếu chiều cao. Chấm màu Car Cinema #FF6534, APTV vàng giữ nguyên.
+- `npm test`: 25/25 đạt, gồm viewport có offset, fullscreen, zoom và fallback.
+- `npm run test:backup-browser`: 9 nhóm đạt. Đo lề trên/dưới bằng nhau và tất cả nút nằm trong vùng nhìn thấy ở cả hai vị trí player; mô phỏng offset 110px, chiều cao 190–456px, viewport resize thật 1280×280 và chuyển lại 1422×456; kiểm tra màu và chuyển về APTV vàng.
+- `npm run test:search-browser`: đạt tại 390×844 và 1422×456. `node --check dist/app.js` và `git diff --check`: đạt.
+- Chưa triển khai. Các kiểm tra fullscreen/visual viewport là mô phỏng trình duyệt; chưa xác minh thanh công cụ native của Car Cinema trên xe.

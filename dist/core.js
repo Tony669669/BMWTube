@@ -50,3 +50,11 @@ export function viewportSize(layoutWidth,layoutHeight,visual){
   const visibleHeight=Number.isFinite(visual?.height)&&visual.height>0?visual.height*scale:layoutHeight;
   return {width:layoutWidth,height:Math.min(layoutHeight,visibleHeight)};
 }
+
+// Rail coordinates use the visible viewport's CSS pixels, including its offset.
+// Keep this separate from zoom-stable content layout dimensions.
+export function railViewport(layoutHeight, visual) {
+  const top = Number.isFinite(visual?.offsetTop) ? Math.max(0, Math.min(layoutHeight, visual.offsetTop)) : 0;
+  const height = Number.isFinite(visual?.height) && visual.height > 0 ? visual.height : layoutHeight;
+  return {top, height: Math.max(0, Math.min(height, layoutHeight - top))};
+}
