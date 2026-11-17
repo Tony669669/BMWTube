@@ -1,4 +1,4 @@
-import {GitHubBackup, makeBackup, readData, readBase, saveBase, hasLocalData, restoreBackup, hasUndo, undoRestore, PREFIX} from './backup.js?v=github-backup-3';
+import {GitHubBackup, makeBackup, readData, readBase, saveBase, hasLocalData, restoreBackup, hasUndo, undoRestore, PREFIX} from './backup.js?v=github-backup-4';
 
 export function initBackup({beforeApply, applyFailed, openSettings}) {
   const $ = id => document.getElementById(id), api = new GitHubBackup();

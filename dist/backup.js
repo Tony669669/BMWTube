@@ -2,7 +2,7 @@
 export const DEFAULTS = {
   recent: [], searches: [], favoriteVideos: [], watchLater: [], continueWatching: [],
   favoriteChannels: [], playlists: [], telex: false, playerSide: 'left', repeatVideo: false,
-  homeDefault: 'favorites', libraryDefault: 'favorite-channels', appProfile: 'red', audioOnlyDefault: false,
+  homeDefault: 'favorites', libraryDefault: 'favorite-channels', appProfile: 'yellow', audioOnlyDefault: false,
 };
 export const PREFIX = 'bmwtube.';
 export const MAX_BYTES = 900 * 1024;
@@ -31,7 +31,7 @@ export function validateData(data) {
   if(!object(data)) fail();
   const result = {};
   for(const name of Object.keys(DEFAULTS)) {
-    const value = data[name];
+    const value = name === 'appProfile' && data[name] === 'red' ? 'yellow' : data[name];
     if(value === undefined) fail();
     if(['recent', 'continueWatching', 'favoriteVideos', 'watchLater'].includes(name)) {
       result[name] = array(value, ['recent', 'continueWatching'].includes(name) ? 20 : 100, video);
@@ -56,7 +56,7 @@ export function validateData(data) {
       result[name] = value;
     } else {
       const choices = {playerSide: ['left', 'right'], homeDefault: ['favorites', 'explore'],
-        libraryDefault: ['watch-later', 'favorite-channels', 'playlists'], appProfile: ['red', 'yellow']};
+        libraryDefault: ['watch-later', 'favorite-channels', 'playlists'], appProfile: ['yellow', 'car-cinema']};
       if(!choices[name].includes(value)) fail();
       result[name] = value;
     }

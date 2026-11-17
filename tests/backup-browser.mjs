@@ -45,6 +45,34 @@ async function settings(page) {
 }
 try {
   for(const [width,height] of [[390,844],[1422,456]]) {
+    const {page,errors}=await setup({width,height,initial:{appProfile:'red'},remote:null});
+    await settings(page);
+    assert.equal(await page.locator('input[name="app-profile"]').count(),2);
+    assert.equal(await page.locator('input[name="app-profile"][value="red"]').count(),0);
+    assert.equal(await page.locator('input[name="app-profile"]:checked').inputValue(),'yellow');
+    assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('bmwtube.appProfile'))),'yellow');
+    const geometry=()=>page.evaluate(()=>({
+      elements:['app-shell','app-rail','passenger-rail','browse'].map(id=>{
+        const el=document.getElementById(id),r=el.getBoundingClientRect(),css=getComputedStyle(el);
+        return {id,x:r.x,y:r.y,width:r.width,height:r.height,display:css.display};
+      }),
+      variables:['--player-width','--yellow-card-width','--yellow-queue-width'].map(k=>getComputedStyle(document.documentElement).getPropertyValue(k))
+    }));
+    for(const side of ['left','right']) {
+      await page.locator(`label:has(input[name="player-side"][value="${side}"])`).click();
+      await page.locator('label:has(input[name="app-profile"][value="yellow"])').click();
+      const yellow=await geometry();
+      await page.locator('label:has(input[name="app-profile"][value="car-cinema"])').click();
+      assert.deepEqual(await geometry(),yellow);
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('bmwtube.appProfile'))),'car-cinema');
+    }
+    await page.reload(); await settings(page);
+    assert.equal(await page.locator('input[name="app-profile"]:checked').inputValue(),'car-cinema');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+    assert.deepEqual(errors,[]); await page.close();
+    console.log(`PASS profiles migrate, persist and share both seat layouts ${width}x${height}`);
+  }
+  for(const [width,height] of [[390,844],[1422,456]]) {
     const {page,errors,requests}=await setup({width,height});
     await page.waitForFunction(()=>!document.querySelector('#backup-banner').hidden).catch(async e=>{console.log(errors,requests,await page.locator('#backup-status').textContent());throw e;});
     await page.locator('#backup-banner-open').click();

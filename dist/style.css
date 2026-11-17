@@ -274,31 +274,31 @@ body.native-controls-test #transport,body.native-controls-test #controls-wake,bo
 .favorite-card>button:first-child{flex:1;min-width:0;overflow-wrap:anywhere;text-align:left}
 .favorite-card>button:last-child{flex:0 0 44px;color:#ffd66b}
 @media(max-height:390px){:is(#app-rail,#passenger-rail){gap:3px;padding-top:5px;padding-bottom:5px}:is(#app-rail,#passenger-rail) #home{margin-top:0}.rail-brand{height:32px;min-height:32px}}
-/* APTV yellow reserves one full navigation rail at the browser's right edge. */
-body.aptv-yellow #app-shell{margin-right:var(--rail-width);border-right:1px solid var(--line)}
-body.aptv-yellow:not(.passenger) #app-shell{grid-template-columns:minmax(0,1fr) 0px}
-body.aptv-yellow.home-feed #results,body.aptv-yellow.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,77px));justify-content:space-between;gap:16px 8px}
-body.aptv-yellow #results .card h3{font-size:12px}
-body.aptv-yellow #results .card p{font-size:11px}
-body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr);column-gap:8px}
+/* APTV yellow and Car Cinema reserves one full navigation rail at the browser's right edge. */
+body.compact-browser #app-shell{margin-right:var(--rail-width);border-right:1px solid var(--line)}
+body.compact-browser:not(.passenger) #app-shell{grid-template-columns:minmax(0,1fr) 0px}
+body.compact-browser.home-feed #results,body.compact-browser.search-feed #results{grid-template-columns:repeat(auto-fill,var(--yellow-card-width,77px));justify-content:space-between;gap:16px 8px}
+body.compact-browser #results .card h3{font-size:12px}
+body.compact-browser #results .card p{font-size:11px}
+body.compact-browser #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr);column-gap:8px}
 .profile-dot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
-.red-dot{background:#eb4660}.yellow-dot{background:#ffd047}
-@media(max-width:760px){body.aptv-yellow #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
-/* Yellow APTV reserves space for its browser controls and defaults the app rail below ⋯. */
-body.aptv-yellow :is(#app-rail,#passenger-rail){gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:none}
-:is(body.aptv-yellow:not(.passenger) #app-rail,body.aptv-yellow.passenger #passenger-rail){position:fixed;right:0;width:var(--rail-width)}
-:is(body.aptv-yellow:not(.passenger) #app-rail,body.aptv-yellow.passenger #passenger-rail){padding-top:calc(clamp(52px,20vh,96px) + 15px)}
-body.aptv-yellow :is(#app-rail,#passenger-rail) button{height:40px;min-height:40px}
-body.passenger.aptv-yellow #app-rail{transform:none}
+.yellow-dot{background:#ffd047}
+@media(max-width:760px){body.compact-browser #queue .card{grid-template-columns:var(--yellow-queue-width,53.2px) minmax(0,1fr)}}
+/* APTV yellow and Car Cinema reserve space for its browser controls and defaults the app rail below ⋯. */
+body.compact-browser :is(#app-rail,#passenger-rail){gap:1.5px;padding-top:clamp(52px,20vh,96px);transform:none}
+:is(body.compact-browser:not(.passenger) #app-rail,body.compact-browser.passenger #passenger-rail){position:fixed;right:0;width:var(--rail-width)}
+:is(body.compact-browser:not(.passenger) #app-rail,body.compact-browser.passenger #passenger-rail){padding-top:calc(clamp(52px,20vh,96px) + 15px)}
+body.compact-browser :is(#app-rail,#passenger-rail) button{height:40px;min-height:40px}
+body.passenger.compact-browser #app-rail{transform:none}
 body.cinema :is(#app-rail,#passenger-rail){display:flex}
-body.aptv-yellow:not(.passenger) #browse{padding-right:8px}
+body.compact-browser:not(.passenger) #browse{padding-right:8px}
 body.passenger #app-rail button[aria-current="page"]::after,body.passenger #app-rail button[aria-expanded="true"]::after,body.passenger #app-rail button:focus-visible::after{left:auto;right:2px}
 body:not(.cinema) #video-aside{padding-left:5px;padding-right:0}
 body.passenger:not(.cinema) #video-aside{padding-left:5px;padding-right:0}
 body:not(.cinema) #video-aside{padding-right:5px}
 body.passenger:not(.cinema) #video-aside{padding-right:5px}
-@media(max-width:760px){body.aptv-yellow :is(#app-rail,#passenger-rail){gap:.9px}}
-@media(max-height:390px){body.aptv-yellow :is(#app-rail,#passenger-rail){gap:.45px}}
+@media(max-width:760px){body.compact-browser :is(#app-rail,#passenger-rail){gap:.9px}}
+@media(max-height:390px){body.compact-browser :is(#app-rail,#passenger-rail){gap:.45px}}
 
 /* Compact recent searches; on keyword results they share the title row. */
 .chips{gap:5px}
@@ -403,10 +403,10 @@ body.keyword-search #home-modes{display:none}
   .video-save-actions button svg{width:20px;height:20px}
   .playlist-heading{flex-wrap:wrap}.playlist-heading h2{flex-basis:100%}.playlist-cover{flex-basis:76px;width:76px}.playlist-videos{gap:15px 10px}
 }
-body.aptv-yellow .video-card{gap:1px}
-body.aptv-yellow .card-channel{min-height:26px;font-size:10px}
-body.aptv-yellow .card-actions{justify-content:center;gap:1px}
-body.aptv-yellow .video-action{flex-basis:30px;width:30px;height:30px;min-width:30px;min-height:30px;font-size:18px}
+body.compact-browser .video-card{gap:1px}
+body.compact-browser .card-channel{min-height:26px;font-size:10px}
+body.compact-browser .card-actions{justify-content:center;gap:1px}
+body.compact-browser .video-action{flex-basis:30px;width:30px;height:30px;min-width:30px;min-height:30px;font-size:18px}
 
 /* Full-size settings frame with compact controls and text inside. */
 #settings{width:min(620px,94vw);padding:24px;min-height:90vh;min-height:90dvh;max-height:90vh;max-height:90dvh}
@@ -475,10 +475,10 @@ body.favorite-videos-page #viewport-label{display:none}
 .favorite-channel-row .channel-save{flex-basis:36px;width:36px;height:36px;min-width:36px;min-height:36px;padding:5px}
 @media(max-width:760px){#results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){#results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
-/* In APTV yellow, the compact home/search grid has stronger defaults. Override them on library channels. */
-body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;gap:8px}
-@media(max-width:760px){body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:420px){body.aptv-yellow.search-feed #results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
+/* In APTV yellow and Car Cinema, the compact home/search grid has stronger defaults. Override them on library channels. */
+body.compact-browser.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;gap:8px}
+@media(max-width:760px){body.compact-browser.search-feed #results.favorite-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){body.compact-browser.search-feed #results.favorite-channel-grid{grid-template-columns:minmax(0,1fr)}}
 
 @media(prefers-reduced-motion:reduce){.transport-button,#seek::-webkit-slider-thumb,#seek::-moz-range-thumb{transition:none}}
 
@@ -490,22 +490,22 @@ body.recent-page #results .recent-card-actions .video-action svg{width:21px;heig
 @media(max-width:900px){body.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
 @media(max-width:520px){body.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
 @media(max-width:340px){body.recent-page #results{grid-template-columns:minmax(0,1fr)}}
-/* Override the higher-specificity compact APTV yellow feed grid on recent history. */
-body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(5,minmax(0,1fr));justify-content:stretch;gap:20px 16px}
-@media(max-width:900px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
-@media(max-width:520px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
-@media(max-width:340px){body.aptv-yellow.search-feed.recent-page #results{grid-template-columns:minmax(0,1fr)}}
+/* Override the higher-specificity compact APTV yellow and Car Cinema feed grid on recent history. */
+body.compact-browser.search-feed.recent-page #results{grid-template-columns:repeat(5,minmax(0,1fr));justify-content:stretch;gap:20px 16px}
+@media(max-width:900px){body.compact-browser.search-feed.recent-page #results{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}}
+@media(max-width:520px){body.compact-browser.search-feed.recent-page #results{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+@media(max-width:340px){body.compact-browser.search-feed.recent-page #results{grid-template-columns:minmax(0,1fr)}}
 
 /* Keep the right rail divider on the rail edge, outside the player area. */
 :is(body:not(.passenger) #app-rail,body.passenger #passenger-rail){border-left:0}
 :is(body:not(.passenger) #app-rail,body.passenger #passenger-rail)::before{content:"";position:fixed;top:0;bottom:0;right:calc(var(--rail-width) - 1px);width:1px;background:var(--line);pointer-events:none;z-index:9}
-body.aptv-yellow:not(.passenger) #app-shell{border-right:0}
+body.compact-browser:not(.passenger) #app-shell{border-right:0}
 
 /* Passenger mode keeps the left rail and adds the driver's right rail. */
 body:not(.passenger) #passenger-rail{display:none}
 body.passenger #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) var(--rail-width)}
 body.passenger #passenger-rail{grid-column:3}
-body.passenger.aptv-yellow #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) 0px;border-right:0}
+body.passenger.compact-browser #app-shell{grid-template-columns:var(--rail-width) minmax(0,1fr) 0px;border-right:0}
 
 /* Backup controls work in both the settings dialog and the inline library settings. */
 #backup-section{scroll-margin-top:16px}

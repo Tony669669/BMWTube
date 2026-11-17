@@ -1,5 +1,5 @@
 import {createSearchZoomRecovery} from './search-zoom.js?v=1';
-import {initBackup} from './backup-ui.js?v=github-backup-3';
+import {initBackup} from './backup-ui.js?v=github-backup-4';
 import {telex,videoId,timeLabel,playerSize,viewportSize} from './core.js?v=stable-viewport-9';
 const $=id=>document.getElementById(id);
 // Build both navigation rails from the same icons and actions, with unique IDs.
@@ -42,9 +42,12 @@ let homeMode=homeDefault;
 const libraryDefaultOptions=['watch-later','favorite-channels','playlists'];
 const savedLibraryDefault=storage.get('libraryDefault','favorite-channels');
 let libraryDefault=libraryDefaultOptions.includes(savedLibraryDefault)?savedLibraryDefault:'favorite-channels';
-let appProfile=storage.get('appProfile','red')==='yellow'?'yellow':'red';
+const savedAppProfile=storage.get('appProfile','yellow');
+let appProfile=savedAppProfile==='car-cinema'?'car-cinema':'yellow';
+if(savedAppProfile==='red')storage.set('appProfile',appProfile);
 let audioOnlyDefault=storage.get('audioOnlyDefault',false)===true;
-document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
+document.body.classList.add('compact-browser');
+document.body.dataset.appProfile=appProfile;
 const nativeControlsTest=new URLSearchParams(location.search).get('testYoutubeControls')==='1';
 document.body.classList.toggle('native-controls-test',nativeControlsTest);
 let appendAllowed=true,lastInput='',skipTelex=false;
@@ -357,7 +360,7 @@ $('seek').addEventListener('pointerdown',()=>{seeking=true;showPlayerControls();
 window.addEventListener('pointerup',()=>{if(seeking){seeking=false;showPlayerControls();}});
 setInterval(()=>{if(!playerReady||$('watch').hidden)return;const duration=player.getDuration()||0;const elapsed=player.getCurrentTime()||0;$('duration').textContent=timeLabel(duration);$('seek').disabled=!duration;if(!seeking){$('elapsed').textContent=timeLabel(elapsed);$('seek').value=duration?String(elapsed/duration*1000):'0';syncSeekProgress();}if(!document.hidden)saveContinueProgress();},500);
 window.addEventListener('pagehide',()=>saveContinueProgress(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)saveContinueProgress(true);});
-function resize(){const {width,height}=viewportSize(document.documentElement.clientWidth,innerHeight,window.visualViewport);const baseRail=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width'))||72;const inset=appProfile==='yellow'?baseRail:0;const railWidth=baseRail*(document.body.classList.contains('passenger')&&appProfile!=='yellow'?2:1);const appWidth=Math.max(0,width-(appProfile==='yellow'&&!document.body.classList.contains('passenger')?inset:railWidth+inset));const small=width<=760;const redGrid=Math.max(0,width-baseRail-inset-(small?40:56));const gap=small?10:16;const cols=Math.max(1,Math.floor((redGrid+gap)/((small?112:140)+gap)));const baseCardWidth=(redGrid-(cols-1)*gap)/cols;document.documentElement.style.setProperty('--feed-card-width',Math.min(redGrid,baseCardWidth*1.1)+'px');document.documentElement.style.setProperty('--yellow-card-width',Math.max(44,baseCardWidth*.55)+'px');const yellowLandscape=appProfile==='yellow'&&width>height&&appWidth>=480;const stageWidth=playerSize(appWidth,height,true);document.body.classList.toggle('compact-player',!yellowLandscape&&appWidth<height*16/9+240);const redAppWidth=Math.max(0,width-baseRail-inset);const redQueueWidth=(redAppWidth<height*16/9+240?redAppWidth:redAppWidth-playerSize(redAppWidth,height,true))-32;document.documentElement.style.setProperty('--yellow-queue-width',Math.max(76,redQueueWidth*(small?.24:.21))*.7+'px');document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',stageWidth+'px');document.documentElement.style.setProperty('--cinema-width',playerSize(appWidth,height,true)+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
+function resize(){const {width,height}=viewportSize(document.documentElement.clientWidth,innerHeight,window.visualViewport);const baseRail=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width'))||72;const inset=baseRail;const appWidth=Math.max(0,width-baseRail*(document.body.classList.contains('passenger')?2:1));const small=width<=760;const feedGrid=Math.max(0,width-baseRail-inset-(small?40:56));const gap=small?10:16;const cols=Math.max(1,Math.floor((feedGrid+gap)/((small?112:140)+gap)));const baseCardWidth=(feedGrid-(cols-1)*gap)/cols;document.documentElement.style.setProperty('--feed-card-width',Math.min(feedGrid,baseCardWidth*1.1)+'px');document.documentElement.style.setProperty('--yellow-card-width',Math.max(44,baseCardWidth*.55)+'px');const compactLandscape=width>height&&appWidth>=480;const stageWidth=playerSize(appWidth,height,true);document.body.classList.toggle('compact-player',!compactLandscape&&appWidth<height*16/9+240);const queueAppWidth=Math.max(0,width-baseRail-inset);const queueWidth=(queueAppWidth<height*16/9+240?queueAppWidth:queueAppWidth-playerSize(queueAppWidth,height,true))-32;document.documentElement.style.setProperty('--yellow-queue-width',Math.max(76,queueWidth*(small?.24:.21))*.7+'px');document.documentElement.style.setProperty('--player-height',playerSize(appWidth,height,true)*9/16+'px');document.documentElement.style.setProperty('--vh',height+'px');document.documentElement.style.setProperty('--player-width',stageWidth+'px');document.documentElement.style.setProperty('--cinema-width',playerSize(appWidth,height,true)+'px');$('diagnostics').textContent=`Vùng hiển thị: ${Math.round(width)} × ${Math.round(height)} CSS px · Pixel ratio: ${devicePixelRatio} · ${navigator.userAgent}`;}
 function showPlayerControls(){
   clearTimeout(controlsTimer);
   if($('watch').hidden)return;
@@ -398,9 +401,9 @@ $('search-dialog').addEventListener('cancel',event=>{event.preventDefault();clos
 $('settings').addEventListener('cancel',leaveRailDialog);
 function selectAppProfile(event){
   if(!$('settings').open&&$('settings-form').parentElement!==$('inline-settings'))return;
-  appProfile=event.target.value==='yellow'?'yellow':'red';
+  appProfile=event.target.value==='car-cinema'?'car-cinema':'yellow';
   storage.set('appProfile',appProfile);
-  document.body.classList.toggle('aptv-yellow',appProfile==='yellow');
+  document.body.dataset.appProfile=appProfile;
   resize();if($('settings').open)closeSettings();
 }
 document.querySelectorAll('input[name="app-profile"]').forEach(input=>{

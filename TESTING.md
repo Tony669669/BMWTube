@@ -103,3 +103,12 @@
 - `npm test`: 22/22 đạt. Kiểm thử thêm mã hóa với salt/IV mới, không lộ key/token/mật khẩu trong JSON, chuyển key sang bộ nhớ trống/có key, mật khẩu thiếu/sai, dữ liệu mã hóa hỏng và lỗi ghi bộ nhớ sau khi cập nhật key.
 - `npm run test:backup-browser`: 5 nhóm đạt trên Chrome, GitHub và key giả lập; gồm 390×844, 1422×456 và chuyển key sang trình duyệt mới, sai mật khẩu không ghi dữ liệu, khôi phục hiển thị key trong cài đặt, hoàn tác xóa key nếu trước đó chưa có. Dùng origin localhost để kiểm tra Web Crypto trong secure context.
 - `node --check` cho module sao lưu và `git diff --check`: đạt. Không gửi key thật, không ghi GitHub thật, chưa triển khai. Chưa thử Web Crypto trên APTV thực.
+
+
+## Thay APTV đỏ bằng Car Cinema — 17/11/2026
+
+- Chỉ còn APTV vàng và Car Cinema, dùng chung bố cục compact; lưu lựa chọn riêng. Mặc định vàng; dữ liệu đỏ cũ được chuyển sang vàng khi mở app hoặc đọc backup.
+- `npm test`: 24/24 đạt, gồm backup Car Cinema và chuyển profile đỏ từ backup v1/v2.
+- `npm run test:backup-browser`: 7 nhóm đạt, gồm chuyển profile qua nhãn giao diện, lưu qua reload, chuyển dữ liệu đỏ cũ và so sánh bố cục trái/phải giữa hai profile tại 390×844 và 1422×456. GitHub và API key giả lập.
+- `npm run test:search-browser`: đạt tại 390×844 và 1422×456; kích thước ổn định khi tìm kiếm và mô phỏng zoom.
+- Chưa triển khai thay đổi profile hoặc kiểm tra trên thiết bị Car Cinema/APTV thực.

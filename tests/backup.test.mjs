@@ -129,3 +129,20 @@ test('six-character password is accepted and restores the key', async () => {
   await restoreBackup(target, backup, 'sha', 'abc123');
   assert.equal(target.getItem('bmwtube.key'), '"youtube-secret"');
 });
+
+test('profiles retain Car Cinema and migrate legacy red backups to yellow', async () => {
+  assert.equal(DEFAULTS.appProfile, 'yellow');
+  for(const version of [1, 2]) {
+    const legacy = sample(); legacy.version = version; legacy.data.appProfile = 'red';
+    assert.equal(parseBackup(JSON.stringify(legacy)).data.appProfile, 'yellow');
+    const target = storage(); await restoreBackup(target, legacy, 'sha');
+    assert.equal(target.getItem('bmwtube.appProfile'), '"yellow"');
+  }
+  const source = storage({'bmwtube.appProfile':'"car-cinema"'});
+  const backup = await makeBackup(source), target = storage();
+  await restoreBackup(target, parseBackup(JSON.stringify(backup)), 'sha');
+  assert.equal(target.getItem('bmwtube.appProfile'), '"car-cinema"');
+  assert.equal(readData(storage({'bmwtube.appProfile':'"red"'})).appProfile, 'yellow');
+  const bad = sample(); bad.data.appProfile = 'unknown';
+  assert.throws(()=>parseBackup(JSON.stringify(bad)));
+});
